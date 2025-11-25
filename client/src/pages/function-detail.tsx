@@ -87,6 +87,9 @@ export default function FunctionDetail() {
     );
   }
 
+  // Check if this is the Table.Pivot function
+  const isTablePivotFunction = func?.name === "Table.Pivot";
+
   return (
     <div className="min-h-screen bg-white pt-16">
       <Header 
@@ -282,6 +285,27 @@ export default function FunctionDetail() {
               </Card>
             )}
 
+            {/* Table.Pivot Advertisement */}
+            {isTablePivotFunction && (
+              <Card className="mb-6 bg-ms-green-light border-ms-blue">
+                <CardHeader>
+                  <CardTitle className="text-xl text-ms-blue">Build a RACI Matrix with Table.Pivot</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-ms-gray-secondary mb-4">
+                    Learn how to use Table.Pivot to transform your RACI matrix from a traditional grid into a powerful, analyzable flat table structure. This technique is perfect for project management, accountability tracking, and Power BI reporting.
+                  </p>
+                  <a 
+                    href="https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query" 
+                    className="text-ms-blue hover:text-ms-blue-hover font-semibold inline-block"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    → Get the complete RACI Matrix template with Power Query transformation
+                  </a>
+                </CardContent>
+              </Card>
+            )}
 
           </div>
         </main>
