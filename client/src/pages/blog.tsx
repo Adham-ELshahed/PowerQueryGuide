@@ -22,8 +22,144 @@ export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Blog posts - empty for now
-  const blogPosts: BlogPost[] = [];
+  // Blog posts
+  const blogPosts: BlogPost[] = [
+    {
+      id: "raci-matrix-flat-table",
+      title: "Why You Should Build Your RACI Matrix as a Flat Table — And Why I Used Power Query",
+      author: "Ahmad Askar",
+      date: "2024-12-13",
+      readTime: "8 min read",
+      category: "Power Query",
+      featured: true,
+      tags: ["RACI", "Power Query", "Project Management", "Data Transformation"],
+      content: `**The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
+
+- Who is Responsible? (Does the work)
+- Who is Accountable? (Owns the final decision)
+- Who needs to be Consulted?
+- Who should be Informed?
+
+Most people understand the concept, but they struggle with the implementation. Traditional RACIs are built as big, complex, cross-tab charts where roles sit on the top and tasks run down the side. It looks nice the first day you build it… and becomes a headache the moment real-world change begins.
+
+That's exactly why I rebuilt my RACI using a flat table.
+
+**The Problem With Traditional RACI Charts**
+
+The classic "grid" RACI looks good in a PowerPoint slide, but in practice it comes with several limitations:
+
+- ❌ Hard to maintain: Adding a new task or role often breaks the layout. You end up constantly shifting columns and adjusting formatting.
+- ❌ Not scalable: Once your project grows beyond a few roles or tasks, the matrix becomes cluttered and nearly unreadable.
+- ❌ Impossible to analyze: You can't easily filter, sort, or summarize responsibilities. Want to see who is overloaded? Good luck. Want to check how many tasks have unclear accountability? Not happening.
+- ❌ Not automation-friendly: Try feeding a big cross-table into BI tools or workflow systems — it becomes manual work again.
+
+So the issue isn't the RACI concept… it's the format.
+
+**Why a Flat RACI Table Is a Game Changer**
+
+A flat RACI format is simply a list of rows where each row represents a single task-role relationship. Once you convert your RACI into this structure, everything becomes easier, cleaner, and smarter.
+
+**1. Crystal Clear Visibility**
+
+A flat table lets you instantly see:
+
+- All responsibilities for a task
+- All tasks assigned to a specific role
+- Gaps or missing Accountables
+- Places where too many people are Responsible or Consulted
+
+Filtering and slicing the data becomes effortless.
+
+**2. Perfect for Large Projects**
+
+Flat tables don't break when you add:
+
+- New tasks
+- New stakeholders
+- New functions
+- New phases
+
+The structure stays the same. No formatting chaos. No expanding grids. Just add another row.
+
+**3. Easy to Validate and Audit**
+
+Common issues like:
+
+- Multiple Accountables
+- Tasks with no Responsible
+- Roles that appear too often
+- Steps with no I (which leads to communication issues)
+
+… are incredibly easy to detect with simple filters.
+
+**4. Works Seamlessly With Excel, Power BI, and Databases**
+
+Flat tables follow a proper relational model. Everything downstream instantly benefits:
+
+- Pivot tables
+- Power BI dashboards
+- Workload heatmaps
+- Responsibility summaries
+- Automation triggers
+
+You get real analytics, not just a pretty table.
+
+**Why I Used Power Query to Build and Maintain It**
+
+Power Query is one of the most underrated tools in Excel. It's made for repeatable, automated, transformation pipelines — and the RACI process fits it perfectly.
+
+**1. Automatic Column Unpivoting**
+
+I started with the traditional RACI grid (tasks as rows, roles as columns). With a simple Unpivot step, Power Query converted it into the exact flat structure I needed. This turned hours of manual restructuring into a repeatable 2-second process.
+
+**2. Clean and Consistent Data**
+
+Power Query ensures:
+
+- No accidental blank roles
+- No inconsistent R, A, C, I entries
+- Clean text
+- Proper data types
+
+Your RACI becomes reliable, not just visually organized.
+
+**3. One-Click Refresh When Anything Changes**
+
+If someone adds a role in the grid? Power Query picks it up.
+
+If someone changes a task description? Power Query updates the flat table.
+
+If the project evolves — which it always does — the RACI evolves too, without rebuilds.
+
+**4. Ready for Analysis in Power BI**
+
+Once the RACI is flat, loading it into Power BI opens the door to rich visuals:
+
+- Accountability heatmaps
+- Workload distribution
+- Role bottleneck indicators
+- Stakeholder involvement patterns
+- Communication effort measurement
+
+This turns RACI from a one-time exercise into an ongoing governance tool.
+
+**Conclusion**
+
+The RACI matrix is already a powerful tool — but when you modernize its format, it becomes transformative.
+
+By switching to a flat table and using Power Query to automate the transformation, you get:
+
+- A clean, scalable structure
+- Easy maintenance
+- Instant reporting
+- Automated refresh
+- Analytics you can actually act on
+
+This is RACI done right. Not just as documentation — but as a living part of your project governance.
+
+**Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
+    }
+  ];
 
   const categories = ["All", "Power Query", "Power BI", "DAX", "M Language", "Analysis Services"];
   const topPosts = blogPosts.slice(0, 3);
