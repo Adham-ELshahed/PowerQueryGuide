@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Twitter, Linkedin, Github, Calendar, Clock, Tag } from "lucide-react";
 import { Link } from "wouter";
+import frustratedWorkerImage from "@assets/36e1fd5c-e948-4deb-8a2d-64946bfc1dbd.jfif";
 
 interface BlogPost {
   id: string;
@@ -54,6 +55,8 @@ The classic "grid" RACI looks good in a PowerPoint slide, but in practice it com
 - ❌ Not automation-friendly: Try feeding a big cross-table into BI tools or workflow systems — it becomes manual work again.
 
 So the issue isn't the RACI concept… it's the format.
+
+[FRUSTRATED_WORKER_IMAGE]
 
 **Why a Flat RACI Table Is a Game Changer**
 
@@ -225,13 +228,25 @@ This is RACI done right. Not just as documentation — but as a living part of y
                           )}
                           
                           <h2 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
-                            <Link href={`/blog/${post.id}`} className="hover:text-blue-600 transition-colors">
-                              {post.title}
-                            </Link>
+                            {post.title}
                           </h2>
                           
                           <div className="prose prose-gray max-w-none">
                             {post.content.split('\n\n').map((paragraph, pIndex) => {
+                              // Handle special image placeholder for frustrated worker
+                              if (paragraph.trim() === '[FRUSTRATED_WORKER_IMAGE]') {
+                                return (
+                                  <div key={pIndex} className="my-8 flex justify-center">
+                                    <img 
+                                      src={frustratedWorkerImage} 
+                                      alt="Frustrated office worker struggling with spreadsheets - this is what happens without Power Query!"
+                                      className="rounded-lg shadow-lg max-w-full h-auto"
+                                      style={{ maxHeight: '400px' }}
+                                    />
+                                  </div>
+                                );
+                              }
+                              
                               // Handle code blocks
                               if (paragraph.startsWith('```')) {
                                 const lines = paragraph.split('\n');
