@@ -163,7 +163,7 @@ By switching to a flat table and using Power Query to automate the transformatio
 This is RACI done right. Not just as documentation — but as a living part of your project governance.
 
 **Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
-    }
+    },
     {
   "id": "metric-trap-kpi-failure",
   "title": "The Metric Trap: Why Hitting Your Numbers Might Be Killing Your Business",
