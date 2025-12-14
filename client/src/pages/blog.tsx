@@ -323,7 +323,7 @@ The best leaders understand that numbers tell you *what* happened, but they rare
                 <div className="space-y-0">
                   {filteredPosts.length > 0 ? (
                     filteredPosts.map((post, index) => (
-                      <div key={post.id}>
+                      <div key={post.id} id={post.id} className="scroll-mt-24">
                         <article className="py-8">
                           {post.featured && (
                             <Badge className="mb-3 bg-blue-100 text-blue-800 hover:bg-blue-100">
@@ -554,9 +554,17 @@ The best leaders understand that numbers tell you *what* happened, but they rare
                         {topPosts.map((post) => (
                           <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
                             <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
-                              <Link href={`/blog/${post.id}`} className="hover:text-blue-600">
-                                {post.title}
-                              </Link>
+                              <a 
+              href={`#${post.id}`} 
+              className="hover:text-blue-600 transition-colors block"
+              onClick={(e) => {
+                // Optional: Smooth scroll behavior
+                e.preventDefault();
+                document.getElementById(post.id)?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              {post.title}
+            </a>
                             </h4>
                             <div className="text-xs text-gray-600">
                               {new Date(post.date).toLocaleDateString()} • {post.readTime}
