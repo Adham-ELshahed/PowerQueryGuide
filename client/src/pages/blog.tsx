@@ -173,7 +173,7 @@ This is RACI done right. Not just as documentation — but as a living part of y
   "category": "Business Strategy",
   "featured": true,
   "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
-  "content": "**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
+  "content": `"**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
 
 But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
 
@@ -265,7 +265,7 @@ Stop trying to turn everything into a number. Sometimes, the best way to evaluat
 
 Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
 
-The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers."
+The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers."`
 }
   ];
 
