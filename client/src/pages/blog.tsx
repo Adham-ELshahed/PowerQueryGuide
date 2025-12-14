@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,20 @@ interface BlogPost {
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // ADDED: Effect to handle initial scroll if URL has a hash (e.g., #metric-trap-kpi-failure)
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      // Small timeout ensures the DOM elements are rendered before we try to scroll
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, []);
 
   // Blog posts
   const blogPosts: BlogPost[] = [
@@ -555,16 +569,16 @@ The best leaders understand that numbers tell you *what* happened, but they rare
                           <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
                             <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
                               <a 
-              href={`#${post.id}`} 
-              className="hover:text-blue-600 transition-colors block"
-              onClick={(e) => {
-                // Optional: Smooth scroll behavior
-                e.preventDefault();
-                document.getElementById(post.id)?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {post.title}
-            </a>
+                      href={`#${post.id}`} 
+                      className="hover:text-blue-600 transition-colors block"
+                      onClick={(e) => {
+                        // Optional: Smooth scroll behavior
+                        e.preventDefault();
+                        document.getElementById(post.id)?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      {post.title}
+                    </a>
                             </h4>
                             <div className="text-xs text-gray-600">
                               {new Date(post.date).toLocaleDateString()} • {post.readTime}
