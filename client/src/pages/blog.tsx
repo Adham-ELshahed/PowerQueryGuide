@@ -173,7 +173,7 @@ This is RACI done right. Not just as documentation — but as a living part of y
   "category": "Business Strategy",
   "featured": true,
   "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
-  "content": `"**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
+  "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
 
 But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
 
@@ -193,7 +193,6 @@ This happens because metrics are simplistic representations of a complex reality
 
 Here are the three ways this manifests in the workplace.
 
-[DASHBOARD_ILLUSTRATION]
 
 **1. The \"Pizza Delivery\" Syndrome (Tunnel Vision)**
 
@@ -265,7 +264,7 @@ Stop trying to turn everything into a number. Sometimes, the best way to evaluat
 
 Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
 
-The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers."`
+The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers.`
 }
   ];
 
@@ -337,20 +336,31 @@ The best leaders understand that numbers tell you *what* happened, but they rare
                           </h2>
                           
                           <div className="prose prose-gray max-w-none">
-                            {post.content.split('\n\n').map((paragraph, pIndex) => {
-                              // Handle special image placeholder for frustrated worker
-                              if (paragraph.trim() === '[FRUSTRATED_WORKER_IMAGE]') {
-                                return (
-                                  <div key={pIndex} className="my-8 flex justify-center">
-                                    <img 
-                                      src={frustratedWorkerImage} 
-                                      alt="Frustrated office worker struggling with spreadsheets - this is what happens without Power Query!"
-                                      className="rounded-lg shadow-lg max-w-full h-auto"
-                                      style={{ maxHeight: '400px' }}
-                                    />
-                                  </div>
-                                );
-                              }
+  {post.content.split('\n\n').map((paragraph, pIndex) => {
+    
+    // 1. DEFINE IMAGE MAPPING
+    // This connects the text tag to your imported variable
+    const imageMap: Record<string, string> = {
+      '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
+      '[metricTrap]': metricTrap,
+      '[streetLightEffect]': streetLightEffect
+    };
+
+    const trimmedLine = paragraph.trim();
+
+    // 2. CHECK IF PARAGRAPH IS AN IMAGE TAG
+    if (imageMap[trimmedLine]) {
+      return (
+        <div key={pIndex} className="my-8 flex justify-center">
+          <img 
+            src={imageMap[trimmedLine]} 
+            alt="Blog illustration"
+            className="rounded-lg shadow-lg max-w-full h-auto"
+            style={{ maxHeight: '400px' }}
+          />
+        </div>
+      );
+    }
                               
                               // Handle code blocks
                               if (paragraph.startsWith('```')) {
