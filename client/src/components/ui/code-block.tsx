@@ -1,64 +1,45 @@
 "use client";
 
-import { useState } from "react";
-import { Copy, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import ShikiHighlighter from "react-shiki";
+import { useEffect, useState } from "react";
+import { formatPowerQuery } from "@/lib/CodeBlockFormat";
 
 interface CodeBlockProps {
   code: string;
   language?: string;
 }
 
-export function CodeBlock({ code, language = "powerquery" }: CodeBlockProps) {
-  const [copied, setCopied] = useState(false);
+export function CodeBlock({
+  code,
+  language = "powerquery",
+}: CodeBlockProps) {
+  const [formatted, setFormatted] = useState(code);
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function format() {
+      if (language === "powerquery") {
+        const pretty = await formatPowerQuery(code);
+        if (!cancelled) {
+          setFormatted(pretty);
+        }
+      } else {
+        setFormatted(code);
+      }
     }
-  };
+
+    format();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [code, language]);
 
   return (
-    <div className="relative">
-      <div className="bg-gray-900 rounded-lg overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2 bg-gray-800">
-          <h3 className="text-sm font-medium text-gray-200">Syntax</h3>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={copyToClipboard}
-            className="h-7 px-2 text-gray-300 hover:text-white hover:bg-gray-700 text-xs"
-          >
-            {copied ? (
-              <>
-                <Check className="h-3 w-3 mr-1" />
-                Copied
-              </>
-            ) : (
-              <>
-                <Copy className="h-3 w-3 mr-1" />
-                Copy
-              </>
-            )}
-          </Button>
-        </div>
-
-        <div className="p-4 bg-gray-900 overflow-x-auto">
-          {/* SHIKI HIGHLIGHTER */}
-          <ShikiHighlighter
-            language={language}
-            theme="github-dark"
-            showLineNumbers={true}
-          >
-            {code.trim()}
-          </ShikiHighlighter>
-        </div>
-      </div>
-    </div>
+    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto text-sm">
+      <code className="font-mono whitespace-pre">
+        {formatted.trim()}
+      </code>
+    </pre>
   );
 }
