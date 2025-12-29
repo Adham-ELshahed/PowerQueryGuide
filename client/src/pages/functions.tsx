@@ -124,12 +124,15 @@ export default function Functions() {
                           </p>
                         </div>
                         <div className="col-span-2">
-                          <Link 
-                            href={`/category/${func.category}`}
-                            className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
-                          >
-                            {func.category.replace('-', ' ')}
-                          </Link>
+                          <a
+  href={`${window.location.origin}/category/${func.category}`}
+  className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {func.category.replace('-', ' ')}
+</a>
+
                         </div>
                       </div>
                     </div>
