@@ -22,27 +22,28 @@ export default function FunctionDetail() {
   const isLoading = !allFunctions;
   const error = allFunctions && !func ? new Error('Function not found') : null;
 
+  const handleNavigation = (url: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+      e.preventDefault();
+      window.history.pushState({}, '', url);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
-        <Header 
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        />
+        <Header isMobileMenuOpen={isMobileMenuOpen} onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         <div className="flex">
-          <Sidebar 
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          />
+          <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
           <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
             <div className="max-w-4xl mx-auto px-6 py-8">
               <div className="animate-pulse">
                 <div className="h-8 bg-gray-200 rounded mb-4 w-1/3"></div>
                 <div className="h-6 bg-gray-100 rounded mb-8 w-2/3"></div>
                 <div className="space-y-6">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className="h-32 bg-gray-100 rounded"></div>
-                  ))}
+                  {Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-32 bg-gray-100 rounded"></div>)}
                 </div>
               </div>
             </div>
@@ -55,15 +56,9 @@ export default function FunctionDetail() {
   if (error || !func) {
     return (
       <div className="min-h-screen bg-white pt-16">
-        <Header 
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        />
+        <Header isMobileMenuOpen={isMobileMenuOpen} onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         <div className="flex">
-          <Sidebar 
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          />
+          <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
           <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
             <div className="max-w-4xl mx-auto px-6 py-8">
               <div className="text-center py-12">
@@ -72,10 +67,9 @@ export default function FunctionDetail() {
                   The function "{functionName}" could not be found.
                 </p>
                 <a 
-                  href={`${window.location.origin}/functions`} 
+                  href="/functions"
                   className="text-ms-blue hover:text-ms-blue-hover"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={(e) => handleNavigation('/functions', e)}
                 >
                   ← Back to Functions
                 </a>
@@ -91,27 +85,18 @@ export default function FunctionDetail() {
 
   return (
     <div className="min-h-screen bg-white pt-16">
-      <Header 
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
+      <Header isMobileMenuOpen={isMobileMenuOpen} onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
       <div className="flex">
-        <Sidebar 
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
+        <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-4xl mx-auto px-6 py-8">
             
             {/* Breadcrumb */}
             <div className="mb-6">
               <a
-                href={func?.category 
-                      ? `${window.location.origin}/category/${encodeURIComponent(func.category)}`
-                      : `${window.location.origin}/functions`}
+                href={func?.category ? `/category/${encodeURIComponent(func.category)}` : '/functions'}
                 className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={(e) => handleNavigation(func?.category ? `/category/${encodeURIComponent(func.category)}` : '/functions', e)}
               >
                 <ArrowLeft className="h-4 w-4" />
                 {func?.category ? `Back to ${func.category.replace(/[-_]/g, ' ')} functions` : 'Back to Functions'}
@@ -125,16 +110,8 @@ export default function FunctionDetail() {
                 <Badge variant="outline" className="text-xs">
                   {func.category?.replace(/[-_]/g, ' ') || 'Unknown'}
                 </Badge>
-                {func.deprecated && (
-                  <Badge variant="destructive" className="text-xs">
-                    Deprecated
-                  </Badge>
-                )}
-                {func.volatile && (
-                  <Badge variant="secondary" className="text-xs">
-                    Volatile
-                  </Badge>
-                )}
+                {func.deprecated && <Badge variant="destructive" className="text-xs">Deprecated</Badge>}
+                {func.volatile && <Badge variant="secondary" className="text-xs">Volatile</Badge>}
               </div>
               <div className="text-lg text-ms-gray-secondary leading-relaxed">
                 {func.description?.split('\n').map((line, index) => {
@@ -151,27 +128,11 @@ export default function FunctionDetail() {
             {/* Section Navigation */}
             <div className="mb-8 p-4 bg-ms-gray-light rounded-lg border border-ms-gray-border">
               <div className="flex flex-wrap gap-4 text-sm">
-                <a href="#syntax" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
-                  Syntax
-                </a>
-                {func.parameters?.length > 0 && (
-                  <a href="#parameters" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
-                    Parameters
-                  </a>
-                )}
-                <a href="#return-value" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
-                  Return Value
-                </a>
-                {func.examples?.length > 0 && (
-                  <a href="#examples" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
-                    Examples
-                  </a>
-                )}
-                {func.remarks && (
-                  <a href="#remarks" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
-                    Remarks
-                  </a>
-                )}
+                <a href="#syntax" className="text-ms-blue hover:text-ms-blue-hover hover:underline">Syntax</a>
+                {func.parameters?.length > 0 && <a href="#parameters" className="text-ms-blue hover:text-ms-blue-hover hover:underline">Parameters</a>}
+                <a href="#return-value" className="text-ms-blue hover:text-ms-blue-hover hover:underline">Return Value</a>
+                {func.examples?.length > 0 && <a href="#examples" className="text-ms-blue hover:text-ms-blue-hover hover:underline">Examples</a>}
+                {func.remarks && <a href="#remarks" className="text-ms-blue hover:text-ms-blue-hover hover:underline">Remarks</a>}
               </div>
             </div>
 
@@ -233,9 +194,7 @@ export default function FunctionDetail() {
                     {func.examples.map((example: any, index: number) => (
                       <div key={index} className="space-y-4">
                         <h4 className="font-semibold text-ms-gray mb-3">{example.title}</h4>
-                        {example.explanation && (
-                          <p className="text-ms-gray-secondary">{example.explanation}</p>
-                        )}
+                        {example.explanation && <p className="text-ms-gray-secondary">{example.explanation}</p>}
                         {example.syntax && (
                           <div>
                             <h5 className="text-sm font-semibold text-ms-gray mb-2">Usage</h5>
