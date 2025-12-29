@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState } from "react";
 import { type Function } from "@shared/schema";
 import { Search } from "lucide-react";
-import { Link } from "wouter";
 
 export default function Functions() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +38,6 @@ export default function Functions() {
         />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-6xl mx-auto px-6 py-8">
-
 
             {/* Search and Filter Controls */}
             <div className="mb-8 flex flex-col sm:flex-row gap-4">
@@ -109,14 +107,13 @@ export default function Functions() {
                       <div className="grid grid-cols-12 gap-4 items-start">
                         <div className="col-span-4">
                           <a
-  href={`${window.location.origin}/function/${encodeURIComponent(func.name)}`}
-  className="text-ms-blue hover:text-ms-blue-hover font-medium"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  {func.name}
-</a>
-
+                            href={`${window.location.origin}${import.meta.env.BASE_URL}function/${encodeURIComponent(func.name)}`}
+                            className="text-ms-blue hover:text-ms-blue-hover font-medium"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {func.name}
+                          </a>
                         </div>
                         <div className="col-span-6">
                           <p className="text-sm text-ms-gray-secondary leading-relaxed">
@@ -125,14 +122,13 @@ export default function Functions() {
                         </div>
                         <div className="col-span-2">
                           <a
-  href={`${window.location.origin}/category/${func.category}`}
-  className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  {func.category.replace('-', ' ')}
-</a>
-
+                            href={`${window.location.origin}${import.meta.env.BASE_URL}category/${func.category}`}
+                            className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {func.category.replace('-', ' ')}
+                          </a>
                         </div>
                       </div>
                     </div>
