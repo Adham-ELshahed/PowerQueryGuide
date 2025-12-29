@@ -18,12 +18,14 @@ export default function Functions() {
 
   const filteredFunctions = functions?.filter((func) => {
     const matchesSearch = func.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         func.description.toLowerCase().includes(searchQuery.toLowerCase());
+                          func.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || func.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   const categories = Array.from(new Set(functions?.map(f => f.category) || []));
+
+  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -107,10 +109,8 @@ export default function Functions() {
                       <div className="grid grid-cols-12 gap-4 items-start">
                         <div className="col-span-4">
                           <a
-                            href={`${window.location.origin}${import.meta.env.BASE_URL}function/${encodeURIComponent(func.name)}`}
+                            href={`${baseUrl}function/${encodeURIComponent(func.name)}`}
                             className="text-ms-blue hover:text-ms-blue-hover font-medium"
-                            target="_blank"
-                            rel="noopener noreferrer"
                           >
                             {func.name}
                           </a>
@@ -122,10 +122,8 @@ export default function Functions() {
                         </div>
                         <div className="col-span-2">
                           <a
-                            href={`${window.location.origin}${import.meta.env.BASE_URL}category/${func.category}`}
+                            href={`${baseUrl}category/${func.category}`}
                             className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
-                            target="_blank"
-                            rel="noopener noreferrer"
                           >
                             {func.category.replace('-', ' ')}
                           </a>
