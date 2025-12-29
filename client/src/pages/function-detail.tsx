@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "wouter";
 import { type Function } from "@shared/schema";
 
 export default function FunctionDetail() {
@@ -19,12 +18,9 @@ export default function FunctionDetail() {
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
 
-  // Find the specific function by name
   const func = allFunctions?.find(f => f.name === decodeURIComponent(functionName || ''));
   const isLoading = !allFunctions;
   const error = allFunctions && !func ? new Error('Function not found') : null;
-
-
 
   if (isLoading) {
     return (
@@ -75,19 +71,22 @@ export default function FunctionDetail() {
                 <p className="text-ms-gray-secondary mb-6">
                   The function "{functionName}" could not be found.
                 </p>
-                <Link href="/functions" className="text-ms-blue hover:text-ms-blue-hover">
+                <a 
+                  href={`${window.location.origin}/functions`} 
+                  className="text-ms-blue hover:text-ms-blue-hover"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   ← Back to Functions
-                </Link>
+                </a>
               </div>
             </div>
           </main>
         </div>
-
       </div>
     );
   }
 
-  // Check if this is the Table.Pivot function
   const isTablePivotFunction = func?.name === "Table.Pivot";
 
   return (
@@ -103,15 +102,20 @@ export default function FunctionDetail() {
         />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-4xl mx-auto px-6 py-8">
+            
             {/* Breadcrumb */}
             <div className="mb-6">
-              <Link 
-                href={func?.category ? `/category/${func.category}` : '/functions'}
+              <a
+                href={func?.category 
+                      ? `${window.location.origin}/category/${encodeURIComponent(func.category)}`
+                      : `${window.location.origin}/functions`}
                 className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <ArrowLeft className="h-4 w-4" />
                 {func?.category ? `Back to ${func.category.replace(/[-_]/g, ' ')} functions` : 'Back to Functions'}
-              </Link>
+              </a>
             </div>
 
             {/* Function Header */}
@@ -134,7 +138,6 @@ export default function FunctionDetail() {
               </div>
               <div className="text-lg text-ms-gray-secondary leading-relaxed">
                 {func.description?.split('\n').map((line, index) => {
-                  // Check if line starts with bullet point and add proper indentation
                   const isBulletPoint = line.trim().startsWith('•');
                   return (
                     <p key={index} className={`${index > 0 ? 'mt-2' : ''} ${isBulletPoint ? 'ml-6' : ''}`}>
@@ -151,7 +154,7 @@ export default function FunctionDetail() {
                 <a href="#syntax" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
                   Syntax
                 </a>
-                {func.parameters && Array.isArray(func.parameters) && (func.parameters as unknown[]).length > 0 && (
+                {func.parameters?.length > 0 && (
                   <a href="#parameters" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
                     Parameters
                   </a>
@@ -159,7 +162,7 @@ export default function FunctionDetail() {
                 <a href="#return-value" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
                   Return Value
                 </a>
-                {func.examples && Array.isArray(func.examples) && (func.examples as unknown[]).length > 0 && (
+                {func.examples?.length > 0 && (
                   <a href="#examples" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
                     Examples
                   </a>
@@ -183,14 +186,14 @@ export default function FunctionDetail() {
             </Card>
 
             {/* Parameters */}
-            {func.parameters && Array.isArray(func.parameters) && (func.parameters as unknown[]).length > 0 && (
+            {func.parameters?.length > 0 && (
               <Card className="mb-6" id="parameters">
                 <CardHeader>
                   <CardTitle className="text-xl">Parameters</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {(func.parameters as unknown[]).map((param: any, index: number) => (
+                    {func.parameters.map((param: any, index: number) => (
                       <div key={index} className="border-l-4 border-ms-blue-light pl-4">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-mono font-semibold text-ms-blue">{param.name}</span>
@@ -220,39 +223,31 @@ export default function FunctionDetail() {
             </Card>
 
             {/* Examples */}
-            {func.examples && Array.isArray(func.examples) && func.examples.length > 0 && (
+            {func.examples?.length > 0 && (
               <Card className="mb-6" id="examples">
                 <CardHeader>
                   <CardTitle className="text-xl">Examples</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {(func.examples as unknown[]).map((example: any, index: number) => (
+                    {func.examples.map((example: any, index: number) => (
                       <div key={index} className="space-y-4">
                         <h4 className="font-semibold text-ms-gray mb-3">{example.title}</h4>
-                        
-                        {/* Explanation */}
                         {example.explanation && (
                           <p className="text-ms-gray-secondary">{example.explanation}</p>
                         )}
-                        
-                        {/* Code/Syntax */}
                         {example.syntax && (
                           <div>
                             <h5 className="text-sm font-semibold text-ms-gray mb-2">Usage</h5>
                             <CodeBlock code={example.syntax} />
                           </div>
                         )}
-                        
-                        {/* Output */}
                         {example.output && (
                           <div>
                             <h5 className="text-sm font-semibold text-ms-gray mb-2">Output</h5>
                             <CodeBlock code={example.output} />
                           </div>
                         )}
-                        
-                        {/* Fallback for old format (if any examples still use 'code' field) */}
                         {!example.explanation && !example.syntax && !example.output && example.code && (
                           <CodeBlock code={example.code} />
                         )}
@@ -271,8 +266,7 @@ export default function FunctionDetail() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-ms-gray-secondary leading-relaxed">
-                    {func.remarks?.split('\n').map((line, index) => {
-                      // Check if line starts with bullet point and add proper indentation
+                    {func.remarks.split('\n').map((line, index) => {
                       const isBulletPoint = line.trim().startsWith('•');
                       return (
                         <p key={index} className={`${index > 0 ? 'mt-2' : ''} ${isBulletPoint ? 'ml-6' : ''}`}>
