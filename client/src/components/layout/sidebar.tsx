@@ -1,5 +1,3 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
@@ -21,6 +19,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     }
     return "az";
   });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -35,12 +34,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const sortedFunctions = functions?.slice().sort((a, b) => a.name.localeCompare(b.name)) || [];
   const searchResults = searchQuery.length > 0
-    ? functions?.filter((func) => func.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 20) || []
+    ? functions?.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 20) || []
     : [];
 
   const groupedFunctions = categories?.map(category => ({
     ...category,
-    functions: functions?.filter(func => func.category === category.name).sort((a, b) => a.name.localeCompare(b.name)) || []
+    functions: functions?.filter(f => f.category === category.name).sort((a, b) => a.name.localeCompare(b.name)) || []
   })) || [];
 
   const toggleGroup = (groupName: string) => {
@@ -59,6 +58,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (typeof window !== "undefined") localStorage.setItem("sidebar-tab", tab);
   };
 
+  // Restore scroll & expanded groups from localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedGroups = localStorage.getItem("sidebar-expanded-groups");
@@ -88,10 +88,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     }
   }, [functions, categories, scrollPosition]);
 
-  // Close mobile sidebar when clicking on a link
+  // Mobile menu: close on link click
   useEffect(() => {
     if (isOpen && onClose) {
-      const links = document.querySelectorAll('aside a, aside [data-link]');
+      const links = document.querySelectorAll('aside [data-link]');
       const handleClick = () => onClose();
       links.forEach(link => link.addEventListener('click', handleClick));
       return () => links.forEach(link => link.removeEventListener('click', handleClick));
@@ -101,18 +101,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
           onClick={onClose}
         />
       )}
-      
+
       <aside className={`
-        fixed left-0 top-0 w-280 h-screen bg-ms-gray-light border-r border-ms-gray-border 
+        fixed left-0 top-0 w-280 h-screen bg-ms-gray-light border-r border-ms-gray-border
         overflow-y-auto sidebar-scroll z-50 pt-16 transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-4">
+          {/* Tabs */}
           <div className="mb-4">
             <div className="flex border-b border-ms-gray-border">
               <Button variant={activeTab === "az" ? "default" : "ghost"} size="sm" onClick={() => handleTabChange("az")} className="flex-1 rounded-none rounded-t text-xs">A-Z</Button>
@@ -122,7 +123,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           <div className="space-y-1">
-            {/* A-Z Tab */}
+            {/* A-Z */}
             {activeTab === "az" && (
               <div>
                 <div className="mb-3">
@@ -131,7 +132,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   </span>
                 </div>
                 <div className="space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto" onScroll={handleScroll}>
-                  {sortedFunctions.map((func) => (
+                  {sortedFunctions.map(func => (
                     <Link
                       key={func.id}
                       href={`/function/${encodeURIComponent(func.name)}`}
@@ -145,7 +146,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
             )}
 
-            {/* Groups Tab */}
+            {/* Groups */}
             {activeTab === "groups" && (
               <div>
                 <div className="mb-3">
@@ -154,19 +155,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   </span>
                 </div>
                 <div className="space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto" onScroll={handleScroll}>
-                  {groupedFunctions.map((group) => (
-                    <Collapsible
-                      key={group.id}
-                      open={expandedGroups.has(group.name)}
-                      onOpenChange={() => toggleGroup(group.name)}
-                    >
+                  {groupedFunctions.map(group => (
+                    <Collapsible key={group.id} open={expandedGroups.has(group.name)} onOpenChange={() => toggleGroup(group.name)}>
                       <div className="flex items-center">
                         <CollapsibleTrigger className="flex items-center gap-1 px-2 py-1 text-sm text-ms-gray hover:text-ms-blue hover:bg-white rounded transition-colors">
-                          {expandedGroups.has(group.name) ? (
-                            <ChevronDown className="h-3 w-3" />
-                          ) : (
-                            <ChevronRight className="h-3 w-3" />
-                          )}
+                          {expandedGroups.has(group.name) ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
                         </CollapsibleTrigger>
                         <Link
                           href={`/category/${group.name}`}
@@ -174,13 +167,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                           data-link
                         >
                           <span>{group.name === 'access-datafunctions' ? 'Access data' : formatCategoryName(group.name)}</span>
-                          <span className="text-xs text-ms-gray-secondary">
-                            {group.functions.length}
-                          </span>
+                          <span className="text-xs text-ms-gray-secondary">{group.functions.length}</span>
                         </Link>
                       </div>
                       <CollapsibleContent className="ml-5 mt-1 space-y-1">
-                        {group.functions.map((func) => (
+                        {group.functions.map(func => (
                           <Link
                             key={func.id}
                             href={`/function/${encodeURIComponent(func.name)}`}
@@ -197,7 +188,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
             )}
 
-            {/* Search Tab */}
+            {/* Search */}
             {activeTab === "search" && (
               <div>
                 <div className="mb-3">
@@ -207,7 +198,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                       type="text"
                       placeholder="Search functions..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={e => setSearchQuery(e.target.value)}
                       className="w-full pl-10 text-sm border border-ms-gray-border rounded-md search-input"
                     />
                   </div>
@@ -224,7 +215,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                           Search Results ({searchResults.length})
                         </span>
                       </div>
-                      {searchResults.map((func) => (
+                      {searchResults.map(func => (
                         <Link
                           key={func.id}
                           href={`/function/${encodeURIComponent(func.name)}`}
@@ -232,9 +223,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                           data-link
                         >
                           <div className="font-medium">{func.name}</div>
-                          <div className="text-xs text-ms-gray-secondary truncate">
-                            {func.description.substring(0, 60)}...
-                          </div>
+                          <div className="text-xs text-ms-gray-secondary truncate">{func.description.substring(0, 60)}...</div>
                         </Link>
                       ))}
                     </>
@@ -246,6 +235,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 </div>
               </div>
             )}
+
           </div>
         </div>
       </aside>
