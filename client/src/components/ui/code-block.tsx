@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { formatPowerQuery } from "@/lib/CodeBlockFormat";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
   code: string;
@@ -21,9 +19,15 @@ export function CodeBlock({
 
     async function format() {
       if (language === "powerquery") {
-        const pretty = await formatPowerQuery(code);
-        if (!cancelled) {
-          setFormatted(pretty);
+        try {
+          // Use custom formatter for M/PowerQuery
+          const pretty = await formatPowerQuery(code);
+          if (!cancelled) {
+            setFormatted(pretty);
+          }
+        } catch (err) {
+          console.error("Failed to format PowerQuery code:", err);
+          setFormatted(code); // fallback
         }
       } else {
         setFormatted(code);
@@ -38,19 +42,10 @@ export function CodeBlock({
   }, [code, language]);
 
   return (
-    <SyntaxHighlighter
-      language="m"
-      style={vscDarkPlus}
-      showLineNumbers
-      wrapLines
-      customStyle={{
-        borderRadius: "8px",
-        fontSize: "14px",
-        padding: "1rem",
-        backgroundColor: "#1e1e1e",
-      }}
-    >
-      {formatted.trim()}
-    </SyntaxHighlighter>
+    <pre className="bg-[#1e1e1e] text-[#d4d4d4] p-4 rounded-lg overflow-auto text-sm">
+      <code className="font-mono whitespace-pre-wrap">
+        {formatted.trim()}
+      </code>
+    </pre>
   );
 }
