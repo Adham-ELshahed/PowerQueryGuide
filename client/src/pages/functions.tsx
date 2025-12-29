@@ -108,9 +108,15 @@ export default function Functions() {
                     <div key={func.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
                       <div className="grid grid-cols-12 gap-4 items-start">
                         <div className="col-span-4">
-                          <Link href={`/function/${encodeURIComponent(func.name)}`} className="text-ms-blue hover:text-ms-blue-hover font-medium">
-                            {func.name}
-                          </Link>
+                          <a
+  href={`${window.location.origin}/function/${encodeURIComponent(func.name)}`}
+  className="text-ms-blue hover:text-ms-blue-hover font-medium"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {func.name}
+</a>
+
                         </div>
                         <div className="col-span-6">
                           <p className="text-sm text-ms-gray-secondary leading-relaxed">
