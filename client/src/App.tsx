@@ -1,15 +1,8 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useLocation } from "wouter";
-
 import { queryClient } from "./lib/queryClient";
-import { initGA } from "./lib/analytics";
-import { useAnalytics } from "./hooks/use-analytics";
-
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
 import Home from "@/pages/home";
 import Functions from "@/pages/functions";
 import FunctionDetail from "@/pages/function-detail";
@@ -18,45 +11,45 @@ import Blog from "@/pages/blog";
 import About from "@/pages/about";
 import DataTypes from "@/pages/data-types";
 import NotFound from "@/pages/not-found";
+import { useEffect } from "react";
+import { initGA } from "./lib/analytics";
+import { useAnalytics } from "./hooks/use-analytics";
+import { useLocation } from "wouter";
 
-// Explicit base path (important for new-tab navigation)
-const basePath = import.meta.env.BASE_URL ?? "/";
+// Get base path from build configuration
+const basePath = import.meta.env.BASE_URL || "/";
 
 function Router() {
+  // Track page views when routes change
   useAnalytics();
-
+  
   const [location] = useLocation();
-
-  // Always scroll to top on navigation
+  
+  // Scroll to top when route changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-
+  
   return (
     <Switch>
-      {/* Static routes FIRST */}
       <Route path="/" component={Home} />
+      <Route path="/function/:functionName" component={FunctionDetail} />
       <Route path="/functions" component={Functions} />
+      <Route path="/category/:category" component={Category} />
       <Route path="/blog" component={Blog} />
       <Route path="/about" component={About} />
       <Route path="/datatypes" component={DataTypes} />
-
-      {/* Dynamic routes AFTER static */}
-      <Route path="/function/:functionName" component={FunctionDetail} />
-      <Route path="/category/:category" component={Category} />
-
-      {/* Fallback */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 function App() {
+  // Initialize Google Analytics when app loads
   useEffect(() => {
+    // Verify required environment variable is present
     if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
-      console.warn(
-        "Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID"
-      );
+      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
     } else {
       initGA();
     }
