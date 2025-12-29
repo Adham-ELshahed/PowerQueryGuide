@@ -19,31 +19,29 @@ import About from "@/pages/about";
 import DataTypes from "@/pages/data-types";
 import NotFound from "@/pages/not-found";
 
-// Explicit base path (important for new-tab navigation)
+// Explicit base path
 const basePath = import.meta.env.BASE_URL ?? "/";
 
 function Router() {
   useAnalytics();
-
   const [location] = useLocation();
 
-  // Always scroll to top on navigation
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
   return (
     <Switch>
-      {/* Static routes FIRST */}
+      {/* Static routes first */}
       <Route path="/" component={Home} />
       <Route path="/functions" component={Functions} />
       <Route path="/blog" component={Blog} />
       <Route path="/about" component={About} />
       <Route path="/datatypes" component={DataTypes} />
 
-      {/* Dynamic routes AFTER static */}
+      {/* Dynamic routes after static */}
       <Route path="/function/:functionName" component={FunctionDetail} />
-      <Route path="/category/:category" component={Category} />
+      <Route path="/category/:categoryName" component={Category} />
 
       {/* Fallback */}
       <Route component={NotFound} />
