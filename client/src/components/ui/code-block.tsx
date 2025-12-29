@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { formatPowerQuery } from "@/lib/CodeBlockFormat";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
   code: string;
@@ -36,10 +38,19 @@ export function CodeBlock({
   }, [code, language]);
 
   return (
-    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto text-sm">
-      <code className="font-mono whitespace-pre">
-        {formatted.trim()}
-      </code>
-    </pre>
+    <SyntaxHighlighter
+      language="m"
+      style={vscDarkPlus}
+      showLineNumbers
+      wrapLines
+      customStyle={{
+        borderRadius: "8px",
+        fontSize: "14px",
+        padding: "1rem",
+        backgroundColor: "#1e1e1e",
+      }}
+    >
+      {formatted.trim()}
+    </SyntaxHighlighter>
   );
 }
