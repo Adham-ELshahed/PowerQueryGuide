@@ -20,16 +20,13 @@ export default function CategoryPage() {
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
 
-  // Normalize helper to compare categories safely
-  const normalize = (str: string) => str.toLowerCase().replace(/[-_ ]/g, '');
-
-  const categoryData = categories?.find(c => normalize(c.name) === normalize(category || ''));
-  const functions = allFunctions?.filter(f => normalize(f.category) === normalize(category || ''));
-
+  const categoryData = categories?.find(c => c.name === category);
+  const functions = allFunctions?.filter(f => f.category === category);
   const isLoading = !allFunctions || !categories;
 
-  const categoryDisplayName = category
-    ? category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' and ') + ' functions'
+  // استخدام الاسم الفعلي للـ category من JSON بدل كلمة "Category"
+  const categoryDisplayName = categoryData
+    ? `${categoryData.name.replace(/[-_]/g, ' ')} functions`
     : 'Category';
 
   return (
@@ -94,14 +91,12 @@ export default function CategoryPage() {
                     {functions.map((func) => (
                       <TableRow key={func.id} className="hover:bg-ms-gray-light">
                         <TableCell className="font-mono font-medium">
-                          <a
-                            href={`${window.location.origin}/function/${encodeURIComponent(func.name)}`}
+                          <Link
+                            href={`/function/${encodeURIComponent(func.name)}`}
                             className="text-ms-blue hover:text-ms-blue-hover hover:underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
                           >
                             {func.name}
-                          </a>
+                          </Link>
                         </TableCell>
                         <TableCell className="text-ms-gray-secondary">
                           {func.description}
