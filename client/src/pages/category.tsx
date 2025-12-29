@@ -5,7 +5,6 @@ import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "wouter";
 import { type Function, type Category } from "@shared/schema";
 
 export default function CategoryPage() {
@@ -24,10 +23,11 @@ export default function CategoryPage() {
   const functions = allFunctions?.filter(f => f.category === category);
   const isLoading = !allFunctions || !categories;
 
-  // استخدام الاسم الفعلي للـ category من JSON بدل كلمة "Category"
   const categoryDisplayName = categoryData
     ? `${categoryData.name.replace(/[-_]/g, ' ')} functions`
     : 'Category';
+
+  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -44,13 +44,13 @@ export default function CategoryPage() {
           <div className="max-w-6xl mx-auto px-6 py-8">
             {/* Breadcrumb */}
             <div className="mb-6">
-              <Link 
-                href="/functions"
+              <a 
+                href={`${baseUrl}functions`}
                 className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Groups
-              </Link>
+              </a>
             </div>
 
             {/* Page Header */}
@@ -91,12 +91,12 @@ export default function CategoryPage() {
                     {functions.map((func) => (
                       <TableRow key={func.id} className="hover:bg-ms-gray-light">
                         <TableCell className="font-mono font-medium">
-                          <Link
-                            href={`/function/${encodeURIComponent(func.name)}`}
+                          <a
+                            href={`${baseUrl}function/${encodeURIComponent(func.name)}`}
                             className="text-ms-blue hover:text-ms-blue-hover hover:underline"
                           >
                             {func.name}
-                          </Link>
+                          </a>
                         </TableCell>
                         <TableCell className="text-ms-gray-secondary">
                           {func.description}
@@ -112,9 +112,9 @@ export default function CategoryPage() {
                 <p className="text-sm text-ms-gray-secondary">
                   This category may not exist or may not contain any functions yet.
                 </p>
-                <Link href="/" className="text-ms-blue hover:text-ms-blue-hover mt-4 inline-block">
+                <a href={`${baseUrl}`} className="text-ms-blue hover:text-ms-blue-hover mt-4 inline-block">
                   Browse all categories
-                </Link>
+                </a>
               </div>
             )}
           </div>
