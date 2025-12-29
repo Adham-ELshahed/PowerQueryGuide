@@ -19,8 +19,9 @@ export default function CategoryPage() {
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
 
-  const categoryData = categories?.find(c => c.name === category);
-  const functions = allFunctions?.filter(f => f.category === category);
+  // Normalize category names for comparison (case-insensitive)
+  const categoryData = categories?.find(c => c.name.toLowerCase() === category?.toLowerCase());
+  const functions = allFunctions?.filter(f => f.category.toLowerCase() === category?.toLowerCase());
   const isLoading = !allFunctions || !categories;
 
   const categoryDisplayName = categoryData
@@ -42,6 +43,7 @@ export default function CategoryPage() {
         />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-6xl mx-auto px-6 py-8">
+            
             {/* Breadcrumb */}
             <div className="mb-6">
               <a 
