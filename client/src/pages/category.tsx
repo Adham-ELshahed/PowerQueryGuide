@@ -14,37 +14,41 @@ import {
 import { ArrowLeft } from "lucide-react";
 import { type Function, type Category } from "@shared/schema";
 
+function normalize(value: string) {
+  return decodeURIComponent(value)
+    .toLowerCase()
+    .replace(/[\s-_]/g, "");
+}
+
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // ✅ Fetch categories
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await fetch(`${import.meta.env.BASE_URL}categories.json`);
-      if (!res.ok) {
-        throw new Error("Failed to load categories");
-      }
       return res.json();
     },
   });
 
-  // ✅ Fetch all functions
   const { data: allFunctions } = useQuery<Function[]>({
     queryKey: ["functions"],
     queryFn: async () => {
       const res = await fetch(`${import.meta.env.BASE_URL}functions.json`);
-      if (!res.ok) {
-        throw new Error("Failed to load functions");
-      }
       return res.json();
     },
   });
 
-  // ✅ Match category exactly as stored in JSON
-  const categoryData = categories?.find((c) => c.name === category);
-  const functions = allFunctions?.filter((f) => f.category === category);
+  const normalizedCategory = normalize(category);
+
+  const categoryData = categories?.find(
+    (c) => normalize(c.name) === normalizedCategory
+  );
+
+  const functions = allFunctions?.filter(
+    (f) => normalize(f.category) === normalizedCategory
+  );
 
   const isLoading = !categories || !allFunctions;
 
@@ -83,20 +87,19 @@ export default function CategoryPage() {
               </a>
             </div>
 
-            {/* Page Header */}
+            {/* Header */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-ms-gray mb-4">
                 {categoryDisplayName}
               </h1>
-
               {categoryData && (
-                <p className="text-lg text-ms-gray-secondary leading-relaxed">
+                <p className="text-lg text-ms-gray-secondary">
                   {categoryData.description}
                 </p>
               )}
             </div>
 
-            {/* Functions Count */}
+            {/* Count */}
             <div className="mb-6">
               <p className="text-sm text-ms-gray-secondary">
                 {isLoading
@@ -105,15 +108,11 @@ export default function CategoryPage() {
               </p>
             </div>
 
-            {/* Functions Table */}
+            {/* Table */}
             {isLoading ? (
               <div className="animate-pulse">
-                <div className="h-12 bg-gray-200 rounded mb-4"></div>
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-16 bg-gray-100 rounded mb-2"
-                  ></div>
+                  <div key={i} className="h-14 bg-gray-100 rounded mb-2" />
                 ))}
               </div>
             ) : functions && functions.length > 0 ? (
@@ -121,56 +120,33 @@ export default function CategoryPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="font-semibold text-ms-gray">
-                        Function Name
-                      </TableHead>
-                      <TableHead className="font-semibold text-ms-gray">
-                        Description
-                      </TableHead>
+                      <TableHead>Function Name</TableHead>
+                      <TableHead>Description</TableHead>
                     </TableRow>
                   </TableHeader>
-
                   <TableBody>
                     {functions.map((func) => (
-                      <TableRow
-                        key={func.id}
-                        className="hover:bg-ms-gray-light"
-                      >
-                        <TableCell className="font-mono font-medium">
+                      <TableRow key={func.id}>
+                        <TableCell className="font-mono">
                           <a
                             href={`${baseUrl}function/${encodeURIComponent(
                               func.name
                             )}`}
-                            className="text-ms-blue hover:text-ms-blue-hover hover:underline"
+                            className="text-ms-blue hover:underline"
                           >
                             {func.name}
                           </a>
                         </TableCell>
-
-                        <TableCell className="text-ms-gray-secondary">
-                          {func.description}
-                        </TableCell>
+                        <TableCell>{func.description}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-lg text-ms-gray-secondary mb-4">
-                  No functions found in this category
-                </p>
-                <p className="text-sm text-ms-gray-secondary">
-                  This category may not exist or may not contain any functions
-                  yet.
-                </p>
-                <a
-                  href={`${baseUrl}`}
-                  className="text-ms-blue hover:text-ms-blue-hover mt-4 inline-block"
-                >
-                  Browse all categories
-                </a>
-              </div>
+              <p className="text-center text-ms-gray-secondary py-12">
+                No functions found
+              </p>
             )}
           </div>
         </main>
