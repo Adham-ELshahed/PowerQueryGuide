@@ -19,20 +19,21 @@ export default function CategoryPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { data: categories } = useQuery<Category[]>({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const res = await fetch(`${import.meta.env.BASE_URL}categories.json`);
-      return res.json();
-    },
-  });
+  queryKey: ["categories", category],
+  queryFn: async () => {
+    const res = await fetch(`${import.meta.env.BASE_URL}categories.json`);
+    return res.json();
+  },
+});
 
-  const { data: functions } = useQuery<Function[]>({
-    queryKey: ["functions"],
-    queryFn: async () => {
-      const res = await fetch(`${import.meta.env.BASE_URL}functions.json`);
-      return res.json();
-    },
-  });
+const { data: allFunctions } = useQuery<Function[]>({
+  queryKey: ["functions", category],
+  queryFn: async () => {
+    const res = await fetch(`${import.meta.env.BASE_URL}functions.json`);
+    return res.json();
+  },
+});
+
 
   // ✅ المقارنة الصح
   const categoryData = categories?.find(
