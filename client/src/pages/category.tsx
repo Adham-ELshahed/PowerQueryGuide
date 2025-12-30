@@ -19,16 +19,17 @@ export default function CategoryPage() {
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
 
-  // Normalize category names for comparison (case-insensitive)
-  const categoryData = categories?.find(c => c.name.toLowerCase() === category?.toLowerCase());
-  const functions = allFunctions?.filter(f => f.category.toLowerCase() === category?.toLowerCase());
+  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
+
+  // match on slug
+  const categoryData = categories?.find(c => c.slug === category);
+  const functions = allFunctions?.filter(f => f.category.toLowerCase() === category);
+
   const isLoading = !allFunctions || !categories;
 
   const categoryDisplayName = categoryData
     ? `${categoryData.name.replace(/[-_]/g, ' ')} functions`
     : 'Category';
-
-  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -43,7 +44,7 @@ export default function CategoryPage() {
         />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-6xl mx-auto px-6 py-8">
-            
+
             {/* Breadcrumb */}
             <div className="mb-6">
               <a 
