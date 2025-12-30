@@ -14,12 +14,6 @@ import {
 import { ArrowLeft } from "lucide-react";
 import { type Function, type Category } from "@shared/schema";
 
-function normalize(value: string) {
-  return decodeURIComponent(value)
-    .toLowerCase()
-    .replace(/[\s-_]/g, "");
-}
-
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,7 +26,7 @@ export default function CategoryPage() {
     },
   });
 
-  const { data: allFunctions } = useQuery<Function[]>({
+  const { data: functions } = useQuery<Function[]>({
     queryKey: ["functions"],
     queryFn: async () => {
       const res = await fetch(`${import.meta.env.BASE_URL}functions.json`);
@@ -40,26 +34,21 @@ export default function CategoryPage() {
     },
   });
 
-  const normalizedCategory = normalize(category);
-
+  // ✅ المقارنة الصح
   const categoryData = categories?.find(
-    (c) => normalize(c.name) === normalizedCategory
+    (c) => c.slug === category
   );
 
-  const functions = allFunctions?.filter(
-    (f) => normalize(f.category) === normalizedCategory
+  const filteredFunctions = functions?.filter(
+    (f) => f.category === category
   );
-
-  const isLoading = !categories || !allFunctions;
-
-  const categoryDisplayName = categoryData
-    ? `${categoryData.name.replace(/[-_]/g, " ")} functions`
-    : "Category";
 
   const baseUrl =
     typeof window !== "undefined"
       ? window.location.origin + import.meta.env.BASE_URL
       : "";
+
+  const isLoading = !categories || !functions;
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -74,81 +63,54 @@ export default function CategoryPage() {
           onClose={() => setIsMobileMenuOpen(false)}
         />
 
-        <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
-          <div className="max-w-6xl mx-auto px-6 py-8">
-            {/* Breadcrumb */}
-            <div className="mb-6">
-              <a
-                href={`${baseUrl}functions`}
-                className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Groups
-              </a>
-            </div>
+        <main className="ml-0 lg:ml-280 flex-1 px-6 py-8">
+          <a
+            href={`${baseUrl}functions`}
+            className="text-ms-blue flex items-center gap-2 mb-6"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to groups
+          </a>
 
-            {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-ms-gray mb-4">
-                {categoryDisplayName}
-              </h1>
-              {categoryData && (
-                <p className="text-lg text-ms-gray-secondary">
-                  {categoryData.description}
-                </p>
-              )}
-            </div>
+          <h1 className="text-3xl font-bold mb-4">
+            {categoryData?.title ?? "Category"}
+          </h1>
 
-            {/* Count */}
-            <div className="mb-6">
-              <p className="text-sm text-ms-gray-secondary">
-                {isLoading
-                  ? "Loading..."
-                  : `${functions?.length || 0} functions in this category`}
-              </p>
-            </div>
+          {categoryData?.description && (
+            <p className="text-gray-600 mb-8">
+              {categoryData.description}
+            </p>
+          )}
 
-            {/* Table */}
-            {isLoading ? (
-              <div className="animate-pulse">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-14 bg-gray-100 rounded mb-2" />
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : filteredFunctions && filteredFunctions.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Function</TableHead>
+                  <TableHead>Description</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredFunctions.map((fn) => (
+                  <TableRow key={fn.id}>
+                    <TableCell className="font-mono">
+                      <a
+                        href={`${baseUrl}function/${encodeURIComponent(fn.name)}`}
+                        className="text-ms-blue hover:underline"
+                      >
+                        {fn.name}
+                      </a>
+                    </TableCell>
+                    <TableCell>{fn.description}</TableCell>
+                  </TableRow>
                 ))}
-              </div>
-            ) : functions && functions.length > 0 ? (
-              <div className="border border-ms-gray-border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Function Name</TableHead>
-                      <TableHead>Description</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {functions.map((func) => (
-                      <TableRow key={func.id}>
-                        <TableCell className="font-mono">
-                          <a
-                            href={`${baseUrl}function/${encodeURIComponent(
-                              func.name
-                            )}`}
-                            className="text-ms-blue hover:underline"
-                          >
-                            {func.name}
-                          </a>
-                        </TableCell>
-                        <TableCell>{func.description}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            ) : (
-              <p className="text-center text-ms-gray-secondary py-12">
-                No functions found
-              </p>
-            )}
-          </div>
+              </TableBody>
+            </Table>
+          ) : (
+            <p>No functions found in this category</p>
+          )}
         </main>
       </div>
     </div>
