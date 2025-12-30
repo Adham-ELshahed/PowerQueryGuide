@@ -3,7 +3,14 @@ import { useState } from "react";
 import { useParams } from "wouter";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { ArrowLeft } from "lucide-react";
 import { type Function, type Category } from "@shared/schema";
 
@@ -11,43 +18,63 @@ export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // ✅ Fetch categories
   const { data: categories } = useQuery<Category[]>({
-    queryKey: [`${import.meta.env.BASE_URL}categories.json`],
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch(`${import.meta.env.BASE_URL}categories.json`);
+      if (!res.ok) {
+        throw new Error("Failed to load categories");
+      }
+      return res.json();
+    },
   });
 
+  // ✅ Fetch all functions
   const { data: allFunctions } = useQuery<Function[]>({
-    queryKey: [`${import.meta.env.BASE_URL}functions.json`],
+    queryKey: ["functions"],
+    queryFn: async () => {
+      const res = await fetch(`${import.meta.env.BASE_URL}functions.json`);
+      if (!res.ok) {
+        throw new Error("Failed to load functions");
+      }
+      return res.json();
+    },
   });
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
+  // ✅ Match category exactly as stored in JSON
+  const categoryData = categories?.find((c) => c.name === category);
+  const functions = allFunctions?.filter((f) => f.category === category);
 
-  // match on slug
-  const categoryData = categories?.find(c => c.slug === category);
-  const functions = allFunctions?.filter(f => f.category.toLowerCase() === category);
-
-  const isLoading = !allFunctions || !categories;
+  const isLoading = !categories || !allFunctions;
 
   const categoryDisplayName = categoryData
-    ? `${categoryData.name.replace(/[-_]/g, ' ')} functions`
-    : 'Category';
+    ? `${categoryData.name.replace(/[-_]/g, " ")} functions`
+    : "Category";
+
+  const baseUrl =
+    typeof window !== "undefined"
+      ? window.location.origin + import.meta.env.BASE_URL
+      : "";
 
   return (
     <div className="min-h-screen bg-white pt-16">
-      <Header 
+      <Header
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
+
       <div className="flex">
-        <Sidebar 
+        <Sidebar
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
         />
+
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-6xl mx-auto px-6 py-8">
-
             {/* Breadcrumb */}
             <div className="mb-6">
-              <a 
+              <a
                 href={`${baseUrl}functions`}
                 className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
               >
@@ -58,7 +85,10 @@ export default function CategoryPage() {
 
             {/* Page Header */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-ms-gray mb-4">{categoryDisplayName}</h1>
+              <h1 className="text-3xl font-bold text-ms-gray mb-4">
+                {categoryDisplayName}
+              </h1>
+
               {categoryData && (
                 <p className="text-lg text-ms-gray-secondary leading-relaxed">
                   {categoryData.description}
@@ -69,7 +99,9 @@ export default function CategoryPage() {
             {/* Functions Count */}
             <div className="mb-6">
               <p className="text-sm text-ms-gray-secondary">
-                {isLoading ? "Loading..." : `${functions?.length || 0} functions in this category`}
+                {isLoading
+                  ? "Loading..."
+                  : `${functions?.length || 0} functions in this category`}
               </p>
             </div>
 
@@ -78,7 +110,10 @@ export default function CategoryPage() {
               <div className="animate-pulse">
                 <div className="h-12 bg-gray-200 rounded mb-4"></div>
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-16 bg-gray-100 rounded mb-2"></div>
+                  <div
+                    key={i}
+                    className="h-16 bg-gray-100 rounded mb-2"
+                  ></div>
                 ))}
               </div>
             ) : functions && functions.length > 0 ? (
@@ -86,21 +121,32 @@ export default function CategoryPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="font-semibold text-ms-gray">Function Name</TableHead>
-                      <TableHead className="font-semibold text-ms-gray">Description</TableHead>
+                      <TableHead className="font-semibold text-ms-gray">
+                        Function Name
+                      </TableHead>
+                      <TableHead className="font-semibold text-ms-gray">
+                        Description
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
+
                   <TableBody>
                     {functions.map((func) => (
-                      <TableRow key={func.id} className="hover:bg-ms-gray-light">
+                      <TableRow
+                        key={func.id}
+                        className="hover:bg-ms-gray-light"
+                      >
                         <TableCell className="font-mono font-medium">
                           <a
-                            href={`${baseUrl}function/${encodeURIComponent(func.name)}`}
+                            href={`${baseUrl}function/${encodeURIComponent(
+                              func.name
+                            )}`}
                             className="text-ms-blue hover:text-ms-blue-hover hover:underline"
                           >
                             {func.name}
                           </a>
                         </TableCell>
+
                         <TableCell className="text-ms-gray-secondary">
                           {func.description}
                         </TableCell>
@@ -111,11 +157,17 @@ export default function CategoryPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-lg text-ms-gray-secondary mb-4">No functions found in this category</p>
-                <p className="text-sm text-ms-gray-secondary">
-                  This category may not exist or may not contain any functions yet.
+                <p className="text-lg text-ms-gray-secondary mb-4">
+                  No functions found in this category
                 </p>
-                <a href={`${baseUrl}`} className="text-ms-blue hover:text-ms-blue-hover mt-4 inline-block">
+                <p className="text-sm text-ms-gray-secondary">
+                  This category may not exist or may not contain any functions
+                  yet.
+                </p>
+                <a
+                  href={`${baseUrl}`}
+                  className="text-ms-blue hover:text-ms-blue-hover mt-4 inline-block"
+                >
                   Browse all categories
                 </a>
               </div>
