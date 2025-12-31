@@ -5,9 +5,15 @@ import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
+
+/* ✅ IMPORT IMAGES */
+import step1 from "@/attached_assets/functions/list.dates/step1.jfif";
+import step2 from "@/attached_assets/functions/list.dates/step2.jfif";
+import step3 from "@/attached_assets/functions/list.dates/step3.jfif";
 
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
@@ -17,70 +23,31 @@ export default function FunctionDetail() {
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
 
-  const func = allFunctions?.find(
-    f => f.name === decodeURIComponent(functionName || "")
-  );
-
+  const decodedName = decodeURIComponent(functionName || "");
+  const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
-  const error = allFunctions && !func ? new Error("Function not found") : null;
-
-  const handleNavigation = (
-    url: string,
-    e: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
-      e.preventDefault();
-      window.history.pushState({}, "", url);
-      window.dispatchEvent(new PopStateEvent("popstate"));
-      setIsMobileMenuOpen(false);
-    }
-  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
-        <Header
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        />
+        <Header isMobileMenuOpen={isMobileMenuOpen} onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         <div className="flex">
-          <Sidebar
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          />
+          <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
         </div>
       </div>
     );
   }
 
-  if (error || !func) {
+  if (!func) {
     return (
-      <div className="min-h-screen bg-white pt-16">
-        <Header
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        />
-        <div className="flex">
-          <Sidebar
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          />
-          <main className="flex-1 px-6 py-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-4">Function Not Found</h1>
-              <a
-                href="/functions"
-                onClick={(e) => handleNavigation("/functions", e)}
-                className="text-ms-blue hover:underline"
-              >
-                ← Back to Functions
-              </a>
-            </div>
-          </main>
-        </div>
+      <div className="min-h-screen bg-white pt-16 text-center">
+        <h1 className="text-2xl font-bold mt-20">Function not found</h1>
       </div>
     );
   }
+
+  /* ✅ CHECK TARGET FUNCTION */
+  const isListDates = func.name === "List.Dates";
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -88,25 +55,18 @@ export default function FunctionDetail() {
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
+
       <div className="flex">
-        <Sidebar
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
-        <main className="ml-0 lg:ml-280 flex-1 px-6 py-8">
-          <div className="max-w-4xl mx-auto">
+        <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+
+        <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
+          <div className="max-w-4xl mx-auto px-6 py-8">
 
             {/* Breadcrumb */}
             <div className="mb-6">
               <a
                 href={`/category/${encodeURIComponent(func.category)}`}
-                onClick={(e) =>
-                  handleNavigation(
-                    `/category/${encodeURIComponent(func.category)}`,
-                    e
-                  )
-                }
-                className="text-ms-blue flex items-center gap-2 text-sm"
+                className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to {func.category.replace(/[-_]/g, " ")} functions
@@ -115,22 +75,15 @@ export default function FunctionDetail() {
 
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold mb-3">{func.name}</h1>
-              <p className="text-lg text-ms-gray-secondary">
-                {func.description}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <Badge variant="outline">
-                  {func.category.replace(/[-_]/g, " ")}
-                </Badge>
-                {func.deprecated && (
-                  <Badge variant="destructive">Deprecated</Badge>
-                )}
+              <div className="flex items-center gap-3 mb-4">
+                <h1 className="text-3xl font-bold">{func.name}</h1>
+                <Badge variant="outline">{func.category}</Badge>
               </div>
+              <p className="text-lg text-ms-gray-secondary">{func.description}</p>
             </div>
 
             {/* Syntax */}
-            <Card className="mb-6" id="syntax">
+            <Card className="mb-6">
               <CardHeader>
                 <CardTitle>Syntax</CardTitle>
               </CardHeader>
@@ -139,47 +92,47 @@ export default function FunctionDetail() {
               </CardContent>
             </Card>
 
-            {/* 🔹 Images for List.Dates */}
-            {func.name === "List.Dates" && (
+            {/* Parameters */}
+            {func.parameters?.length > 0 && (
               <Card className="mb-6">
                 <CardHeader>
-                  <CardTitle>Visual Explanation</CardTitle>
+                  <CardTitle>Parameters</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-8">
-                    <div>
-                      <p className="text-sm mb-2 text-ms-gray-secondary">
-                        Step 1 – Generate the date range
-                      </p>
-                      <img
-                        src={`${import.meta.env.BASE_URL}images/functions/list.dates/step1.png`}
-                        alt="List.Dates step 1"
-                        className="rounded-lg border"
-                      />
+                <CardContent className="space-y-4">
+                  {func.parameters.map((p, i) => (
+                    <div key={i}>
+                      <div className="font-mono font-semibold">{p.name}</div>
+                      <p className="text-sm text-ms-gray-secondary">{p.description}</p>
+                      <Separator className="my-3" />
                     </div>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
 
-                    <div>
-                      <p className="text-sm mb-2 text-ms-gray-secondary">
-                        Step 2 – Apply interval logic
-                      </p>
-                      <img
-                        src={`${import.meta.env.BASE_URL}images/functions/list.dates/step2.png`}
-                        alt="List.Dates step 2"
-                        className="rounded-lg border"
-                      />
-                    </div>
+            {/* ✅ IMAGES SECTION – List.Dates ONLY */}
+            {isListDates && (
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Step-by-step Example</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-8">
 
-                    <div>
-                      <p className="text-sm mb-2 text-ms-gray-secondary">
-                        Step 3 – Final result
-                      </p>
-                      <img
-                        src={`${import.meta.env.BASE_URL}images/functions/list.dates/step3.png`}
-                        alt="List.Dates step 3"
-                        className="rounded-lg border"
-                      />
-                    </div>
+                  <div>
+                    <p className="mb-3 font-medium">1️⃣ Initial data</p>
+                    <img src={step1} alt="List.Dates step 1" className="rounded-lg border" />
                   </div>
+
+                  <div>
+                    <p className="mb-3 font-medium">2️⃣ Applying List.Dates</p>
+                    <img src={step2} alt="List.Dates step 2" className="rounded-lg border" />
+                  </div>
+
+                  <div>
+                    <p className="mb-3 font-medium">3️⃣ Final result</p>
+                    <img src={step3} alt="List.Dates step 3" className="rounded-lg border" />
+                  </div>
+
                 </CardContent>
               </Card>
             )}
@@ -192,7 +145,11 @@ export default function FunctionDetail() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {func.examples.map((ex, i) => (
-                    <CodeBlock key={i} code={ex.code || ex.syntax} />
+                    <div key={i}>
+                      {ex.title && <h4 className="font-semibold mb-2">{ex.title}</h4>}
+                      {ex.syntax && <CodeBlock code={ex.syntax} />}
+                      {ex.output && <CodeBlock code={ex.output} />}
+                    </div>
                   ))}
                 </CardContent>
               </Card>
