@@ -10,16 +10,11 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
 
-/* ✅ IMPORT IMAGES (like blog page) */
-import step1 from "@/../attached_assets/functions/list.dates/step1.jfif";
-import step2 from "@/../attached_assets/functions/list.dates/step2.jfif";
-import step3 from "@/../attached_assets/functions/list.dates/step3.jfif";
-
-/* ✅ IMAGE MAP */
+/* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
-  step1,
-  step2,
-  step3,
+  step1: "/attached_assets/functions/list.dates/step1.jfif",
+  step2: "/attached_assets/functions/list.dates/step2.jfif",
+  step3: "/attached_assets/functions/list.dates/step3.jfif",
 };
 
 export default function FunctionDetail() {
