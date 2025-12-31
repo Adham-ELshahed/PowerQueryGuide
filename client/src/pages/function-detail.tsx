@@ -10,10 +10,17 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
 
-/* ✅ PUBLIC ASSETS PATHS */
-const step1 = "/attached_assets/functions/list.dates/step1.jfif";
-const step2 = "/attached_assets/functions/list.dates/step2.jfif";
-const step3 = "/attached_assets/functions/list.dates/step3.jfif";
+/* ✅ IMPORT IMAGES (like blog page) */
+import step1 from "@/../attached_assets/functions/list.dates/step1.jfif";
+import step2 from "@/../attached_assets/functions/list.dates/step2.jfif";
+import step3 from "@/../attached_assets/functions/list.dates/step3.jfif";
+
+/* ✅ IMAGE MAP */
+const imageMap: Record<string, string> = {
+  step1,
+  step2,
+  step3,
+};
 
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
@@ -120,22 +127,18 @@ export default function FunctionDetail() {
                   <CardTitle>Step-by-step Example</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-8">
-
-                  <div>
-                    <p className="mb-3 font-medium">1️⃣ Initial data</p>
-                    <img src={step1} alt="List.Dates step 1" className="rounded-lg border" />
-                  </div>
-
-                  <div>
-                    <p className="mb-3 font-medium">2️⃣ Applying List.Dates</p>
-                    <img src={step2} alt="List.Dates step 2" className="rounded-lg border" />
-                  </div>
-
-                  <div>
-                    <p className="mb-3 font-medium">3️⃣ Final result</p>
-                    <img src={step3} alt="List.Dates step 3" className="rounded-lg border" />
-                  </div>
-
+                  {["step1", "step2", "step3"].map((key, idx) => (
+                    <div key={idx}>
+                      <p className="mb-3 font-medium">
+                        {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
+                      </p>
+                      <img
+                        src={imageMap[key]}
+                        alt={`List.Dates ${key}`}
+                        className="rounded-lg border"
+                      />
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             )}
