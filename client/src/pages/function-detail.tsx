@@ -10,10 +10,10 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
 
-/* ✅ IMPORT IMAGES */
-import step1 from "@/attached_assets/functions/list.dates/step1.jfif";
-import step2 from "@/attached_assets/functions/list.dates/step2.jfif";
-import step3 from "@/attached_assets/functions/list.dates/step3.jfif";
+/* ✅ PUBLIC ASSETS PATHS */
+const step1 = "/attached_assets/functions/list.dates/step1.jfif";
+const step2 = "/attached_assets/functions/list.dates/step2.jfif";
+const step3 = "/attached_assets/functions/list.dates/step3.jfif";
 
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
@@ -30,7 +30,10 @@ export default function FunctionDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
-        <Header isMobileMenuOpen={isMobileMenuOpen} onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        <Header
+          isMobileMenuOpen={isMobileMenuOpen}
+          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
         <div className="flex">
           <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
         </div>
