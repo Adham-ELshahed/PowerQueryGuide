@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
+import ReactMarkdown from "react-markdown";
 
 /* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
@@ -84,7 +85,11 @@ export default function FunctionDetail() {
                 <h1 className="text-3xl font-bold">{func.name}</h1>
                 <Badge variant="outline">{func.category}</Badge>
               </div>
-              <p className="text-lg text-ms-gray-secondary">{func.description}</p>
+              <div className="prose prose-neutral dark:prose-invert max-w-none">
+  <ReactMarkdown>
+    {func.description}
+  </ReactMarkdown>
+</div>
             </div>
 
             {/* Syntax */}
