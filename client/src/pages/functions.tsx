@@ -25,7 +25,7 @@ export default function Functions() {
 
   const categories = Array.from(new Set(functions?.map(f => f.category) || []));
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin + import.meta.env.BASE_URL : "";
+  const baseUrl = "/"; // just root of your app
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -109,7 +109,7 @@ export default function Functions() {
                       <div className="grid grid-cols-12 gap-4 items-start">
                         <div className="col-span-4">
                           <a
-                            href={`${baseUrl}function/${encodeURIComponent(func.name)}`}
+                            href={`/function/${encodeURIComponent(func.name)}`}
                             className="text-ms-blue hover:text-ms-blue-hover font-medium"
                           >
                             {func.name}
@@ -122,7 +122,7 @@ export default function Functions() {
                         </div>
                         <div className="col-span-2">
                           <a
-                            href={`${baseUrl}category/${func.category}`}
+                            href={`/category/${encodeURIComponent(func.category)}`}
                             className="text-xs text-ms-blue hover:text-ms-blue-hover bg-ms-blue-light px-2 py-1 rounded capitalize"
                           >
                             {func.category.replace('-', ' ')}
