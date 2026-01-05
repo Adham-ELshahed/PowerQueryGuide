@@ -15,7 +15,11 @@ export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const { data: allFunctions } = useQuery<Function[]>({ queryKey: [${import.meta.env.BASE_URL}functions.json], }); const decodedName = decodeURIComponent(functionName || ""); const func = allFunctions?.find(f => f.name === decodedName); const isLoading = !allFunctions;
+  const { data: allFunctions } = useQuery<Function[]>({ queryKey: 
+    [${import.meta.env.BASE_URL}functions.json], }); 
+  const decodedName = decodeURIComponent(functionName || "");
+  const func = allFunctions?.find(f => f.name === decodedName); 
+  const isLoading = !allFunctions;
 
 
 
