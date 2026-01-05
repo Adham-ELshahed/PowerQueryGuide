@@ -15,7 +15,7 @@ export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const { data: allFunctions, isLoading } = useQuery<Function[]>({
+  const {data: allFunctions,isLoading,error,} = useQuery<Function[]>({
   queryKey: ["/api/functions"],
   queryFn: async () => {
     const res = await fetch("/api/functions");
@@ -24,20 +24,18 @@ export default function FunctionDetail() {
   },
 });
 
-const decodedName = decodeURIComponent(functionName || "");
-
-const normalize = (s: string) =>
-  s
+const normalize = (s?: string) =>
+  (s ?? "")
     .trim()
     .toLowerCase()
-    .replace(/\s+/g, "")
-    .replace(/[-_]/g, "");
+    .replace(/[\s\-_()]/g, "");
 
+const decodedName = decodeURIComponent(functionName ?? "");
+console.log("URL param:", decodedName);
+console.log("Functions:", allFunctions?.map(f => f.name));
 const func = allFunctions?.find(
   f => normalize(f.name) === normalize(decodedName)
 );
-
-
 
   if (isLoading) {
     return (
