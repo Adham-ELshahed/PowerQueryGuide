@@ -8,89 +8,179 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 import { type Function } from "@shared/schema";
-
-/* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
-const imageMap: Record<string, string> = {
-  step1: "/attached_assets/functions/list.dates/step1.jfif",
-  step2: "/attached_assets/functions/list.dates/step2.jfif",
-  step3: "/attached_assets/functions/list.dates/step3.jfif",
-};
 
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const { data: allFunctions } = useQuery<Function[]>({
-    queryKey: [`${import.meta.env.BASE_URL}functions.json`],
+  const { data: func, isLoading, error } = useQuery<Function>({
+    queryKey: ["/api/functions", functionName],
+    queryFn: async () => {
+      if (!functionName) throw new Error('Function name is required');
+      
+      // Decode the function name from URL, then encode it properly for API call
+      const decodedName = decodeURIComponent(functionName);
+      const response = await fetch(`/api/functions/${encodeURIComponent(decodedName)}`);
+      
+      if (!response.ok) {
+        throw new Error('Function not found');
+      }
+      return response.json();
+    },
+    enabled: !!functionName,
   });
 
-  const decodedName = decodeURIComponent(functionName || "");
-  const func = allFunctions?.find(f => f.name === decodedName);
-  const isLoading = !allFunctions;
+
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
-        <Header
+        <Header 
           isMobileMenuOpen={isMobileMenuOpen}
           onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
         <div className="flex">
-          <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+          <Sidebar 
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
+          <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
+            <div className="max-w-4xl mx-auto px-6 py-8">
+              <div className="animate-pulse">
+                <div className="h-8 bg-gray-200 rounded mb-4 w-1/3"></div>
+                <div className="h-6 bg-gray-100 rounded mb-8 w-2/3"></div>
+                <div className="space-y-6">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-32 bg-gray-100 rounded"></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
     );
   }
 
-  if (!func) {
+  if (error || !func) {
     return (
-      <div className="min-h-screen bg-white pt-16 text-center">
-        <h1 className="text-2xl font-bold mt-20">Function not found</h1>
+      <div className="min-h-screen bg-white pt-16">
+        <Header 
+          isMobileMenuOpen={isMobileMenuOpen}
+          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
+        <div className="flex">
+          <Sidebar 
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
+          <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
+            <div className="max-w-4xl mx-auto px-6 py-8">
+              <div className="text-center py-12">
+                <h1 className="text-2xl font-bold text-ms-gray mb-4">Function Not Found</h1>
+                <p className="text-ms-gray-secondary mb-6">
+                  The function "{functionName}" could not be found.
+                </p>
+                <Link href="/functions" className="text-ms-blue hover:text-ms-blue-hover">
+                  ← Back to Functions
+                </Link>
+              </div>
+            </div>
+          </main>
+        </div>
+
       </div>
     );
   }
 
-  /* ✅ CHECK TARGET FUNCTION */
-  const isListDates = func.name === "List.Dates";
-
   return (
     <div className="min-h-screen bg-white pt-16">
-      <Header
+      <Header 
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
-
       <div className="flex">
-        <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
-
+        <Sidebar 
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+        />
         <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
           <div className="max-w-4xl mx-auto px-6 py-8">
-
             {/* Breadcrumb */}
             <div className="mb-6">
-              <a
-                href={`/category/${encodeURIComponent(func.category)}`}
-                className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
+              <Link 
+                href={func?.category ? `/category/${func.category}` : '/functions'}
+                className="text-ms-blue hover:text-ms-blue-hover text-sm flex items-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to {func.category.replace(/[-_]/g, " ")} functions
-              </a>
+                {func?.category ? `Back to ${func.category.replace(/[-_]/g, ' ')} functions` : 'Back to Functions'}
+              </Link>
             </div>
 
-            {/* Header */}
+            {/* Function Header */}
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl font-bold">{func.name}</h1>
-                <Badge variant="outline">{func.category}</Badge>
+                <h1 className="text-3xl font-bold text-ms-gray">{func.name}</h1>
+                <Badge variant="outline" className="text-xs">
+                  {func.category?.replace(/[-_]/g, ' ') || 'Unknown'}
+                </Badge>
+                {func.deprecated && (
+                  <Badge variant="destructive" className="text-xs">
+                    Deprecated
+                  </Badge>
+                )}
+                {func.volatile && (
+                  <Badge variant="secondary" className="text-xs">
+                    Volatile
+                  </Badge>
+                )}
               </div>
-              <p className="text-lg text-ms-gray-secondary"> {func.description}</p>
+              <div className="text-lg text-ms-gray-secondary leading-relaxed">
+                {func.description?.split('\n').map((line, index) => {
+                  // Check if line starts with bullet point and add proper indentation
+                  const isBulletPoint = line.trim().startsWith('•');
+                  return (
+                    <p key={index} className={`${index > 0 ? 'mt-2' : ''} ${isBulletPoint ? 'ml-6' : ''}`}>
+                      {line}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Section Navigation */}
+            <div className="mb-8 p-4 bg-ms-gray-light rounded-lg border border-ms-gray-border">
+              <div className="flex flex-wrap gap-4 text-sm">
+                <a href="#syntax" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
+                  Syntax
+                </a>
+                {func.parameters && Array.isArray(func.parameters) && (func.parameters as unknown[]).length > 0 && (
+                  <a href="#parameters" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
+                    Parameters
+                  </a>
+                )}
+                <a href="#return-value" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
+                  Return Value
+                </a>
+                {func.examples && Array.isArray(func.examples) && (func.examples as unknown[]).length > 0 && (
+                  <a href="#examples" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
+                    Examples
+                  </a>
+                )}
+                {func.remarks && (
+                  <a href="#remarks" className="text-ms-blue hover:text-ms-blue-hover hover:underline">
+                    Remarks
+                  </a>
+                )}
+              </div>
             </div>
 
             {/* Syntax */}
-            <Card className="mb-6">
+            <Card className="mb-6" id="syntax">
               <CardHeader>
-                <CardTitle>Syntax</CardTitle>
+                <CardTitle className="text-xl">Syntax</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock code={func.syntax || `${func.name}()`} />
@@ -98,63 +188,108 @@ export default function FunctionDetail() {
             </Card>
 
             {/* Parameters */}
-            {func.parameters?.length > 0 && (
-              <Card className="mb-6">
+            {func.parameters && Array.isArray(func.parameters) && (func.parameters as unknown[]).length > 0 && (
+              <Card className="mb-6" id="parameters">
                 <CardHeader>
-                  <CardTitle>Parameters</CardTitle>
+                  <CardTitle className="text-xl">Parameters</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {func.parameters.map((p, i) => (
-                    <div key={i}>
-                      <div className="font-mono font-semibold">{p.name}</div>
-                      <p className="text-sm text-ms-gray-secondary">{p.description}</p>
-                      <Separator className="my-3" />
-                    </div>
-                  ))}
+                <CardContent>
+                  <div className="space-y-4">
+                    {(func.parameters as unknown[]).map((param: any, index: number) => (
+                      <div key={index} className="border-l-4 border-ms-blue-light pl-4">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-mono font-semibold text-ms-blue">{param.name}</span>
+                          <Badge variant="outline" className="text-xs">{param.type}</Badge>
+                        </div>
+                        <p className="text-sm text-ms-gray-secondary">{param.description}</p>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             )}
 
-            {/* ✅ IMAGES SECTION – List.Dates ONLY */}
-            {isListDates && (
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Step-by-step Example</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {["step1", "step2", "step3"].map((key, idx) => (
-                    <div key={idx}>
-                      <p className="mb-3 font-medium">
-                        {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
-                      </p>
-                      <img
-                        src={imageMap[key]}
-                        alt={`List.Dates ${key}`}
-                        className="rounded-lg border"
-                      />
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            )}
+            {/* Return Value */}
+            <Card className="mb-6" id="return-value">
+              <CardHeader>
+                <CardTitle className="text-xl">Return Value</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline">{func.returnType || 'any'}</Badge>
+                </div>
+                <p className="text-sm text-ms-gray-secondary">
+                  Returns a value of type {func.returnType || 'any'}.
+                </p>
+              </CardContent>
+            </Card>
 
             {/* Examples */}
-            {func.examples?.length > 0 && (
-              <Card className="mb-6">
+            {func.examples && Array.isArray(func.examples) && func.examples.length > 0 && (
+              <Card className="mb-6" id="examples">
                 <CardHeader>
-                  <CardTitle>Examples</CardTitle>
+                  <CardTitle className="text-xl">Examples</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  {func.examples.map((ex, i) => (
-                    <div key={i}>
-                      {ex.title && <h4 className="font-semibold mb-2">{ex.title}</h4>}
-                      {ex.syntax && <CodeBlock code={ex.syntax} />}
-                      {ex.output && <CodeBlock code={ex.output} />}
-                    </div>
-                  ))}
+                <CardContent>
+                  <div className="space-y-6">
+                    {(func.examples as unknown[]).map((example: any, index: number) => (
+                      <div key={index} className="space-y-4">
+                        <h4 className="font-semibold text-ms-gray mb-3">{example.title}</h4>
+                        
+                        {/* Explanation */}
+                        {example.explanation && (
+                          <p className="text-ms-gray-secondary">{example.explanation}</p>
+                        )}
+                        
+                        {/* Code/Syntax */}
+                        {example.syntax && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-ms-gray mb-2">Usage</h5>
+                            <CodeBlock code={example.syntax} />
+                          </div>
+                        )}
+                        
+                        {/* Output */}
+                        {example.output && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-ms-gray mb-2">Output</h5>
+                            <CodeBlock code={example.output} />
+                          </div>
+                        )}
+                        
+                        {/* Fallback for old format (if any examples still use 'code' field) */}
+                        {!example.explanation && !example.syntax && !example.output && example.code && (
+                          <CodeBlock code={example.code} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             )}
+
+            {/* Remarks */}
+            {func.remarks && (
+              <Card className="mb-6" id="remarks">
+                <CardHeader>
+                  <CardTitle className="text-xl">Remarks</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-ms-gray-secondary leading-relaxed">
+                    {func.remarks?.split('\n').map((line, index) => {
+                      // Check if line starts with bullet point and add proper indentation
+                      const isBulletPoint = line.trim().startsWith('•');
+                      return (
+                        <p key={index} className={`${index > 0 ? 'mt-2' : ''} ${isBulletPoint ? 'ml-6' : ''}`}>
+                          {line}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
 
           </div>
         </main>
