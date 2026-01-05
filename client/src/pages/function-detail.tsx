@@ -15,20 +15,7 @@ export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const { data: allFunctions, isLoading, error } = useQuery<Function[]>({
-  queryKey: ["/api/functions"],
-  queryFn: async () => {
-    const res = await fetch("/api/functions");
-    if (!res.ok) throw new Error("Failed to fetch functions");
-    return res.json();
-  },
-});
-
-const decodedName = decodeURIComponent(functionName || "");
-
-const func = allFunctions?.find(
-  f => f.name === decodedName
-);
+  const { data: allFunctions } = useQuery<Function[]>({ queryKey: [${import.meta.env.BASE_URL}functions.json], }); const decodedName = decodeURIComponent(functionName || ""); const func = allFunctions?.find(f => f.name === decodedName); const isLoading = !allFunctions;
 
 
 
