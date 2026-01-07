@@ -9,7 +9,7 @@ export interface IStorage {
   getAllFunctions(): Promise<Function[]>;
   searchFunctions(query: string): Promise<Function[]>;
   createFunction(func: InsertFunction): Promise<Function>;
-  
+
   // Category CRUD operations
   getCategory(id: string): Promise<Category | undefined>;
   getCategoryByName(name: string): Promise<Category | undefined>;
@@ -37,7 +37,7 @@ export class MemStorage implements IStorage {
       // Initialize categories
       categoriesData.forEach((cat: any) => {
         const id = randomUUID();
-        const category: Category = { 
+        const category: Category = {
           id,
           name: cat.name,
           description: cat.description,
@@ -87,7 +87,7 @@ export class MemStorage implements IStorage {
 
     categoryData.forEach(cat => {
       const id = randomUUID();
-      const category: Category = { 
+      const category: Category = {
         id,
         name: cat.name,
         description: cat.description,
@@ -149,7 +149,10 @@ export class MemStorage implements IStorage {
   }
 
   async getFunctionsByCategory(category: string): Promise<Function[]> {
-    return Array.from(this.functions.values()).filter(func => func.category === category);
+    const searchCat = category.toLowerCase();
+    return Array.from(this.functions.values()).filter(
+      func => func.category.toLowerCase() === searchCat
+    );
   }
 
   async getAllFunctions(): Promise<Function[]> {
@@ -158,7 +161,7 @@ export class MemStorage implements IStorage {
 
   async searchFunctions(query: string): Promise<Function[]> {
     const searchTerm = query.toLowerCase();
-    return Array.from(this.functions.values()).filter(func => 
+    return Array.from(this.functions.values()).filter(func =>
       func.name.toLowerCase().includes(searchTerm) ||
       func.description.toLowerCase().includes(searchTerm) ||
       func.category.toLowerCase().includes(searchTerm)
@@ -182,7 +185,10 @@ export class MemStorage implements IStorage {
   }
 
   async getCategoryByName(name: string): Promise<Category | undefined> {
-    return Array.from(this.categories.values()).find(cat => cat.name === name);
+    const searchName = name.toLowerCase();
+    return Array.from(this.categories.values()).find(
+      cat => cat.name.toLowerCase() === searchName
+    );
   }
 
   async getAllCategories(): Promise<Category[]> {

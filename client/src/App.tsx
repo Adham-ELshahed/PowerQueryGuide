@@ -41,7 +41,7 @@ function Router() {
 
       {/* Dynamic routes after static */}
       <Route path="/function/:functionName" component={FunctionDetail} />
-      <Route path="/category/:categoryName" component={Category} />
+      <Route path="/category/:category" component={Category} />
 
       {/* Fallback */}
       <Route component={NotFound} />

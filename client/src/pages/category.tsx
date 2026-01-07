@@ -16,7 +16,7 @@ import { type Function, type Category } from "@shared/schema";
 
 export default function CategoryPage() {
   const params = useParams<{ category: string }>();
-  const categorySlug = decodeURIComponent(params.category ?? "");
+  const categoryName = decodeURIComponent(params.category ?? "");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const baseUrl =
@@ -51,12 +51,19 @@ export default function CategoryPage() {
   const isLoading = loadingCategories || loadingFunctions;
 
   const categoryData = categories?.find(
-    (c) => c.slug === categorySlug
-  );
+  (c) => c.name.toLowerCase() === categoryName.toLowerCase()
+);
 
-  const functions = allFunctions?.filter(
-    (f) => f.category === categorySlug
-  );
+const functions = allFunctions?.filter(
+  (f) => f.category.toLowerCase() === categoryName.toLowerCase()
+);
+
+  console.log("categoryName:", categoryName);
+  console.log("categories:", categories);
+  console.log("allFunctions:", allFunctions);
+  console.log("categoryData:", categoryData);
+  console.log("first function category:", allFunctions?.[0]?.category);
+
 
   const categoryDisplayName = categoryData
     ? `${categoryData.name} functions`
@@ -142,9 +149,10 @@ export default function CategoryPage() {
                             {func.name}
                           </a>
                         </TableCell>
-                        <TableCell>
-                          {func.description}
+                        <TableCell className="text-ms-gray-secondary whitespace-pre-line">
+                          {func.description?.replace(/•\s*/g, "\n• ")}
                         </TableCell>
+
                       </TableRow>
                     ))}
                   </TableBody>

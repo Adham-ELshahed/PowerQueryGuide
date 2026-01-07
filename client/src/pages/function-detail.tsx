@@ -85,24 +85,23 @@ export default function FunctionDetail() {
                 <Badge variant="outline">{func.category}</Badge>
               </div>
               <div className="text-lg text-ms-gray-secondary leading-relaxed">
-  {func.description
-  ?.replace(/\s*•\s*/g, "\n• ")
-  .split("\n")
-.map((line, index) => {
-    const isBulletPoint = line.trim().startsWith("•");
+                {func.description
+                  ?.replace(/\s*•\s*/g, "\n• ")
+                  .split("\n")
+                  .map((line, index) => {
+                    const isBulletPoint = line.trim().startsWith("•");
 
-    return (
-      <p
-        key={index}
-        className={`${index > 0 ? "mt-2" : ""} ${
-          isBulletPoint ? "ml-6" : ""
-        }`}
-      >
-        {line}
-      </p>
-    );
-  })}
-</div>
+                    return (
+                      <p
+                        key={index}
+                        className={`${index > 0 ? "mt-2" : ""} ${isBulletPoint ? "ml-6" : ""
+                          }`}
+                      >
+                        {line}
+                      </p>
+                    );
+                  })}
+              </div>
 
             </div>
 
