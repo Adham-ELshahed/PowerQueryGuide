@@ -5,7 +5,8 @@ import Sidebar from "@/components/layout/sidebar";
 import { Card } from "@/components/ui/card";
 import { Link } from "wouter";
 import { type Category } from "@shared/schema";
-import homePageImage from "@assets/HomePagePic_1757154303902.jpg";
+import MLanguageImage from "@assets/HomePagePic_1757154303902.jpg";
+import PowerQueryImage from "@assets/HomePowerQuery.jfif";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -45,11 +46,11 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Home Page Image */}
+            {/* Power Query Image */}
             <div className="mb-12 flex justify-center">
               <img 
-                src={homePageImage} 
-                alt="Power Query M Language workflow diagram showing data transformation process"
+                src={PowerQueryImage} 
+                alt="Power Query workflow diagram showing data transformation process"
                 className="max-w-full h-auto rounded-lg shadow-sm"
               />
             </div>
@@ -61,6 +62,15 @@ export default function Home() {
                 A Power Query M formula language query is composed of formula expression steps that create a mashup query. A formula expression can be evaluated (computed), yielding a value. The let expression encapsulates a set of values to be computed, assigned names, and then used in a subsequent expression that follows the in statement. For example, a let expression could contain a Source variable that equals the value of Text.Proper and yields a text value in proper case.
               </p>
             </section>
+
+            {/* M Language Image */}
+            <div className="mb-12 flex justify-center">
+              <img 
+                src={MLanguageImage} 
+                alt="Power Query M Language workflow diagram showing data transformation process"
+                className="max-w-full h-auto rounded-lg shadow-sm"
+              />
+            </div>
 
             {/* Comments */}
             <section className="mb-12">
