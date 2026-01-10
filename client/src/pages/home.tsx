@@ -63,14 +63,6 @@ export default function Home() {
               </p>
             </section>
 
-            {/* M Language Image */}
-            <div className="mb-12 flex justify-center">
-              <img 
-                src={MLanguageImage} 
-                alt="Power Query M Language workflow diagram showing data transformation process"
-                className="max-w-full h-auto rounded-lg shadow-sm"
-              />
-            </div>
 
             {/* Comments */}
             <section className="mb-12">
