@@ -174,6 +174,30 @@ export default function FunctionDetail() {
               </Card>
             )}
 
+            {/* 🔗 Blog Post Link – List.Dates only */}
+            {isListDates && (
+              <Card className="mb-6 border-ms-blue/30">
+                <CardHeader>
+                  <CardTitle>In-depth Guide</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-ms-gray-secondary mb-3">
+                    For a detailed explanation with real-world scenarios and dynamic examples,
+                    check out the full blog post.
+                  </p>
+
+                  <a
+                    href="/blog#list-dates-power-query"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
+                  >
+                    👉 Read the complete List.Dates guide
+                  </a>
+                </CardContent>
+              </Card>
+            )}
+
           </div>
         </main>
       </div>

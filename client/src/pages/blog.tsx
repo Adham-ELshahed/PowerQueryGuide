@@ -8,6 +8,8 @@ import { Link } from "wouter";
 import frustratedWorkerImage from "@assets/36e1fd5c-e948-4deb-8a2d-64946bfc1dbd.jfif";
 import metricTrap from "@assets/metric trap.jfif";
 import streetLightEffect from "@assets/streetlight effect.jfif";
+import { CodeBlock } from "@/components/ui/code-block";
+
 
 interface BlogPost {
   id: string;
@@ -50,7 +52,7 @@ export default function Blog() {
       category: "Power Query",
       featured: true,
       tags: ["RACI", "Power Query", "Project Management", "Data Transformation"],
-      content: `**The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
+      content: `**0.0The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
 
 - Who is Responsible? (Does the work)
 - Who is Accountable? (Owns the final decision)
@@ -279,6 +281,200 @@ Stop trying to turn everything into a number. Sometimes, the best way to evaluat
 Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
 
 The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers.`
+},
+{
+  id: "list-dates-power-query",
+  title: "Mastering List.Dates in Power Query",
+  author: "Ahmad Askar",
+  date: "2026-01-12",
+  readTime: "7 min read",
+  category: "Power Query",
+  featured: false,
+  tags: ["Power Query", "M Language", "Dates", "Calendar", "Project Management"],
+  content: `The List.Dates function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
+
+Here are a few practical examples of how to use it.
+
+**1. Generating a Daily Calendar**
+This is the most common use case: creating a list of every single day for a specific year. To get all days for the year 2026, you would use:
+
+\`\`\`powerquery
+List.Dates(#date(2026, 1, 1), 365, #duration(1, 0, 0, 0))
+\`\`\`
+
+- **Start:** January 1st, 2026.
+- **Count:** 365 (number of days).
+- **Step:** 1 day.
+
+**2. Generating a Weekly Schedule**
+If you need a list of dates representing the start of every week (e.g., every Monday) for a full year, you can adjust the step argument to 7 days.
+
+\`\`\`powerquery
+List.Dates(#date(2026, 1, 5), 52, #duration(7, 0, 0, 0))
+\`\`\`
+
+- **Start:** January 5th, 2026 (a Monday).
+- **Count:** 52 occurrences.
+- **Step:** 7 days.
+
+**3. Creating a Bi-Weekly Payroll List**
+If you are calculating pay periods that occur every two weeks, you simply increase the duration to 14 days.
+
+\`\`\`powerquery
+List.Dates(#date(2026, 1, 1), 26, #duration(14, 0, 0, 0))
+\`\`\`
+
+- **Start:** January 1st, 2026.
+- **Count:** 26 (bi-weekly periods in a year).
+- **Step:** 14 days.
+
+**4. Dynamic Date Range (Today back to 30 days)**
+
+In real-world scenarios, you often want a list that updates relative to the current date. You can combine List.Dates with DateTime.LocalNow.
+
+\`\`\`powerquery
+List.Dates(
+    Date.From(DateTime.LocalNow()), 
+    30, 
+    #duration(-1, 0, 0, 0)
+)
+\`\`\`
+
+- **Start:** The current date.
+- **Count:** 30 dates.
+- **Step:** -1 day (this counts backward in time).
+
+**Understanding the Arguments**
+
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>start</strong></td>
+      <td>date</td>
+      <td>The initial date where the list begins.</td>
+    </tr>
+    <tr>
+      <td><strong>count</strong></td>
+      <td>number</td>
+      <td>How many total items (dates) will be in the list.</td>
+    </tr>
+    <tr>
+      <td><strong>step</strong></td>
+      <td>duration</td>
+      <td>The increment between dates, defined as #duration(days, hours, minutes, seconds).</td>
+    </tr>
+  </tbody>
+</table>
+
+**Pro Tip:** If you want to convert this list into a table you can work with in the Power BI or Excel data model, use the **"To Table"** button in the Power Query Ribbon after running the function there will be a transform tab appearing because the function output is a list not a table.
+
+---
+
+To make the count argument dynamic, you need to calculate the difference between two dates using a simple subtraction (which Power Query treats as a duration) and then convert that duration into a number of days using Duration.Days.
+
+**The Dynamic Formula Pattern**
+
+If you have a StartDate and an EndDate, the formula looks like this:
+
+\`\`\`powerquery
+List.Dates(
+    StartDate, 
+    Duration.Days(EndDate - StartDate) + 1, 
+    #duration(1, 0, 0, 0)
+)
+\`\`\`
+
+**Note:** We add +1 to the count because the subtraction provides the difference between dates. If you want a list that includes both the start and the end date, you need that extra increment.
+
+**Implementation Examples**
+
+**A. Calculating between two columns**
+If you are inside a table and want to generate a list of dates between a [Project Start] and [Project End] column:
+1- Go to **Add Column** > **Custom Column**.
+2- Use the following formula:
+
+\`\`\`powerquery
+List.Dates([Project Start], Duration.Days([Project End] - [Project Start]) + 1, #duration(1, 0, 0, 0))
+\`\`\`
+
+3- Expand the resulting list to new rows to "explode" the data into a daily grain.
+
+**B. Calculating from a Fixed Start to "Today"**
+
+This is perfect for a dynamic Sales or Activity report that grows every day.
+
+\`\`\`powerquery
+let
+    Start = #date(2025, 1, 1),
+    Today = Date.From(DateTime.LocalNow()),
+    DayCount = Duration.Days(Today - Start) + 1,
+    Source = List.Dates(Start, DayCount, #duration(1, 0, 0, 0))
+in
+    Source
+\`\`\`
+
+**Why this is useful for Project Management**
+
+Since you are dealing with schedules, this dynamic approach allows you to:
+- **Fill Gaps:** If a project has no activity between two dates, you can generate the missing rows to ensure your charts show a continuous timeline.
+- **Resource Allocation:** Generate a row for every day a resource is assigned to a task to calculate total man-hours per day.
+
+---
+
+To exclude weekends, we use a "Generate and Filter" pattern. Because List.Dates creates a standard sequential list, we apply a filter using Date.DayOfWeek to keep only the days we want.
+
+**The "Workdays Only" Formula**
+
+In Power Query, Date.DayOfWeek returns 0 for Sunday and 6 for Saturday (by default). To get Monday through Friday, we filter for values between 1 and 5.
+
+Here is the code to generate a dynamic list of workdays between two dates:
+
+\`\`\`powerquery
+let
+    StartDate = #date(2026, 1, 1),
+    EndDate = #date(2026, 1, 31),
+    // 1. Generate the full list of dates first
+    FullList = List.Dates(
+        StartDate, 
+        Duration.Days(EndDate - StartDate) + 1, 
+        #duration(1, 0, 0, 0)
+    ),
+    // 2. Filter the list to keep only Mon (1) through Fri (5)
+    WorkdaysOnly = List.Select(
+        FullList, 
+        each Date.DayOfWeek(_, Day.Monday) < 5
+    )
+in
+    WorkdaysOnly
+\`\`\`
+
+**Why use Day.Monday?**
+By adding Day.Monday as the optional second argument in Date.DayOfWeek, you force Power Query to treat Monday as 0. This makes your filter logic much cleaner:
+- **0 to 4** = Monday to Friday (Workdays)
+- **5 and 6** = Saturday and Sunday (Weekends)
+
+**Pro Tip: Handling Holidays**
+
+If you have a separate list of holiday dates (let's call that list Holidays), you can exclude them in the same step to create a "True Working Day" list:
+
+\`\`\`powerquery
+WorkdaysAndNoHolidays = List.Select(
+    FullList, 
+    each Date.DayOfWeek(_, Day.Monday) < 5 
+    and not List.Contains(Holidays, _)
+)
+\`\`\`
+
+**When to use this in Project Management**
+
+This is the standard way to calculate **Project Lead Times** or **Net Working Days** without relying on Excel's NETWORKDAYS function. It gives you a physical list of dates that you can then join to your resource or task tables.`
 }
   ];
 
