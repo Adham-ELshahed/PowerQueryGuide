@@ -48,245 +48,6 @@ export default function Blog() {
   // Blog posts
   const blogPosts: BlogPost[] = [
     {
-      id: "raci-matrix-flat-table",
-      title: "Why You Should Build Your RACI Matrix as a Flat Table — And Why I Used Power Query",
-      author: "Ahmad Askar",
-      date: "2025-12-1",
-      readTime: "8 min read",
-      category: "Power Query",
-      featured: true,
-      tags: ["RACI", "Power Query", "Project Management", "Data Transformation"],
-      content: `**The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
-
-- Who is Responsible? (Does the work)
-- Who is Accountable? (Owns the final decision)
-- Who needs to be Consulted?
-- Who should be Informed?
-
-Most people understand the concept, but they struggle with the implementation. Traditional RACIs are built as big, complex, cross-tab charts where roles sit on the top and tasks run down the side. It looks nice the first day you build it… and becomes a headache the moment real-world change begins.
-
-That's exactly why I rebuilt my RACI using a flat table.
-
-**The Problem With Traditional RACI Charts**
-
-The classic "grid" RACI looks good in a PowerPoint slide, but in practice it comes with several limitations:
-
-- ❌ Hard to maintain: Adding a new task or role often breaks the layout. You end up constantly shifting columns and adjusting formatting.
-- ❌ Not scalable: Once your project grows beyond a few roles or tasks, the matrix becomes cluttered and nearly unreadable.
-- ❌ Impossible to analyze: You can't easily filter, sort, or summarize responsibilities. Want to see who is overloaded? Good luck. Want to check how many tasks have unclear accountability? Not happening.
-- ❌ Not automation-friendly: Try feeding a big cross-table into BI tools or workflow systems — it becomes manual work again.
-
-So the issue isn't the RACI concept… it's the format.
-
-[FRUSTRATED_WORKER_IMAGE]
-
-**Why a Flat RACI Table Is a Game Changer**
-
-A flat RACI format is simply a list of rows where each row represents a single task-role relationship. Once you convert your RACI into this structure, everything becomes easier, cleaner, and smarter.
-
-**1. Crystal Clear Visibility**
-
-A flat table lets you instantly see:
-
-- All responsibilities for a task
-- All tasks assigned to a specific role
-- Gaps or missing Accountables
-- Places where too many people are Responsible or Consulted
-
-Filtering and slicing the data becomes effortless.
-
-**2. Perfect for Large Projects**
-
-Flat tables don't break when you add:
-
-- New tasks
-- New stakeholders
-- New functions
-- New phases
-
-The structure stays the same. No formatting chaos. No expanding grids. Just add another row.
-
-**3. Easy to Validate and Audit**
-
-Common issues like:
-
-- Multiple Accountables
-- Tasks with no Responsible
-- Roles that appear too often
-- Steps with no I (which leads to communication issues)
-
-… are incredibly easy to detect with simple filters.
-
-**4. Works Seamlessly With Excel, Power BI, and Databases**
-
-Flat tables follow a proper relational model. Everything downstream instantly benefits:
-
-- Pivot tables
-- Power BI dashboards
-- Workload heatmaps
-- Responsibility summaries
-- Automation triggers
-
-You get real analytics, not just a pretty table.
-
-**Why I Used Power Query to Build and Maintain It**
-
-Power Query is one of the most underrated tools in Excel. It's made for repeatable, automated, transformation pipelines — and the RACI process fits it perfectly.
-
-**1. Automatic Column Unpivoting**
-
-I started with the traditional RACI grid (tasks as rows, roles as columns). With a simple Unpivot step, Power Query converted it into the exact flat structure I needed. This turned hours of manual restructuring into a repeatable 2-second process.
-
-**2. Clean and Consistent Data**
-
-Power Query ensures:
-
-- No accidental blank roles
-- No inconsistent R, A, C, I entries
-- Clean text
-- Proper data types
-
-Your RACI becomes reliable, not just visually organized.
-
-**3. One-Click Refresh When Anything Changes**
-
-If someone adds a role in the grid? Power Query picks it up.
-
-If someone changes a task description? Power Query updates the flat table.
-
-If the project evolves — which it always does — the RACI evolves too, without rebuilds.
-
-**4. Ready for Analysis in Power BI**
-
-Once the RACI is flat, loading it into Power BI opens the door to rich visuals:
-
-- Accountability heatmaps
-- Workload distribution
-- Role bottleneck indicators
-- Stakeholder involvement patterns
-- Communication effort measurement
-
-This turns RACI from a one-time exercise into an ongoing governance tool.
-
-**Conclusion**
-
-The RACI matrix is already a powerful tool — but when you modernize its format, it becomes transformative.
-
-By switching to a flat table and using Power Query to automate the transformation, you get:
-
-- A clean, scalable structure
-- Easy maintenance
-- Instant reporting
-- Automated refresh
-- Analytics you can actually act on
-
-This is RACI done right. Not just as documentation — but as a living part of your project governance.
-
-**Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
-    },
-    {
-      "id": "metric-trap-kpi-failure",
-      "title": "The Metric Trap: Why Hitting Your Numbers Might Be Killing Your Business",
-      "author": "Ahmad Askar",
-      "date": "2025-12-14",
-      "readTime": "6 min read",
-      "category": "Business Strategy",
-      "featured": true,
-      "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
-      "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
-
-But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
-
-We often assume that if we measure something, it will improve. The reality is often the opposite. When we rely too heavily on Key Performance Indicators (KPIs) without understanding human psychology, we inadvertently encourage our teams to destroy value in the pursuit of a number.
-
-Here is why your metrics might be lying to you, and why the most \"data-driven\" companies are often the ones driving off a cliff.
-
-[metricTrap]
-
-**The Law of Unintended Consequences**
-
-The fundamental flaw of every metric is captured by **Goodhart’s Law**:
-
-> \"When a measure becomes a target, it ceases to be a good measure.\"
-
-This happens because metrics are simplistic representations of a complex reality. A map is not the territory. A thermometer is not the weather. When you tell a human being that their livelihood depends on moving a specific needle on a gauge, they *will* find a way to move that needle. Whether the actual result improves is entirely secondary.
-
-Here are the three ways this manifests in the workplace.
-
-
-**1. The \"Pizza Delivery\" Syndrome (Tunnel Vision)**
-
-Imagine a pizza chain that sets a strict KPI: *Every pizza must be delivered in under 30 minutes.*
-
-On paper, this looks like a metric for customer satisfaction. In reality, it is a recipe for disaster. To hit that 30-minute mark:
-- Drivers speed through school zones.
-- Chefs pull pizzas out of the oven before the cheese is fully melted.
-- Drivers park illegally.
-
-The metric (Speed) goes up, but the actual goal (Customer Satisfaction and Safety) plummets.
-
-**This is Tunnel Vision.** By obsessing over a single quantifiable variable, you implicitly tell your team that nothing else matters—not quality, not safety, and not the long-term health of the brand.
-
-**2. Gaming the System**
-
-Humans are efficient creatures. If you incentivize an output, we will find the path of least resistance to achieve it.
-
-**The Soviet Nail Factory**
-There is a classic story about a Soviet nail factory.
-- **The Metric:** Tonnage of nails produced.
-- **The Result:** Workers produced a small number of gigantic, heavy, useless nails.
-
-Realizing the mistake, the government changed the metric to the *number* of nails produced.
-- **The Result:** Workers immediately switched to producing millions of microscopic, useless pin-nails.
-
-We see this in modern offices every day:
-- **Metric:** Lines of code written → **Result:** Bloated, inefficient software.
-- **Metric:** Number of bugs fixed → **Result:** Developers \"fixing\" trivial issues while ignoring critical architectural flaws.
-
-**The Cobra Effect**
-This is the most dangerous flaw. When a metric is tied to an incentive (like a bonus), people will find the easiest way to hit the number without actually doing the work.
-
-During British rule in India, the government offered a bounty for every dead cobra to reduce the population. The result? **The populace started breeding cobras to kill them and collect the bounty.** When the program ended, the breeders released the snakes, resulting in more cobras than before.
-
-**3. The Streetlight Effect (Measuring the Easy)**
-
-Perhaps the most insidious flaw is the tendency to value only what we can easily measure, while ignoring what is actually valuable.
-
-This is known as the **Streetlight Effect**:
-*A man searches for his lost keys under a streetlight at night. A police officer asks, \"Are you sure you lost them here?\" The man replies, \"No, I lost them in the park, but this is where the light is.\"*
-
-We measure website clicks because they are easy to count. We measure \"hours at the desk\" because it’s easy to track. But we rarely measure:
-- Trust
-- Creativity
-- Psychological safety
-- Brand reputation
-
-Why? Because those things are messy and hard to quantify. When you manage solely by the spreadsheet, you are only managing the things that fit under the streetlight. The real threats—and opportunities—are usually hiding in the dark.
-
-[streetLightEffect]
-
-**How to Escape the Trap**
-
-This doesn't mean we should abolish metrics. It means we need to stop treating them as the *truth* and start treating them as *evidence*.
-
-To fix your KPI strategy, you must adopt a **\"Counter-Measure\" mindset**:
-
-**1. Never Measure Quantity Without Quality**
-If you measure how fast a call center agent hangs up the phone (Average Handle Time), you must pair it with a counter-metric for First Call Resolution. You cannot reward speed if it sacrifices the solution.
-
-**2. Hunt for the Loophole**
-Before rolling out a new KPI, play the \"Evil Genius\" game. Ask your team: *\"If I wanted to get a huge bonus by manipulating this number without actually doing any real work, how would I do it?\"* Once you find the loophole, close it before you start measuring.
-
-**3. Accept Subjectivity**
-Stop trying to turn everything into a number. Sometimes, the best way to evaluate performance is not a calculation, but a conversation.
-
-**The Bottom Line**
-
-Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
-
-The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers.`
-    },
-    {
       id: "list-dates-power-query",
       title: "Mastering List.Dates in Power Query",
       author: "Ahmad Askar",
@@ -479,6 +240,245 @@ WorkdaysAndNoHolidays = List.Select(
 **When to use this in Project Management**
 
 This is the standard way to calculate **Project Lead Times** or **Net Working Days** without relying on Excel's NETWORKDAYS function. It gives you a physical list of dates that you can then join to your resource or task tables.`
+    },
+    {
+      "id": "metric-trap-kpi-failure",
+      "title": "The Metric Trap: Why Hitting Your Numbers Might Be Killing Your Business",
+      "author": "Ahmad Askar",
+      "date": "2025-12-14",
+      "readTime": "6 min read",
+      "category": "Business Strategy",
+      "featured": true,
+      "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
+      "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
+
+But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
+
+We often assume that if we measure something, it will improve. The reality is often the opposite. When we rely too heavily on Key Performance Indicators (KPIs) without understanding human psychology, we inadvertently encourage our teams to destroy value in the pursuit of a number.
+
+Here is why your metrics might be lying to you, and why the most \"data-driven\" companies are often the ones driving off a cliff.
+
+[metricTrap]
+
+**The Law of Unintended Consequences**
+
+The fundamental flaw of every metric is captured by **Goodhart’s Law**:
+
+> \"When a measure becomes a target, it ceases to be a good measure.\"
+
+This happens because metrics are simplistic representations of a complex reality. A map is not the territory. A thermometer is not the weather. When you tell a human being that their livelihood depends on moving a specific needle on a gauge, they *will* find a way to move that needle. Whether the actual result improves is entirely secondary.
+
+Here are the three ways this manifests in the workplace.
+
+
+**1. The \"Pizza Delivery\" Syndrome (Tunnel Vision)**
+
+Imagine a pizza chain that sets a strict KPI: *Every pizza must be delivered in under 30 minutes.*
+
+On paper, this looks like a metric for customer satisfaction. In reality, it is a recipe for disaster. To hit that 30-minute mark:
+- Drivers speed through school zones.
+- Chefs pull pizzas out of the oven before the cheese is fully melted.
+- Drivers park illegally.
+
+The metric (Speed) goes up, but the actual goal (Customer Satisfaction and Safety) plummets.
+
+**This is Tunnel Vision.** By obsessing over a single quantifiable variable, you implicitly tell your team that nothing else matters—not quality, not safety, and not the long-term health of the brand.
+
+**2. Gaming the System**
+
+Humans are efficient creatures. If you incentivize an output, we will find the path of least resistance to achieve it.
+
+**The Soviet Nail Factory**
+There is a classic story about a Soviet nail factory.
+- **The Metric:** Tonnage of nails produced.
+- **The Result:** Workers produced a small number of gigantic, heavy, useless nails.
+
+Realizing the mistake, the government changed the metric to the *number* of nails produced.
+- **The Result:** Workers immediately switched to producing millions of microscopic, useless pin-nails.
+
+We see this in modern offices every day:
+- **Metric:** Lines of code written → **Result:** Bloated, inefficient software.
+- **Metric:** Number of bugs fixed → **Result:** Developers \"fixing\" trivial issues while ignoring critical architectural flaws.
+
+**The Cobra Effect**
+This is the most dangerous flaw. When a metric is tied to an incentive (like a bonus), people will find the easiest way to hit the number without actually doing the work.
+
+During British rule in India, the government offered a bounty for every dead cobra to reduce the population. The result? **The populace started breeding cobras to kill them and collect the bounty.** When the program ended, the breeders released the snakes, resulting in more cobras than before.
+
+**3. The Streetlight Effect (Measuring the Easy)**
+
+Perhaps the most insidious flaw is the tendency to value only what we can easily measure, while ignoring what is actually valuable.
+
+This is known as the **Streetlight Effect**:
+*A man searches for his lost keys under a streetlight at night. A police officer asks, \"Are you sure you lost them here?\" The man replies, \"No, I lost them in the park, but this is where the light is.\"*
+
+We measure website clicks because they are easy to count. We measure \"hours at the desk\" because it’s easy to track. But we rarely measure:
+- Trust
+- Creativity
+- Psychological safety
+- Brand reputation
+
+Why? Because those things are messy and hard to quantify. When you manage solely by the spreadsheet, you are only managing the things that fit under the streetlight. The real threats—and opportunities—are usually hiding in the dark.
+
+[streetLightEffect]
+
+**How to Escape the Trap**
+
+This doesn't mean we should abolish metrics. It means we need to stop treating them as the *truth* and start treating them as *evidence*.
+
+To fix your KPI strategy, you must adopt a **\"Counter-Measure\" mindset**:
+
+**1. Never Measure Quantity Without Quality**
+If you measure how fast a call center agent hangs up the phone (Average Handle Time), you must pair it with a counter-metric for First Call Resolution. You cannot reward speed if it sacrifices the solution.
+
+**2. Hunt for the Loophole**
+Before rolling out a new KPI, play the \"Evil Genius\" game. Ask your team: *\"If I wanted to get a huge bonus by manipulating this number without actually doing any real work, how would I do it?\"* Once you find the loophole, close it before you start measuring.
+
+**3. Accept Subjectivity**
+Stop trying to turn everything into a number. Sometimes, the best way to evaluate performance is not a calculation, but a conversation.
+
+**The Bottom Line**
+
+Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
+
+The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers.`
+    },
+    {
+      id: "raci-matrix-flat-table",
+      title: "Why You Should Build Your RACI Matrix as a Flat Table — And Why I Used Power Query",
+      author: "Ahmad Askar",
+      date: "2025-12-1",
+      readTime: "8 min read",
+      category: "Power Query",
+      featured: true,
+      tags: ["RACI", "Power Query", "Project Management", "Data Transformation"],
+      content: `**The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
+
+- Who is Responsible? (Does the work)
+- Who is Accountable? (Owns the final decision)
+- Who needs to be Consulted?
+- Who should be Informed?
+
+Most people understand the concept, but they struggle with the implementation. Traditional RACIs are built as big, complex, cross-tab charts where roles sit on the top and tasks run down the side. It looks nice the first day you build it… and becomes a headache the moment real-world change begins.
+
+That's exactly why I rebuilt my RACI using a flat table.
+
+**The Problem With Traditional RACI Charts**
+
+The classic "grid" RACI looks good in a PowerPoint slide, but in practice it comes with several limitations:
+
+- ❌ Hard to maintain: Adding a new task or role often breaks the layout. You end up constantly shifting columns and adjusting formatting.
+- ❌ Not scalable: Once your project grows beyond a few roles or tasks, the matrix becomes cluttered and nearly unreadable.
+- ❌ Impossible to analyze: You can't easily filter, sort, or summarize responsibilities. Want to see who is overloaded? Good luck. Want to check how many tasks have unclear accountability? Not happening.
+- ❌ Not automation-friendly: Try feeding a big cross-table into BI tools or workflow systems — it becomes manual work again.
+
+So the issue isn't the RACI concept… it's the format.
+
+[FRUSTRATED_WORKER_IMAGE]
+
+**Why a Flat RACI Table Is a Game Changer**
+
+A flat RACI format is simply a list of rows where each row represents a single task-role relationship. Once you convert your RACI into this structure, everything becomes easier, cleaner, and smarter.
+
+**1. Crystal Clear Visibility**
+
+A flat table lets you instantly see:
+
+- All responsibilities for a task
+- All tasks assigned to a specific role
+- Gaps or missing Accountables
+- Places where too many people are Responsible or Consulted
+
+Filtering and slicing the data becomes effortless.
+
+**2. Perfect for Large Projects**
+
+Flat tables don't break when you add:
+
+- New tasks
+- New stakeholders
+- New functions
+- New phases
+
+The structure stays the same. No formatting chaos. No expanding grids. Just add another row.
+
+**3. Easy to Validate and Audit**
+
+Common issues like:
+
+- Multiple Accountables
+- Tasks with no Responsible
+- Roles that appear too often
+- Steps with no I (which leads to communication issues)
+
+… are incredibly easy to detect with simple filters.
+
+**4. Works Seamlessly With Excel, Power BI, and Databases**
+
+Flat tables follow a proper relational model. Everything downstream instantly benefits:
+
+- Pivot tables
+- Power BI dashboards
+- Workload heatmaps
+- Responsibility summaries
+- Automation triggers
+
+You get real analytics, not just a pretty table.
+
+**Why I Used Power Query to Build and Maintain It**
+
+Power Query is one of the most underrated tools in Excel. It's made for repeatable, automated, transformation pipelines — and the RACI process fits it perfectly.
+
+**1. Automatic Column Unpivoting**
+
+I started with the traditional RACI grid (tasks as rows, roles as columns). With a simple Unpivot step, Power Query converted it into the exact flat structure I needed. This turned hours of manual restructuring into a repeatable 2-second process.
+
+**2. Clean and Consistent Data**
+
+Power Query ensures:
+
+- No accidental blank roles
+- No inconsistent R, A, C, I entries
+- Clean text
+- Proper data types
+
+Your RACI becomes reliable, not just visually organized.
+
+**3. One-Click Refresh When Anything Changes**
+
+If someone adds a role in the grid? Power Query picks it up.
+
+If someone changes a task description? Power Query updates the flat table.
+
+If the project evolves — which it always does — the RACI evolves too, without rebuilds.
+
+**4. Ready for Analysis in Power BI**
+
+Once the RACI is flat, loading it into Power BI opens the door to rich visuals:
+
+- Accountability heatmaps
+- Workload distribution
+- Role bottleneck indicators
+- Stakeholder involvement patterns
+- Communication effort measurement
+
+This turns RACI from a one-time exercise into an ongoing governance tool.
+
+**Conclusion**
+
+The RACI matrix is already a powerful tool — but when you modernize its format, it becomes transformative.
+
+By switching to a flat table and using Power Query to automate the transformation, you get:
+
+- A clean, scalable structure
+- Easy maintenance
+- Instant reporting
+- Automated refresh
+- Analytics you can actually act on
+
+This is RACI done right. Not just as documentation — but as a living part of your project governance.
+
+**Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
     }
   ];
 
