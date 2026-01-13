@@ -24,8 +24,12 @@ interface BlogPost {
 }
 
 export default function Blog() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Add state for current post index
+  const [currentPostIndex, setCurrentPostIndex] = useState(0);
+
+  // Function to scroll to top smoothly
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // ADDED: Effect to handle initial scroll if URL has a hash (e.g., #metric-trap-kpi-failure)
   useEffect(() => {
@@ -181,15 +185,15 @@ This is RACI done right. Not just as documentation — but as a living part of y
 **Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
     },
     {
-  "id": "metric-trap-kpi-failure",
-  "title": "The Metric Trap: Why Hitting Your Numbers Might Be Killing Your Business",
-  "author": "Ahmad Askar",
-  "date": "2025-12-14",
-  "readTime": "6 min read",
-  "category": "Business Strategy",
-  "featured": true,
-  "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
-  "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
+      "id": "metric-trap-kpi-failure",
+      "title": "The Metric Trap: Why Hitting Your Numbers Might Be Killing Your Business",
+      "author": "Ahmad Askar",
+      "date": "2025-12-14",
+      "readTime": "6 min read",
+      "category": "Business Strategy",
+      "featured": true,
+      "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
+      "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
 
 But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
 
@@ -281,17 +285,17 @@ Stop trying to turn everything into a number. Sometimes, the best way to evaluat
 Metrics are a dashboard, not the engine. If you stare at the speedometer while driving, you will eventually crash the car.
 
 The best leaders understand that numbers tell you *what* happened, but they rarely tell you *why*. Use data to ask better questions, not to dictate the answers.`
-},
-{
-  id: "list-dates-power-query",
-  title: "Mastering List.Dates in Power Query",
-  author: "Ahmad Askar",
-  date: "2026-01-12",
-  readTime: "7 min read",
-  category: "Power Query",
-  featured: false,
-  tags: ["Power Query", "M Language", "Dates", "Calendar", "Project Management"],
-  content: `The List.Dates function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
+    },
+    {
+      id: "list-dates-power-query",
+      title: "Mastering List.Dates in Power Query",
+      author: "Ahmad Askar",
+      date: "2026-01-12",
+      readTime: "7 min read",
+      category: "Power Query",
+      featured: false,
+      tags: ["Power Query", "M Language", "Dates", "Calendar", "Project Management"],
+      content: `The List.Dates function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
 
 Here are a few practical examples of how to use it.
 
@@ -475,29 +479,78 @@ WorkdaysAndNoHolidays = List.Select(
 **When to use this in Project Management**
 
 This is the standard way to calculate **Project Lead Times** or **Net Working Days** without relying on Excel's NETWORKDAYS function. It gives you a physical list of dates that you can then join to your resource or task tables.`
-}
+    }
   ];
 
   const categories = ["All", "Power Query", "Power BI", "DAX", "M Language", "Analysis Services"];
   const topPosts = blogPosts.slice(0, 3);
 
-  // Filter posts based on search query
-  const filteredPosts = blogPosts.filter(post =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // All blog posts (no filtering needed for main display)
+  const filteredPosts = blogPosts;
 
 
+  const currentPost = filteredPosts[currentPostIndex] || blogPosts[0];
+  // ------------------ SEARCH BAR COMPONENT ------------------
+  const SearchBar = () => {
+    const [query, setQuery] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const results = blogPosts.filter(post =>
+      post.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return (
+      <div className="relative">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Search posts..."
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setShowDropdown(true);
+            }}
+            onFocus={() => setShowDropdown(true)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+            className="pl-10"
+          />
+        </div>
+
+        {showDropdown && results.length > 0 && (
+          <ul className="absolute z-50 w-full bg-white border border-gray-200 rounded mt-1 shadow-lg max-h-60 overflow-y-auto">
+            {results.map((post) => (
+              <li
+                key={post.id}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer truncate"
+                onMouseDown={() => {
+                  const indexInFiltered = filteredPosts.findIndex(p => p.id === post.id);
+                  if (indexInFiltered !== -1) {
+                    setCurrentPostIndex(indexInFiltered);
+                    scrollToTop();
+                    setQuery("");
+                    setShowDropdown(false);
+                    window.history.replaceState(null, '', `#${post.id}`);
+                  }
+                }}
+              >
+                {post.title}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+  // ---------------- END SEARCH BAR COMPONENT ----------------
 
   return (
     <div className="min-h-screen bg-white">
-      <Header 
+      <Header
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
       <div className="flex">
-        <Sidebar 
+        <Sidebar
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
         />
@@ -528,201 +581,220 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
                 </div>
 
 
-
-                {/* Blog Posts */}
+                {/* Blog Post */}
                 <div className="space-y-0">
                   {filteredPosts.length > 0 ? (
-                    filteredPosts.map((post, index) => (
-                      <div key={post.id} id={post.id} className="scroll-mt-24">
-                        <article className="py-8">
-                          {post.featured && (
-                            <Badge className="mb-3 bg-blue-100 text-blue-800 hover:bg-blue-100">
-                              Featured
-                            </Badge>
-                          )}
-                          
-                          <h2 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
-                            {post.title}
-                          </h2>
-                          
-                          <div className="prose prose-gray max-w-none">
-  {post.content.split('\n\n').map((paragraph, pIndex) => {
-    
-    // 1. DEFINE IMAGE MAPPING
-    // This connects the text tag to your imported variable
-    const imageMap: Record<string, string> = {
-      '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
-      '[metricTrap]': metricTrap,
-      '[streetLightEffect]': streetLightEffect
-    };
+                    <div key={currentPost.id} id={currentPost.id} className="scroll-mt-24">
+                      <article className="py-8">
+                        {currentPost.featured && (
+                          <Badge className="mb-3 bg-blue-100 text-blue-800 hover:bg-blue-100">
+                            Featured
+                          </Badge>
+                        )}
 
-    const trimmedLine = paragraph.trim();
+                        <h2 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
+                          {currentPost.title}
+                        </h2>
 
-    // 2. CHECK IF PARAGRAPH IS AN IMAGE TAG
-    if (imageMap[trimmedLine]) {
-      return (
-        <div key={pIndex} className="my-8 flex justify-center">
-          <img 
-            src={imageMap[trimmedLine]} 
-            alt="Blog illustration"
-            className="rounded-lg shadow-lg max-w-full h-auto"
-            style={{ maxHeight: '400px' }}
-          />
-        </div>
-      );
-    }
-                              
-                              // Handle code blocks
-                              if (paragraph.startsWith('```')) {
-                                const lines = paragraph.split('\n');
-                                const language = lines[0].slice(3);
-                                const code = lines.slice(1, -1).join('\n');
-                                
-                                return (
-                                  <div key={pIndex} className="my-6">
-                                    <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
-                                      <span className="text-gray-400 text-xs font-mono uppercase">{language || 'code'}</span>
-                                      <button 
-                                        onClick={() => navigator.clipboard.writeText(code)}
-                                        className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
-                                      >
-                                        Copy
-                                      </button>
-                                    </div>
-                                    <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
-                                      <code>{code}</code>
-                                    </pre>
+                        <div className="prose prose-gray max-w-none">
+                          {currentPost.content.split('\n\n').map((paragraph, pIndex) => {
+
+                            // 1. DEFINE IMAGE MAPPING
+                            // This connects the text tag to your imported variable
+                            const imageMap: Record<string, string> = {
+                              '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
+                              '[metricTrap]': metricTrap,
+                              '[streetLightEffect]': streetLightEffect
+                            };
+
+                            const trimmedLine = paragraph.trim();
+
+                            // 2. CHECK IF PARAGRAPH IS AN IMAGE TAG
+                            if (imageMap[trimmedLine]) {
+                              return (
+                                <div key={pIndex} className="my-8 flex justify-center">
+                                  <img
+                                    src={imageMap[trimmedLine]}
+                                    alt="Blog illustration"
+                                    className="rounded-lg shadow-lg max-w-full h-auto"
+                                    style={{ maxHeight: '400px' }}
+                                  />
+                                </div>
+                              );
+                            }
+
+                            // Handle code blocks
+                            if (paragraph.startsWith('```')) {
+                              const lines = paragraph.split('\n');
+                              const language = lines[0].slice(3);
+                              const code = lines.slice(1, -1).join('\n');
+
+                              return (
+                                <div key={pIndex} className="my-6">
+                                  <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
+                                    <span className="text-gray-400 text-xs font-mono uppercase">{language || 'code'}</span>
+                                    <button
+                                      onClick={() => navigator.clipboard.writeText(code)}
+                                      className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
+                                    >
+                                      Copy
+                                    </button>
                                   </div>
-                                );
-                              }
-                              
-                              // Handle headings
-                              if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                                return (
-                                  <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                                    {paragraph.slice(2, -2)}
-                                  </h3>
-                                );
-                              }
-                              
-                              // Handle regular content with rich formatting
-                              const renderRichText = (text: string) => {
-                                // Handle images ![alt](url)
-                                text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="rounded-lg shadow-md my-4 max-w-full h-auto" />');
-                                
-                                // Handle videos <video>
-                                text = text.replace(/<video([^>]*)>/g, '<video$1 class="rounded-lg shadow-md my-4 max-w-full">');
-                                
-                                // Handle iframes (YouTube embeds)
-                                text = text.replace(/<iframe([^>]*)>/g, '<div class="relative my-6 aspect-video"><iframe$1 class="absolute inset-0 w-full h-full rounded-lg"></div>');
-                                
-                                // Handle links [text](url)
-                                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-green-600 hover:text-green-800 underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>');
-                                
-                                // Handle bold **text**
-                                text = text.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
-                                
-                                // Handle italic *text*
-                                text = text.replace(/\*([^*]+)\*/g, '<em class="italic text-gray-700">$1</em>');
-                                
-                                // Handle inline code `code`
-                                text = text.replace(/`([^`]+)`/g, '<code class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono">$1</code>');
-                                
-                                // Handle emojis and special characters
-                                text = text.replace(/🚀/g, '<span class="text-blue-500">🚀</span>');
-                                text = text.replace(/⚠️/g, '<span class="text-yellow-500">⚠️</span>');
-                                text = text.replace(/📚/g, '<span class="text-green-500">📚</span>');
-                                text = text.replace(/🎥/g, '<span class="text-red-500">🎥</span>');
-                                text = text.replace(/💡/g, '<span class="text-yellow-400">💡</span>');
-                                text = text.replace(/🔧/g, '<span class="text-blue-400">🔧</span>');
-                                text = text.replace(/📊/g, '<span class="text-purple-500">📊</span>');
-                                
-                                return text;
-                              };
-                              
-                              // Handle list items
-                              if (paragraph.includes('- ') || paragraph.includes('1. ') || paragraph.includes('2. ') || paragraph.includes('3. ')) {
-                                const lines = paragraph.split('\n');
-                                return (
-                                  <div key={pIndex} className="my-4">
-                                    {lines.map((line, lIndex) => {
-                                      if (line.startsWith('- ')) {
-                                        return (
-                                          <div key={lIndex} className="flex items-start mb-2">
-                                            <span className="text-green-600 mr-3 mt-1 text-sm">•</span>
-                                            <span 
-                                              className="text-gray-700 leading-relaxed flex-1"
-                                              dangerouslySetInnerHTML={{ __html: renderRichText(line.slice(2)) }}
-                                            />
-                                          </div>
-                                        );
-                                      } else if (/^\d+\.\s/.test(line)) {
-                                        const match = line.match(/^(\d+)\.\s/);
-                                        const number = match ? match[1] : '1';
-                                        const content = line.replace(/^\d+\.\s/, '');
-                                        return (
-                                          <div key={lIndex} className="flex items-start mb-2">
-                                            <span className="text-green-600 mr-3 font-semibold text-sm">{number}.</span>
-                                            <span 
-                                              className="text-gray-700 leading-relaxed flex-1"
-                                              dangerouslySetInnerHTML={{ __html: renderRichText(content) }}
-                                            />
-                                          </div>
-                                        );
-                                      } else if (line.trim()) {
-                                        return (
-                                          <p key={lIndex} className="mb-2 text-gray-700 leading-relaxed" 
-                                             dangerouslySetInnerHTML={{ __html: renderRichText(line) }} />
-                                        );
-                                      }
-                                      return null;
-                                    })}
-                                  </div>
-                                );
-                              }
-                              
-                              // Handle regular paragraphs
-                              if (paragraph.trim()) {
-                                return (
-                                  <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed" 
-                                     dangerouslySetInnerHTML={{ __html: renderRichText(paragraph) }} />
-                                );
-                              }
-                              
-                              return null;
+                                  <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
+                                    <code>{code}</code>
+                                  </pre>
+                                </div>
+                              );
+                            }
+
+                            // Handle headings
+                            if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+                              return (
+                                <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
+                                  {paragraph.slice(2, -2)}
+                                </h3>
+                              );
+                            }
+
+                            // Handle regular content with rich formatting
+                            const renderRichText = (text: string) => {
+                              // Handle images ![alt](url)
+                              text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="rounded-lg shadow-md my-4 max-w-full h-auto" />');
+
+                              // Handle videos <video>
+                              text = text.replace(/<video([^>]*)>/g, '<video$1 class="rounded-lg shadow-md my-4 max-w-full">');
+
+                              // Handle iframes (YouTube embeds)
+                              text = text.replace(/<iframe([^>]*)>/g, '<div class="relative my-6 aspect-video"><iframe$1 class="absolute inset-0 w-full h-full rounded-lg"></div>');
+
+                              // Handle links [text](url)
+                              text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-green-600 hover:text-green-800 underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>');
+
+                              // Handle bold **text**
+                              text = text.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
+
+                              // Handle italic *text*
+                              text = text.replace(/\*([^*]+)\*/g, '<em class="italic text-gray-700">$1</em>');
+
+                              // Handle inline code `code`
+                              text = text.replace(/`([^`]+)`/g, '<code class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono">$1</code>');
+
+                              // Handle emojis and special characters
+                              text = text.replace(/🚀/g, '<span class="text-blue-500">🚀</span>');
+                              text = text.replace(/⚠️/g, '<span class="text-yellow-500">⚠️</span>');
+                              text = text.replace(/📚/g, '<span class="text-green-500">📚</span>');
+                              text = text.replace(/🎥/g, '<span class="text-red-500">🎥</span>');
+                              text = text.replace(/💡/g, '<span class="text-yellow-400">💡</span>');
+                              text = text.replace(/🔧/g, '<span class="text-blue-400">🔧</span>');
+                              text = text.replace(/📊/g, '<span class="text-purple-500">📊</span>');
+
+                              return text;
+                            };
+
+                            // Handle list items
+                            if (paragraph.includes('- ') || paragraph.includes('1. ') || paragraph.includes('2. ') || paragraph.includes('3. ')) {
+                              const lines = paragraph.split('\n');
+                              return (
+                                <div key={pIndex} className="my-4">
+                                  {lines.map((line, lIndex) => {
+                                    if (line.startsWith('- ')) {
+                                      return (
+                                        <div key={lIndex} className="flex items-start mb-2">
+                                          <span className="text-green-600 mr-3 mt-1 text-sm">•</span>
+                                          <span
+                                            className="text-gray-700 leading-relaxed flex-1"
+                                            dangerouslySetInnerHTML={{ __html: renderRichText(line.slice(2)) }}
+                                          />
+                                        </div>
+                                      );
+                                    } else if (/^\d+\.\s/.test(line)) {
+                                      const match = line.match(/^(\d+)\.\s/);
+                                      const number = match ? match[1] : '1';
+                                      const content = line.replace(/^\d+\.\s/, '');
+                                      return (
+                                        <div key={lIndex} className="flex items-start mb-2">
+                                          <span className="text-green-600 mr-3 font-semibold text-sm">{number}.</span>
+                                          <span
+                                            className="text-gray-700 leading-relaxed flex-1"
+                                            dangerouslySetInnerHTML={{ __html: renderRichText(content) }}
+                                          />
+                                        </div>
+                                      );
+                                    } else if (line.trim()) {
+                                      return (
+                                        <p key={lIndex} className="mb-2 text-gray-700 leading-relaxed"
+                                          dangerouslySetInnerHTML={{ __html: renderRichText(line) }} />
+                                      );
+                                    }
+                                    return null;
+                                  })}
+                                </div>
+                              );
+                            }
+
+                            // Handle regular paragraphs
+                            if (paragraph.trim()) {
+                              return (
+                                <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed"
+                                  dangerouslySetInnerHTML={{ __html: renderRichText(paragraph) }} />
+                              );
+                            }
+
+                            return null;
+                          })}
+                        </div>
+
+                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
+                          <div className="flex items-center">
+                            <Calendar className="h-4 w-4 mr-1" />
+                            {new Date(currentPost.date).toLocaleDateString('en-US', {
+                              year: 'numeric', month: 'long', day: 'numeric'
                             })}
                           </div>
-                          
-                          
-                          <div className="flex items-center space-x-4 text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
-                            <div className="flex items-center">
-                              <Calendar className="h-4 w-4 mr-1" />
-                              {new Date(post.date).toLocaleDateString('en-US', { 
-                                year: 'numeric', 
-                                month: 'long', 
-                                day: 'numeric' 
-                              })}
-                            </div>
-                            <div className="flex items-center">
-                              <Clock className="h-4 w-4 mr-1" />
-                              {post.readTime}
-                            </div>
-                            <div className="flex items-center">
-                              <Tag className="h-4 w-4 mr-1" />
-                              <Badge variant="outline" className="text-xs">
-                                {post.category}
-                              </Badge>
-                            </div>
-                            <span>by {post.author}</span>
+                          <div className="flex items-center">
+                            <Clock className="h-4 w-4 mr-1" />
+                            {currentPost.readTime}
                           </div>
-                        </article>
-                        
-                        {/* Thin line separator between posts */}
-                        {index < filteredPosts.length - 1 && (
-                          <div className="border-t border-gray-200"></div>
+                          <div className="flex items-center">
+                            <Tag className="h-4 w-4 mr-1" />
+                            <Badge variant="outline" className="text-xs">
+                              {currentPost.category}
+                            </Badge>
+                          </div>
+                          <span>by {currentPost.author}</span>
+                        </div>
+                      </article>
+
+                      {/* Next / Previous Buttons */}
+                      <div className="flex justify-between mt-8 space-x-4">
+                        {/* Previous Button */}
+                        {currentPostIndex > 0 && (
+                          <button
+                            onClick={() => {
+                              setCurrentPostIndex(idx => Math.max(idx - 1, 0));
+                              scrollToTop();
+                            }}
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate"
+                          >
+                            ← Previous: {filteredPosts[currentPostIndex - 1].title}
+                          </button>
+                        )}
+
+                        {/* Next Button */}
+                        {currentPostIndex < filteredPosts.length - 1 && (
+                          <button
+                            onClick={() => {
+                              setCurrentPostIndex(idx => Math.min(idx + 1, filteredPosts.length - 1));
+                              scrollToTop();
+                            }}
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate"
+                          >
+                            Next: {filteredPosts[currentPostIndex + 1].title} →
+                          </button>
                         )}
                       </div>
-                    ))
+
+                    </div>
                   ) : (
                     <div className="text-center py-12">
                       <h2 className="text-xl font-semibold text-gray-900 mb-4">No Blog Posts Yet</h2>
@@ -734,6 +806,7 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
                 </div>
 
 
+
               </div>
 
               {/* Sidebar */}
@@ -743,15 +816,7 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
                   <div className="bg-gray-50 rounded-lg p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Search</h3>
                     <div className="space-y-4">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                        <Input
-                          placeholder="Search posts..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-10"
-                        />
-                      </div>
+                      <SearchBar />
 
                     </div>
                   </div>
@@ -761,20 +826,26 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
                     <div className="bg-gray-50 rounded-lg p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Posts</h3>
                       <div className="space-y-4">
-                        {topPosts.map((post) => (
+                        {topPosts.map((post, idx) => (
                           <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
                             <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
-                              <a 
-                      href={`#${post.id}`} 
-                      className="hover:text-blue-600 transition-colors block"
-                      onClick={(e) => {
-                        // Optional: Smooth scroll behavior
-                        e.preventDefault();
-                        document.getElementById(post.id)?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                    >
-                      {post.title}
-                    </a>
+                              <a
+                                href={`#${post.id}`}
+                                className="hover:text-blue-600 transition-colors block truncate"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  // Update current post index to match clicked post
+                                  const filteredIndex = filteredPosts.findIndex(p => p.id === post.id);
+                                  if (filteredIndex !== -1) {
+                                    setCurrentPostIndex(filteredIndex);
+                                    scrollToTop();
+                                    // Update URL hash without jumping
+                                    window.history.replaceState(null, '', `#${post.id}`);
+                                  }
+                                }}
+                              >
+                                {post.title}
+                              </a>
                             </h4>
                             <div className="text-xs text-gray-600">
                               {new Date(post.date).toLocaleDateString()} • {post.readTime}
@@ -784,6 +855,7 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
                       </div>
                     </div>
                   )}
+
 
 
 
