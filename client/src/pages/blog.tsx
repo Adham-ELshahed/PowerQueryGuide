@@ -54,7 +54,7 @@ export default function Blog() {
       date: "2026-01-12",
       readTime: "7 min read",
       category: "Power Query",
-      featured: false,
+      featured: true,
       tags: ["Power Query", "M Language", "Dates", "Calendar", "Project Management"],
       content: `The List.Dates function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
 
