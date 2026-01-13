@@ -52,7 +52,7 @@ export default function Blog() {
       category: "Power Query",
       featured: true,
       tags: ["RACI", "Power Query", "Project Management", "Data Transformation"],
-      content: `**0.0The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
+      content: `**The RACI matrix is one of the simplest yet most powerful tools in project management.** It brings clarity to roles and responsibilities by answering four essential questions for every task:
 
 - Who is Responsible? (Does the work)
 - Who is Accountable? (Owns the final decision)
