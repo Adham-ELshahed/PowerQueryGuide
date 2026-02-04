@@ -1,171 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The KPI Paradox: Rethinking Business Metrics</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg-primary: #F9FAFB;
-  --text-primary: #1F2937;
-  --accent-highlight: #EA580C;
-}
-body { font-family: 'Inter', sans-serif; background-color: var(--bg-primary); color: var(--text-primary);}
-h1,h2,h3 { font-family: 'Merriweather', serif;}
-.chart-container { position: relative; width:100%; max-width:800px; height:400px; margin:0 auto;}
-@media (max-width:640px){.chart-container{height:300px;}}
-.interactive-card{transition:all 0.3s ease;}
-.interactive-card:hover{transform:translateY(-2px); box-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);}
-.hidden-content { display:none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The KPI Paradox: Rethinking Business Metrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #F9FAFB;
+            --text-primary: #1F2937;
+            --accent-highlight: #EA580C;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Merriweather', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width:640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        .interactive-card {
+            transition: all 0.3s ease;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .hidden-content {
+            display: none;
+        }
+    </style>
 </head>
+
 <body class="flex flex-col min-h-screen">
 
-<!-- NAVIGATION -->
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
-    <span class="font-serif font-bold text-xl text-gray-800 tracking-tight">The KPI Paradox</span>
-    <div class="hidden md:flex space-x-8">
-      <button onclick="scrollToSection('section-intro')" class="text-gray-500 hover:text-gray-900">The Argument</button>
-      <button onclick="scrollToSection('section-productivity')" class="text-gray-500 hover:text-gray-900">Human Variable</button>
-      <button onclick="scrollToSection('section-financial')" class="text-gray-500 hover:text-gray-900">Financial Trap</button>
-      <button onclick="scrollToSection('section-behavior')" class="text-gray-500 hover:text-gray-900">Behavior Metrics</button>
-    </div>
-    <button class="md:hidden" onclick="toggleMobileMenu()">≡</button>
-  </div>
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-2 py-2 space-y-1">
-    <button onclick="scrollToSection('section-intro')">The Argument</button>
-    <button onclick="scrollToSection('section-productivity')">Human Variable</button>
-    <button onclick="scrollToSection('section-financial')">Financial Trap</button>
-    <button onclick="scrollToSection('section-behavior')">Behavior Metrics</button>
-  </div>
-</nav>
-
-<main class="flex-grow">
-
-<!-- HERO -->
-<section id="section-intro" class="py-20 text-center bg-gradient-to-b from-white to-gray-50">
-  <h1 class="text-4xl md:text-5xl font-bold font-serif mb-6">Are KPIs and Balanced Scorecards <span class="text-orange-600">Bad for Business?</span></h1>
-  <p class="text-xl text-gray-600 max-w-2xl mx-auto">Measuring humans like machines can hurt businesses.</p>
-  <button onclick="scrollToSection('section-productivity')" class="mt-6 px-8 py-3 bg-gray-900 text-white rounded-lg">Explore Flaws</button>
-</section>
-
-<!-- PRODUCTIVITY -->
-<section id="section-productivity" class="py-16 bg-white border-t border-gray-100">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold font-serif mb-4">The Human Variable</h2>
-    <p class="mb-6">A "Smart Friend" can outperform a team in hours. Standard KPIs fail to capture this.</p>
-    <div class="flex justify-start gap-2 mb-4">
-      <button id="btn-view-kpi" onclick="updateProductivityChart('kpi')" class="px-4 py-2 bg-gray-100 text-gray-900 rounded">KPI View</button>
-      <button id="btn-view-reality" onclick="updateProductivityChart('reality')" class="px-4 py-2 text-gray-500 rounded">Reality View</button>
-    </div>
-    <div class="chart-container mb-4">
-      <canvas id="productivityChart"></canvas>
-    </div>
-    <p id="productivity-insight" class="italic text-gray-700">Standard metrics hide the outlier.</p>
-  </div>
-</section>
-
-<!-- FINANCIAL -->
-<section id="section-financial" class="py-16 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="space-y-4">
-      <h2 class="text-3xl font-bold font-serif">Financial Trap</h2>
-      <p>Amazon reinvested profits; P&L looks small but real value grows.</p>
-      <label><input type="checkbox" id="check-profit" checked onchange="updateAmazonChart()"> Show Net Profit</label>
-      <label><input type="checkbox" id="check-investment" checked onchange="updateAmazonChart()"> Show Reinvestment/Growth</label>
-    </div>
-    <div class="lg:col-span-2">
-      <div class="chart-container">
-        <canvas id="amazonChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BEHAVIOR -->
-<section id="section-behavior" class="py-16 bg-white border-t border-gray-100">
-  <div class="max-w-5xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold font-serif mb-4">Measuring Human Behavior</h2>
-    <p class="mb-8">Metrics fail to capture human complexity.</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer" onclick="toggleCard(this)">
-        <h3 class="font-bold mb-2">Driving Skill</h3>
-        <p>Some drive better than others.</p>
-        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
-          Standard metrics ignore fundamental capability differences.
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+            <span class="font-serif font-bold text-xl text-gray-800 tracking-tight">The KPI Paradox</span>
+            <div class="hidden md:flex space-x-8">
+                <button onclick="scrollToSection('section-intro')" class="text-gray-500 hover:text-gray-900">The
+                    Argument</button>
+                <button onclick="scrollToSection('section-productivity')"
+                    class="text-gray-500 hover:text-gray-900">Human Variable</button>
+                <button onclick="scrollToSection('section-financial')"
+                    class="text-gray-500 hover:text-gray-900">Financial Trap</button>
+                <button onclick="scrollToSection('section-behavior')" class="text-gray-500 hover:text-gray-900">Behavior
+                    Metrics</button>
+            </div>
+            <button class="md:hidden" onclick="toggleMobileMenu()">≡</button>
         </div>
-        <p class="italic text-xs mt-1">Click to reveal flaw</p>
-      </div>
-      <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer" onclick="toggleCard(this)">
-        <h3 class="font-bold mb-2">Hours Worked</h3>
-        <p>Hours alone do not measure output.</p>
-        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
-          Efficient workers look "lazy" under standard metrics.
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-2 py-2 space-y-1">
+            <button onclick="scrollToSection('section-intro')">The Argument</button>
+            <button onclick="scrollToSection('section-productivity')">Human Variable</button>
+            <button onclick="scrollToSection('section-financial')">Financial Trap</button>
+            <button onclick="scrollToSection('section-behavior')">Behavior Metrics</button>
         </div>
-        <p class="italic text-xs mt-1">Click to reveal flaw</p>
-      </div>
-      <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer" onclick="toggleCard(this)">
-        <h3 class="font-bold mb-2">Lines of Code</h3>
-        <p>Quantity ≠ Quality.</p>
-        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
-          Encourages bloat and poor quality.
-        </div>
-        <p class="italic text-xs mt-1">Click to reveal flaw</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </nav>
 
-</main>
+    <main class="flex-grow">
 
-<footer class="bg-gray-50 border-t border-gray-200 py-4 text-center text-gray-500">
-  &copy; 2023 Interactive Report
-</footer>
+        <!-- HERO -->
+        <section id="section-intro" class="py-20 text-center bg-gradient-to-b from-white to-gray-50">
+            <h1 class="text-4xl md:text-5xl font-bold font-serif mb-6">Are KPIs and Balanced Scorecards <span
+                    class="text-orange-600">Bad for Business?</span></h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Measuring humans like machines can hurt businesses.</p>
+            <button onclick="scrollToSection('section-productivity')"
+                class="mt-6 px-8 py-3 bg-gray-900 text-white rounded-lg">Explore Flaws</button>
+        </section>
 
-<!-- JS LOGIC -->
-<script>
-const state = { productivityView:'kpi' };
-const dataStore = {
-  productivity:{ kpi:[40,40,40,40,40], reality:[5,10,8,100,12], labels:['A','B','C','Smart Friend','D'] },
-  amazon:{ years:['Y1','Y2','Y3','Y4','Y5','Y6'], profit:[2,1,-1,3,2,5], investment:[10,25,45,80,150,280] }
-};
+        <!-- PRODUCTIVITY -->
+        <section id="section-productivity" class="py-16 bg-white border-t border-gray-100">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-3xl font-bold font-serif mb-4">The Human Variable</h2>
+                <p class="mb-6">A "Smart Friend" can outperform a team in hours. Standard KPIs fail to capture this.</p>
+                <div class="flex justify-start gap-2 mb-4">
+                    <button id="btn-view-kpi" onclick="updateProductivityChart('kpi')"
+                        class="px-4 py-2 bg-gray-100 text-gray-900 rounded">KPI View</button>
+                    <button id="btn-view-reality" onclick="updateProductivityChart('reality')"
+                        class="px-4 py-2 text-gray-500 rounded">Reality View</button>
+                </div>
+                <div class="chart-container mb-4">
+                    <canvas id="productivityChart"></canvas>
+                </div>
+                <p id="productivity-insight" class="italic text-gray-700">Standard metrics hide the outlier.</p>
+            </div>
+        </section>
 
-let productivityChart=null;
-let amazonChart=null;
+        <!-- FINANCIAL -->
+        <section id="section-financial" class="py-16 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="space-y-4">
+                    <h2 class="text-3xl font-bold font-serif">Financial Trap</h2>
+                    <p>Amazon reinvested profits; P&L looks small but real value grows.</p>
+                    <label><input type="checkbox" id="check-profit" checked onchange="updateAmazonChart()"> Show Net
+                        Profit</label>
+                    <label><input type="checkbox" id="check-investment" checked onchange="updateAmazonChart()"> Show
+                        Reinvestment/Growth</label>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="chart-container">
+                        <canvas id="amazonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const ctxProd=document.getElementById('productivityChart').getContext('2d');
-  productivityChart=new Chart(ctxProd,{ type:'bar', data:{labels:dataStore.productivity.labels,datasets:[{label:'Hours',data:dataStore.productivity.kpi,backgroundColor:'#9CA3AF'}]}, options:{responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true}}} });
+        <!-- BEHAVIOR -->
+        <section id="section-behavior" class="py-16 bg-white border-t border-gray-100">
+            <div class="max-w-5xl mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold font-serif mb-4">Measuring Human Behavior</h2>
+                <p class="mb-8">Metrics fail to capture human complexity.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                        onclick="toggleCard(this)">
+                        <h3 class="font-bold mb-2">Driving Skill</h3>
+                        <p>Some drive better than others.</p>
+                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                            Standard metrics ignore fundamental capability differences.
+                        </div>
+                        <p class="italic text-xs mt-1">Click to reveal flaw</p>
+                    </div>
+                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                        onclick="toggleCard(this)">
+                        <h3 class="font-bold mb-2">Hours Worked</h3>
+                        <p>Hours alone do not measure output.</p>
+                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                            Efficient workers look "lazy" under standard metrics.
+                        </div>
+                        <p class="italic text-xs mt-1">Click to reveal flaw</p>
+                    </div>
+                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                        onclick="toggleCard(this)">
+                        <h3 class="font-bold mb-2">Lines of Code</h3>
+                        <p>Quantity ≠ Quality.</p>
+                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                            Encourages bloat and poor quality.
+                        </div>
+                        <p class="italic text-xs mt-1">Click to reveal flaw</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  const ctxAmazon=document.getElementById('amazonChart').getContext('2d');
-  amazonChart=new Chart(ctxAmazon,{ type:'line', data:{ labels:dataStore.amazon.years, datasets:[
-    { label:'Net Profit', data:dataStore.amazon.profit, borderColor:'#4B5563', backgroundColor:'rgba(75,85,99,0.1)', fill:true },
-    { label:'Reinvestment', data:dataStore.amazon.investment, borderColor:'#EA580C', backgroundColor:'rgba(234,88,12,0.1)', fill:true }
-  ]}, options:{responsive:true, maintainAspectRatio:false} });
-});
+    </main>
 
-function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); document.getElementById('mobile-menu').classList.add('hidden'); }
-function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
-function toggleCard(card){ const content=card.querySelector('.hidden-content'); const hint=card.querySelector('.italic'); if(content.style.display==='block'){content.style.display='none'; hint.textContent='Click to reveal flaw';}else{content.style.display='block'; hint.textContent='Click to collapse';} }
+    <!-- JS LOGIC -->
+    <script>
+        const state = { productivityView: 'kpi' };
+        const dataStore = {
+            productivity: { kpi: [40, 40, 40, 40, 40], reality: [5, 10, 8, 100, 12], labels: ['A', 'B', 'C', 'Smart Friend', 'D'] },
+            amazon: { years: ['Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6'], profit: [2, 1, -1, 3, 2, 5], investment: [10, 25, 45, 80, 150, 280] }
+        };
 
-function updateProductivityChart(view){
-  state.productivityView=view;
-  const btnK=document.getElementById('btn-view-kpi'); const btnR=document.getElementById('btn-view-reality'); const insight=document.getElementById('productivity-insight');
-  if(view==='kpi'){ productivityChart.data.datasets[0].data=dataStore.productivity.kpi; productivityChart.data.datasets[0].backgroundColor='#9CA3AF'; insight.textContent='Standard metrics hide the outlier.'; btnK.classList.add('bg-gray-100','text-gray-900'); btnR.classList.remove('bg-gray-100','text-gray-900'); btnR.classList.add('text-gray-500'); btnK.classList.remove('text-gray-500');}
-  else{ productivityChart.data.datasets[0].data=dataStore.productivity.reality; productivityChart.data.datasets[0].backgroundColor=dataStore.productivity.reality.map((v,i)=>i===3?'#EA580C':'#D1D5DB'); insight.textContent="Reality: Smart Friend delivers massive value."; btnR.classList.add('bg-gray-100','text-gray-900'); btnK.classList.remove('bg-gray-100','text-gray-900'); btnK.classList.add('text-gray-500'); btnR.classList.remove('text-gray-500'); }
-  productivityChart.update();
-}
+        let productivityChart = null;
+        let amazonChart = null;
 
-function updateAmazonChart(){
-  amazonChart.getDatasetMeta(0).hidden=!document.getElementById('check-profit').checked;
-  amazonChart.getDatasetMeta(1).hidden=!document.getElementById('check-investment').checked;
-  amazonChart.update();
-}
-</script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctxProd = document.getElementById('productivityChart').getContext('2d');
+            productivityChart = new Chart(ctxProd, { type: 'bar', data: { labels: dataStore.productivity.labels, datasets: [{ label: 'Hours', data: dataStore.productivity.kpi, backgroundColor: '#9CA3AF' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+
+            const ctxAmazon = document.getElementById('amazonChart').getContext('2d');
+            amazonChart = new Chart(ctxAmazon, {
+                type: 'line', data: {
+                    labels: dataStore.amazon.years, datasets: [
+                        { label: 'Net Profit', data: dataStore.amazon.profit, borderColor: '#4B5563', backgroundColor: 'rgba(75,85,99,0.1)', fill: true },
+                        { label: 'Reinvestment', data: dataStore.amazon.investment, borderColor: '#EA580C', backgroundColor: 'rgba(234,88,12,0.1)', fill: true }
+                    ]
+                }, options: { responsive: true, maintainAspectRatio: false }
+            });
+        });
+
+        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); document.getElementById('mobile-menu').classList.add('hidden'); }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function toggleCard(card) {
+            const content = card.querySelector('.hidden-content');
+            const hint = card.querySelector('.italic');
+
+            const isOpen = content.style.display === 'block';
+
+            content.style.display = isOpen ? 'none' : 'block';
+            hint.textContent = isOpen ? 'Click to reveal flaw' : 'Click to collapse';
+
+            // 🔥 IMPORTANT: update iframe height after layout change
+            setTimeout(sendHeight, 50);
+        }
+
+        function updateProductivityChart(view) {
+            state.productivityView = view;
+            const btnK = document.getElementById('btn-view-kpi'); const btnR = document.getElementById('btn-view-reality'); const insight = document.getElementById('productivity-insight');
+            if (view === 'kpi') { productivityChart.data.datasets[0].data = dataStore.productivity.kpi; productivityChart.data.datasets[0].backgroundColor = '#9CA3AF'; insight.textContent = 'Standard metrics hide the outlier.'; btnK.classList.add('bg-gray-100', 'text-gray-900'); btnR.classList.remove('bg-gray-100', 'text-gray-900'); btnR.classList.add('text-gray-500'); btnK.classList.remove('text-gray-500'); }
+            else { productivityChart.data.datasets[0].data = dataStore.productivity.reality; productivityChart.data.datasets[0].backgroundColor = dataStore.productivity.reality.map((v, i) => i === 3 ? '#EA580C' : '#D1D5DB'); insight.textContent = "Reality: Smart Friend delivers massive value."; btnR.classList.add('bg-gray-100', 'text-gray-900'); btnK.classList.remove('bg-gray-100', 'text-gray-900'); btnK.classList.add('text-gray-500'); btnR.classList.remove('text-gray-500'); }
+            productivityChart.update();
+            setTimeout(sendHeight, 100);
+
+        }
+
+        function updateAmazonChart() {
+            amazonChart.getDatasetMeta(0).hidden = !document.getElementById('check-profit').checked;
+            amazonChart.getDatasetMeta(1).hidden = !document.getElementById('check-investment').checked;
+            amazonChart.update();
+            setTimeout(sendHeight, 100);
+
+        }
+    </script>
 
 </body>
+<script>
+    function sendHeight() {
+        requestAnimationFrame(() => {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage(
+                { type: "IFRAME_HEIGHT", height },
+                "*"
+            );
+        });
+    }
+
+    window.addEventListener("load", sendHeight);
+    window.addEventListener("resize", sendHeight);
+    const observer = new MutationObserver(sendHeight);
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+
+</script>
+
+
 </html>

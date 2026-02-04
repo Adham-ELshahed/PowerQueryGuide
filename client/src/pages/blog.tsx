@@ -32,6 +32,7 @@ export default function Blog() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // Add state for current post index
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
+  const [iframeHeight, setIframeHeight] = useState<number>(0);
 
   // Function to scroll to top smoothly
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -507,6 +508,16 @@ This is RACI done right. Not just as documentation — but as a living part of y
 
   const currentPost = filteredPosts[currentPostIndex] || blogPosts[0];
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === "IFRAME_HEIGHT") {
+        setIframeHeight(event.data.height);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
 
 
@@ -622,9 +633,13 @@ This is RACI done right. Not just as documentation — but as a living part of y
                             <iframe
                               src={`/${currentPost.htmlFile}`}
                               title={currentPost.title}
-                              className="w-full min-h-[100vh] border-0 rounded-xl"
-                              loading="lazy"
+                              className="w-full border-0 rounded-xl"
+                              style={{
+                                height: iframeHeight ? `${iframeHeight}px` : "100vh"
+                              }}
+                              scrolling="no"
                             />
+
 
                           ) : (
                             // ✅ Fallback to existing Markdown-ish content (UNCHANGED)
