@@ -14,14 +14,19 @@ import { CodeBlock } from "@/components/ui/code-block";
 interface BlogPost {
   id: string;
   title: string;
-  content: string;
   author: string;
   date: string;
   readTime: string;
   category: string;
   featured: boolean;
   tags: string[];
+
+  content?: string;     // بوست عادي (Markdown / نص)
+  htmlFile?: string;    // بوست HTML تفاعلي (iframe)
 }
+
+
+
 
 export default function Blog() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -47,6 +52,17 @@ export default function Blog() {
 
   // Blog posts
   const blogPosts: BlogPost[] = [
+    {
+      id: "kpi-paradox",
+      title: "The KPI Paradox",
+      author: "Ahmad Askar",
+      date: "2026-02-04",
+      readTime: "8 min read",
+      category: "Business Strategy",
+      featured: true,
+      tags: ["KPIs", "Management", "Strategy"],
+      htmlFile: "kpi-paradox.html"
+    },
     {
       id: "list-dates-power-query",
       title: "Mastering List.Dates in Power Query",
@@ -490,6 +506,10 @@ This is RACI done right. Not just as documentation — but as a living part of y
 
 
   const currentPost = filteredPosts[currentPostIndex] || blogPosts[0];
+
+
+
+
   // ------------------ SEARCH BAR COMPONENT ------------------
   const SearchBar = () => {
     const [query, setQuery] = useState("");
@@ -597,152 +617,133 @@ This is RACI done right. Not just as documentation — but as a living part of y
                         </h2>
 
                         <div className="prose prose-gray max-w-none">
-                          {currentPost.content.split('\n\n').map((paragraph, pIndex) => {
+                          {currentPost.htmlFile ? (
+                            // ✅ Render full interactive HTML post safely
+                            <iframe
+                              src={`/${currentPost.htmlFile}`}
+                              title={currentPost.title}
+                              className="w-full min-h-[100vh] border-0 rounded-xl"
+                              loading="lazy"
+                            />
 
-                            // 1. DEFINE IMAGE MAPPING
-                            // This connects the text tag to your imported variable
-                            const imageMap: Record<string, string> = {
-                              '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
-                              '[metricTrap]': metricTrap,
-                              '[streetLightEffect]': streetLightEffect
-                            };
+                          ) : (
+                            // ✅ Fallback to existing Markdown-ish content (UNCHANGED)
+                            (currentPost.content ?? '').split('\n\n').map((paragraph, pIndex) => {
+                              const imageMap: Record<string, string> = {
+                                '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
+                                '[metricTrap]': metricTrap,
+                                '[streetLightEffect]': streetLightEffect
+                              };
 
-                            const trimmedLine = paragraph.trim();
+                              const trimmedLine = paragraph.trim();
 
-                            // 2. CHECK IF PARAGRAPH IS AN IMAGE TAG
-                            if (imageMap[trimmedLine]) {
-                              return (
-                                <div key={pIndex} className="my-8 flex justify-center">
-                                  <img
-                                    src={imageMap[trimmedLine]}
-                                    alt="Blog illustration"
-                                    className="rounded-lg shadow-lg max-w-full h-auto"
-                                    style={{ maxHeight: '400px' }}
-                                  />
-                                </div>
-                              );
-                            }
-
-                            // Handle code blocks
-                            if (paragraph.startsWith('```')) {
-                              const lines = paragraph.split('\n');
-                              const language = lines[0].slice(3);
-                              const code = lines.slice(1, -1).join('\n');
-
-                              return (
-                                <div key={pIndex} className="my-6">
-                                  <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
-                                    <span className="text-gray-400 text-xs font-mono uppercase">{language || 'code'}</span>
-                                    <button
-                                      onClick={() => navigator.clipboard.writeText(code)}
-                                      className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
-                                    >
-                                      Copy
-                                    </button>
+                              // IMAGE TAG
+                              if (imageMap[trimmedLine]) {
+                                return (
+                                  <div key={pIndex} className="my-8 flex justify-center">
+                                    <img
+                                      src={imageMap[trimmedLine]}
+                                      alt="Blog illustration"
+                                      className="rounded-lg shadow-lg max-w-full h-auto"
+                                      style={{ maxHeight: '400px' }}
+                                    />
                                   </div>
-                                  <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
-                                    <code>{code}</code>
-                                  </pre>
-                                </div>
-                              );
-                            }
+                                );
+                              }
 
-                            // Handle headings
-                            if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                              return (
-                                <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                                  {paragraph.slice(2, -2)}
-                                </h3>
-                              );
-                            }
+                              // CODE BLOCK
+                              if (paragraph.startsWith('```')) {
+                                const lines = paragraph.split('\n');
+                                const language = lines[0].slice(3);
+                                const code = lines.slice(1, -1).join('\n');
 
-                            // Handle regular content with rich formatting
-                            const renderRichText = (text: string) => {
-                              // Handle images ![alt](url)
-                              text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="rounded-lg shadow-md my-4 max-w-full h-auto" />');
+                                return (
+                                  <div key={pIndex} className="my-6">
+                                    <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
+                                      <span className="text-gray-400 text-xs font-mono uppercase">
+                                        {language || 'code'}
+                                      </span>
+                                      <button
+                                        onClick={() => navigator.clipboard.writeText(code)}
+                                        className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
+                                      >
+                                        Copy
+                                      </button>
+                                    </div>
+                                    <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
+                                      <code>{code}</code>
+                                    </pre>
+                                  </div>
+                                );
+                              }
 
-                              // Handle videos <video>
-                              text = text.replace(/<video([^>]*)>/g, '<video$1 class="rounded-lg shadow-md my-4 max-w-full">');
+                              // HEADINGS
+                              if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+                                return (
+                                  <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
+                                    {paragraph.slice(2, -2)}
+                                  </h3>
+                                );
+                              }
 
-                              // Handle iframes (YouTube embeds)
-                              text = text.replace(/<iframe([^>]*)>/g, '<div class="relative my-6 aspect-video"><iframe$1 class="absolute inset-0 w-full h-full rounded-lg"></div>');
+                              // LIST ITEMS
+                              if (paragraph.includes('- ') || /^\d+\.\s/.test(paragraph)) {
+                                const lines = paragraph.split('\n');
+                                return (
+                                  <div key={pIndex} className="my-4">
+                                    {lines.map((line, lIndex) => {
+                                      if (line.startsWith('- ')) {
+                                        return (
+                                          <div key={lIndex} className="flex items-start mb-2">
+                                            <span className="text-green-600 mr-3 mt-1 text-sm">•</span>
+                                            <div className="text-gray-700 leading-relaxed flex-1">
+                                              {line.slice(2)}
+                                            </div>
+                                          </div>
+                                        );
+                                      } else if (/^\d+\.\s/.test(line)) {
+                                        const match = line.match(/^(\d+)\.\s/);
+                                        const number = match ? match[1] : '1';
+                                        const content = line.replace(/^\d+\.\s/, '');
+                                        return (
+                                          <div key={lIndex} className="flex items-start mb-2">
+                                            <span className="text-green-600 mr-3 font-semibold text-sm">
+                                              {number}.
+                                            </span>
+                                            <div className="text-gray-700 leading-relaxed flex-1">
+                                              {content}
+                                            </div>
+                                          </div>
+                                        );
+                                      } else if (line.trim()) {
+                                        return (
+                                          <p key={lIndex} className="mb-2 text-gray-700 leading-relaxed">
+                                            {line}
+                                          </p>
+                                        );
+                                      }
+                                      return null;
+                                    })}
+                                  </div>
+                                );
+                              }
 
-                              // Handle links [text](url)
-                              text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-green-600 hover:text-green-800 underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>');
+                              // REGULAR PARAGRAPHS
+                              if (paragraph.trim()) {
+                                return (
+                                  <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
+                                    {paragraph}
+                                  </p>
+                                );
+                              }
 
-                              // Handle bold **text**
-                              text = text.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
-
-                              // Handle italic *text*
-                              text = text.replace(/\*([^*]+)\*/g, '<em class="italic text-gray-700">$1</em>');
-
-                              // Handle inline code `code`
-                              text = text.replace(/`([^`]+)`/g, '<code class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono">$1</code>');
-
-                              // Handle emojis and special characters
-                              text = text.replace(/🚀/g, '<span class="text-blue-500">🚀</span>');
-                              text = text.replace(/⚠️/g, '<span class="text-yellow-500">⚠️</span>');
-                              text = text.replace(/📚/g, '<span class="text-green-500">📚</span>');
-                              text = text.replace(/🎥/g, '<span class="text-red-500">🎥</span>');
-                              text = text.replace(/💡/g, '<span class="text-yellow-400">💡</span>');
-                              text = text.replace(/🔧/g, '<span class="text-blue-400">🔧</span>');
-                              text = text.replace(/📊/g, '<span class="text-purple-500">📊</span>');
-
-                              return text;
-                            };
-
-                            // Handle list items
-                            if (paragraph.includes('- ') || paragraph.includes('1. ') || paragraph.includes('2. ') || paragraph.includes('3. ')) {
-                              const lines = paragraph.split('\n');
-                              return (
-                                <div key={pIndex} className="my-4">
-                                  {lines.map((line, lIndex) => {
-                                    if (line.startsWith('- ')) {
-                                      return (
-                                        <div key={lIndex} className="flex items-start mb-2">
-                                          <span className="text-green-600 mr-3 mt-1 text-sm">•</span>
-                                          <span
-                                            className="text-gray-700 leading-relaxed flex-1"
-                                            dangerouslySetInnerHTML={{ __html: renderRichText(line.slice(2)) }}
-                                          />
-                                        </div>
-                                      );
-                                    } else if (/^\d+\.\s/.test(line)) {
-                                      const match = line.match(/^(\d+)\.\s/);
-                                      const number = match ? match[1] : '1';
-                                      const content = line.replace(/^\d+\.\s/, '');
-                                      return (
-                                        <div key={lIndex} className="flex items-start mb-2">
-                                          <span className="text-green-600 mr-3 font-semibold text-sm">{number}.</span>
-                                          <span
-                                            className="text-gray-700 leading-relaxed flex-1"
-                                            dangerouslySetInnerHTML={{ __html: renderRichText(content) }}
-                                          />
-                                        </div>
-                                      );
-                                    } else if (line.trim()) {
-                                      return (
-                                        <p key={lIndex} className="mb-2 text-gray-700 leading-relaxed"
-                                          dangerouslySetInnerHTML={{ __html: renderRichText(line) }} />
-                                      );
-                                    }
-                                    return null;
-                                  })}
-                                </div>
-                              );
-                            }
-
-                            // Handle regular paragraphs
-                            if (paragraph.trim()) {
-                              return (
-                                <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed"
-                                  dangerouslySetInnerHTML={{ __html: renderRichText(paragraph) }} />
-                              );
-                            }
-
-                            return null;
-                          })}
+                              return null;
+                            })
+                          )}
                         </div>
+
+
+
 
                         <div className="flex items-center space-x-4 text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
                           <div className="flex items-center">
