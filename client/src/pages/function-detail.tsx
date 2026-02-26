@@ -17,6 +17,9 @@ const imageMap: Record<string, string> = {
   step3: "/attached_assets/functions/list.dates/step3.jfif",
 };
 
+/* ✅ List of functions that have a dedicated HTML page */
+const htmlFunctions = ["Access.Database"]; // حط كل الدوال اللي عندها HTML هنا
+
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -51,8 +54,11 @@ export default function FunctionDetail() {
     );
   }
 
-  /* ✅ CHECK TARGET FUNCTION */
   const isListDates = func.name === "List.Dates";
+  const hasHtmlPage = htmlFunctions.includes(func.name);
+
+  /* ✅ HTML page URL if available */
+  const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -78,124 +84,141 @@ export default function FunctionDetail() {
               </a>
             </div>
 
-            {/* Header */}
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl font-bold">{func.name}</h1>
-                <Badge variant="outline">{func.category}</Badge>
-              </div>
-              <div className="text-lg text-ms-gray-secondary leading-relaxed">
-                {func.description
-                  ?.replace(/\s*•\s*/g, "\n• ")
-                  .split("\n")
-                  .map((line, index) => {
-                    const isBulletPoint = line.trim().startsWith("•");
+            {/* ✅ If HTML page exists, show iframe */}
+            {hasHtmlPage ? (
+              <iframe
+                src={htmlFileName!}
+                className="w-full border-0 rounded-lg"
+                title={func.name}
+                onLoad={(e) => {
+                  const iframe = e.currentTarget;
+                  try {
+                    iframe.style.height =
+                      iframe.contentWindow?.document.body.scrollHeight + "px";
+                  } catch (err) {
+                    console.warn("Cannot auto-adjust iframe height", err);
+                  }
+                }}
+              />
+            ) : (
+              <>
+                {/* Header */}
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <h1 className="text-3xl font-bold">{func.name}</h1>
+                    <Badge variant="outline">{func.category}</Badge>
+                  </div>
+                  <div className="text-lg text-ms-gray-secondary leading-relaxed">
+                    {func.description
+                      ?.replace(/\s*•\s*/g, "\n• ")
+                      .split("\n")
+                      .map((line, index) => {
+                        const isBulletPoint = line.trim().startsWith("•");
+                        return (
+                          <p
+                            key={index}
+                            className={`${index > 0 ? "mt-2" : ""} ${isBulletPoint ? "ml-6" : ""}`}
+                          >
+                            {line}
+                          </p>
+                        );
+                      })}
+                  </div>
+                </div>
 
-                    return (
-                      <p
-                        key={index}
-                        className={`${index > 0 ? "mt-2" : ""} ${isBulletPoint ? "ml-6" : ""
-                          }`}
+                {/* Syntax */}
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Syntax</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CodeBlock code={func.syntax || `${func.name}()`} />
+                  </CardContent>
+                </Card>
+
+                {/* Parameters */}
+                {func.parameters?.length > 0 && (
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>Parameters</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {func.parameters.map((p, i) => (
+                        <div key={i}>
+                          <div className="font-mono font-semibold">{p.name}</div>
+                          <p className="text-sm text-ms-gray-secondary">{p.description}</p>
+                          <Separator className="my-3" />
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Images Section – List.Dates only */}
+                {isListDates && (
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>Step-by-step Example</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-8">
+                      {["step1", "step2", "step3"].map((key, idx) => (
+                        <div key={idx}>
+                          <p className="mb-3 font-medium">
+                            {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
+                          </p>
+                          <img
+                            src={imageMap[key]}
+                            alt={`List.Dates ${key}`}
+                            className="rounded-lg border"
+                          />
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Examples */}
+                {func.examples?.length > 0 && (
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>Examples</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {func.examples.map((ex, i) => (
+                        <div key={i}>
+                          {ex.title && <h4 className="font-semibold mb-2">{ex.title}</h4>}
+                          {ex.syntax && <CodeBlock code={ex.syntax} />}
+                          {ex.output && <CodeBlock code={ex.output} />}
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Blog Post Link – List.Dates only */}
+                {isListDates && (
+                  <Card className="mb-6 border-ms-blue/30">
+                    <CardHeader>
+                      <CardTitle>In-depth Guide</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-ms-gray-secondary mb-3">
+                        For a detailed explanation with real-world scenarios and dynamic examples,
+                        check out the full blog post.
+                      </p>
+
+                      <a
+                        href="/blog#list-dates-power-query"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
                       >
-                        {line}
-                      </p>
-                    );
-                  })}
-              </div>
-
-            </div>
-
-            {/* Syntax */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Syntax</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock code={func.syntax || `${func.name}()`} />
-              </CardContent>
-            </Card>
-
-            {/* Parameters */}
-            {func.parameters?.length > 0 && (
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Parameters</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {func.parameters.map((p, i) => (
-                    <div key={i}>
-                      <div className="font-mono font-semibold">{p.name}</div>
-                      <p className="text-sm text-ms-gray-secondary">{p.description}</p>
-                      <Separator className="my-3" />
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            )}
-
-            {/* ✅ IMAGES SECTION – List.Dates ONLY */}
-            {isListDates && (
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Step-by-step Example</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {["step1", "step2", "step3"].map((key, idx) => (
-                    <div key={idx}>
-                      <p className="mb-3 font-medium">
-                        {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
-                      </p>
-                      <img
-                        src={imageMap[key]}
-                        alt={`List.Dates ${key}`}
-                        className="rounded-lg border"
-                      />
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Examples */}
-            {func.examples?.length > 0 && (
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Examples</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {func.examples.map((ex, i) => (
-                    <div key={i}>
-                      {ex.title && <h4 className="font-semibold mb-2">{ex.title}</h4>}
-                      {ex.syntax && <CodeBlock code={ex.syntax} />}
-                      {ex.output && <CodeBlock code={ex.output} />}
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            )}
-
-            {/* 🔗 Blog Post Link – List.Dates only */}
-            {isListDates && (
-              <Card className="mb-6 border-ms-blue/30">
-                <CardHeader>
-                  <CardTitle>In-depth Guide</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-ms-gray-secondary mb-3">
-                    For a detailed explanation with real-world scenarios and dynamic examples,
-                    check out the full blog post.
-                  </p>
-
-                  <a
-                    href="/blog#list-dates-power-query"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
-                  >
-                    👉 Read the complete List.Dates guide
-                  </a>
-                </CardContent>
-              </Card>
+                        👉 Read the complete List.Dates guide
+                      </a>
+                    </CardContent>
+                  </Card>
+                )}
+              </>
             )}
 
           </div>
