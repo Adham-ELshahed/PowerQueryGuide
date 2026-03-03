@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
-
+import { useEffect } from "react";
 /* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
   step1: "/attached_assets/functions/list.dates/step1.jfif",
@@ -56,7 +56,21 @@ export default function FunctionDetail() {
 
   const isListDates = func.name === "List.Dates";
   const hasHtmlPage = htmlFunctions.includes(func.name);
+  const [hasVideo, setHasVideo] = useState<boolean | undefined>(undefined);
+  const videoPath = `/videos/${func.name.toLowerCase()}.mp4`;
+  useEffect(() => {
+  const video = document.createElement("video");
 
+  video.src = videoPath;
+
+  video.onloadeddata = () => {
+    setHasVideo(true);
+  };
+
+  video.onerror = () => {
+    setHasVideo(false);
+  };
+}, [videoPath]);
   /* ✅ HTML page URL if available */
   const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
 
@@ -84,23 +98,41 @@ export default function FunctionDetail() {
               </a>
             </div>
 
-            {/* ✅ If HTML page exists, show iframe */}
+            {/* ✅ If HTML page exists, show iframe + optional video */}
             {hasHtmlPage ? (
-              <iframe
-                src={htmlFileName!}
-                className="w-full border-0 rounded-lg"
-                title={func.name}
-                onLoad={(e) => {
-                  const iframe = e.currentTarget;
-                  try {
-                    iframe.style.height =
-                      iframe.contentWindow?.document.body.scrollHeight + "px";
-                  } catch (err) {
-                    console.warn("Cannot auto-adjust iframe height", err);
-                  }
-                }}
-              />
+              <>
+                <iframe
+                  src={htmlFileName!}
+                  className="w-full border-0 rounded-lg"
+                  title={func.name}
+                  onLoad={(e) => {
+                    const iframe = e.currentTarget;
+                    try {
+                      iframe.style.height =
+                        iframe.contentWindow?.document.body.scrollHeight + "px";
+                    } catch (err) {
+                      console.warn("Cannot auto-adjust iframe height", err);
+                    }
+                  }}
+                />
+
+                {/* Render video only if it exists */}
+                {hasVideo === true && (
+                  <Card className="mt-6">
+                    <CardHeader>
+                      <CardTitle>Video Explanation</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <video controls className="w-full rounded-lg">
+                        <source src={videoPath} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </CardContent>
+                  </Card>
+                )}
+              </>
             ) : (
+
               <>
                 {/* Header */}
                 <div className="mb-8">
@@ -176,7 +208,19 @@ export default function FunctionDetail() {
                     </CardContent>
                   </Card>
                 )}
-
+                {!hasHtmlPage && hasVideo === true && (
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>Video Explanation</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <video controls className="w-full rounded-lg">
+                        <source src={videoPath} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </CardContent>
+                  </Card>
+                )}
                 {/* Examples */}
                 {func.examples?.length > 0 && (
                   <Card className="mb-6">
