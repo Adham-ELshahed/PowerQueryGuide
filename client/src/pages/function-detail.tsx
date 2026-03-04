@@ -31,7 +31,20 @@ export default function FunctionDetail() {
   const decodedName = decodeURIComponent(functionName || "");
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
+  const videoPath = `/videos/${func.name.toLowerCase()}.mp4`;
+  useEffect(() => {
+  const video = document.createElement("video");
 
+  video.src = videoPath;
+
+  video.onloadeddata = () => {
+    setHasVideo(true);
+  };
+
+  video.onerror = () => {
+    setHasVideo(false);
+  };
+}, [videoPath]);
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
@@ -57,20 +70,7 @@ export default function FunctionDetail() {
   const isListDates = func.name === "List.Dates";
   const hasHtmlPage = htmlFunctions.includes(func.name);
   
-  const videoPath = `/videos/${func.name.toLowerCase()}.mp4`;
-  useEffect(() => {
-  const video = document.createElement("video");
-
-  video.src = videoPath;
-
-  video.onloadeddata = () => {
-    setHasVideo(true);
-  };
-
-  video.onerror = () => {
-    setHasVideo(false);
-  };
-}, [videoPath]);
+  
   /* ✅ HTML page URL if available */
   const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
 
