@@ -31,19 +31,17 @@ export default function FunctionDetail() {
   const decodedName = decodeURIComponent(functionName || "");
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
-  const videoPath = `/videos/${func.name.toLowerCase()}.mp4`;
+  const videoPath = func
+  ? `/videos/${func.name.toLowerCase()}.mp4`
+  : null;
   useEffect(() => {
-  const video = document.createElement("video");
+  if (!videoPath) return;
 
+  const video = document.createElement("video");
   video.src = videoPath;
 
-  video.onloadeddata = () => {
-    setHasVideo(true);
-  };
-
-  video.onerror = () => {
-    setHasVideo(false);
-  };
+  video.onloadeddata = () => setHasVideo(true);
+  video.onerror = () => setHasVideo(false);
 }, [videoPath]);
   if (isLoading) {
     return (
