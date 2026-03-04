@@ -23,7 +23,7 @@ const htmlFunctions = ["Access.Database"]; // حط كل الدوال اللي ع
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [hasVideo, setHasVideo] = useState<boolean | undefined>(undefined);
   const { data: allFunctions } = useQuery<Function[]>({
     queryKey: [`${import.meta.env.BASE_URL}functions.json`],
   });
@@ -56,7 +56,7 @@ export default function FunctionDetail() {
 
   const isListDates = func.name === "List.Dates";
   const hasHtmlPage = htmlFunctions.includes(func.name);
-  const [hasVideo, setHasVideo] = useState<boolean | undefined>(undefined);
+  
   const videoPath = `/videos/${func.name.toLowerCase()}.mp4`;
   useEffect(() => {
   const video = document.createElement("video");
