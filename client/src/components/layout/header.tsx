@@ -15,6 +15,7 @@ export default function Header({ isMobileMenuOpen, onMobileMenuToggle }: HeaderP
     { href: "/blog", label: "Blog" },
     { href: "/datatypes", label: "Data Types" },
     { href: "/about", label: "About" },
+    { href: "/services", label: "Services" },
   ];
 
   return (
