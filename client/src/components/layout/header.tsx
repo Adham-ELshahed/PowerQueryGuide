@@ -7,7 +7,7 @@ interface HeaderProps {
   isMobileMenuOpen?: boolean;
   onMobileMenuToggle?: () => void;
 }
-
+ 
 export default function Header({ isMobileMenuOpen, onMobileMenuToggle }: HeaderProps) {
   const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
 
