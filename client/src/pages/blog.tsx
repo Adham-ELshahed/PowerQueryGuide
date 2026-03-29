@@ -54,6 +54,17 @@ export default function Blog() {
   // Blog posts
   const blogPosts: BlogPost[] = [
     {
+      id: "records-lists-power-query",
+      title: "Records & Lists in Power Query",
+      author: "Ahmad Askar",
+      date: "2026-03-20",
+      readTime: "7 min read",
+      category: "Power Query",
+      featured: true,
+      tags: ["Power Query", "M Language"],
+      htmlFile: "records-and-lists.html"
+    },
+    {
       id: "kpi-paradox",
       title: "The KPI Paradox",
       author: "Ahmad Askar",
@@ -631,7 +642,7 @@ This is RACI done right. Not just as documentation — but as a living part of y
                           {currentPost.htmlFile ? (
                             // ✅ Render full interactive HTML post safely
                             <iframe
-                              src={`/${currentPost.htmlFile}`}
+                              src={`/html/blog/${currentPost.htmlFile}`}
                               title={currentPost.title}
                               className="w-full border-0 rounded-xl"
                               style={{

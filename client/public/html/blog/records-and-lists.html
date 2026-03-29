@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Records & Lists in Power Query</title>
+
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+    color: #374151;
+    margin: 0;
+    padding: 40px 20px;
+    background: #ffffff;
+  }
+
+  .func-link {
+    color: #16a34a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .func-link:hover {
+    text-decoration: underline;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    color: #1d4ed8;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    color: #111827;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+
+  code {
+    background: #f3f4f6;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-family: monospace;
+  }
+
+  pre {
+    background: #111827;
+    color: #e5e7eb;
+    padding: 16px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 14px;
+  }
+
+  th, td {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    text-align: left;
+  }
+
+  th {
+    background: #f9fafb;
+    font-weight: 600;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 40px 0;
+  }
+
+  .highlight {
+    background: #eff6ff;
+    padding: 16px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    margin: 20px 0;
+  }
+
+  .icon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  .yes {
+    color: #16a34a;
+    font-weight: bold;
+  }
+
+  .no {
+    color: #dc2626;
+    font-weight: bold;
+  }
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Records & Lists in Power Query (M Language)</h1>
+<p><strong>An In-Depth Guide</strong></p>
+
+<h2>What Are Records and Lists, Really?</h2>
+
+<h3>The M Language Data Model</h3>
+<p>
+Power Query (M language) has a type system built around a few core value types.
+Two of the most fundamental are:
+</p>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Symbol</th>
+<th>Nature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="icon">📦</span>List</td>
+<td>{ }</td>
+<td>Ordered, unnamed</td>
+</tr>
+<tr>
+<td><span class="icon">🧾</span>Record</td>
+<td>[ ]</td>
+<td>Unordered, named</td>
+</tr>
+</tbody>
+</table>
+
+<p>The brackets are not just syntax — they are the identity of each type.</p>
+
+<hr>
+
+<h2>Lists — What Are They Really?</h2>
+
+<p>A list is a sequence of values where position is everything.</p>
+
+<pre>{10, 20, 30}</pre>
+
+<p><strong>Key characteristics:</strong></p>
+<ul>
+<li>The values have no names — only index positions (0-based)</li>
+<li>The order matters — {10, 20, 30} ≠ {30, 10, 20}</li>
+<li>The items don't have to be the same type</li>
+</ul>
+
+<pre>{1, "hello", true, {1,2}, [Name="Ahmad"]}</pre>
+
+<p>
+Think of a list like a numbered shelf — you retrieve things by their slot number.
+</p>
+
+<pre>
+myList = {10, 20, 30}
+
+myList{0}   // → 10
+myList{2}   // → 30
+</pre>
+
+<div class="highlight">
+<strong>A list answers the question:</strong> “What is at position N?”
+</div>
+
+<hr>
+
+<h2>Records — What Are They Really?</h2>
+
+<p>A record is a collection of named fields, where the name is everything.</p>
+
+<pre>[Name = "Ahmad", Age = 30, City = "Cairo"]</pre>
+
+<p><strong>Key characteristics:</strong></p>
+<ul>
+<li>Every value has a field name</li>
+<li>Order does not matter</li>
+<li>You access values by name, not position</li>
+</ul>
+
+<pre>
+myRecord = [Name = "Ahmad", Age = 30]
+
+myRecord[Name]   // → "Ahmad"
+myRecord[Age]    // → 30
+</pre>
+
+<div class="highlight">
+<strong>A record answers the question:</strong> “What is the value of field X?”
+</div>
+
+<hr>
+
+<h2>The Core Difference — A Mental Model</h2>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>List</th>
+<th>Record</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container</td>
+<td>📊 Numbered slots</td>
+<td>🏷️ Labeled boxes</td>
+</tr>
+<tr>
+<td>Access by</td>
+<td>Position {0}</td>
+<td>Name [FieldName]</td>
+</tr>
+<tr>
+<td>Order matters?</td>
+<td class="yes">✔ Yes</td>
+<td class="no">❌ No</td>
+</tr>
+<tr>
+<td>Has names?</td>
+<td class="no">❌ No</td>
+<td class="yes">✔ Yes</td>
+</tr>
+<tr>
+<td>Heterogeneous?</td>
+<td class="yes">✔ Yes</td>
+<td class="yes">✔ Yes</td>
+</tr>
+<tr>
+<td>Duplicate keys?</td>
+<td>N/A</td>
+<td class="no">❌ Not allowed</td>
+</tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2>How They Sit Inside the Bigger Picture</h2>
+
+<pre>
+Table
+
+├── Row 1 → [Name="Ahmad", Age=30, City="Cairo"]
+├── Row 2 → [Name="Sara", Age=25, City="Alex"]
+
+├── Column "Name" → {"Ahmad", "Sara"}
+└── Column "Age" → {30, 25}
+</pre>
+
+<p>
+This is why understanding lists and records is not optional — tables are literally built from them.
+</p>
+
+<hr>
+
+<h2>A List of Records = A Table</h2>
+
+<pre>
+#table(
+    {"Name", "Age"},
+    {
+        {"Ahmad", 30},
+        {"Sara", 25}
+    }
+)
+</pre>
+
+<p>
+Internally, each row becomes:
+<code>[Name="Ahmad", Age=30]</code>
+</p>
+
+<p>
+<code>MyTable{0}</code> → returns a record  
+<br/>
+<code>MyTable[Name]</code> → returns a list
+</p>
+
+<hr>
+
+<h2>Summary</h2>
+
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>List</th>
+<th>Record</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is it?</td>
+<td>Ordered sequence</td>
+<td>Named collection</td>
+</tr>
+<tr>
+<td>Bracket</td>
+<td>{ }</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>Position</td>
+<td>Name</td>
+</tr>
+<tr>
+<td>Analogy</td>
+<td>🔢 Numbered locker</td>
+<td>🏷️ Labeled box</td>
+</tr>
+<tr>
+<td>In tables</td>
+<td>Column</td>
+<td>Row</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight">
+Once this clicks, functions like <strong><a href="https://powerquery.guide/function/Record.FromList" class="func-link" target="_top">
+  Record.FromList
+</a></strong> make perfect sense —
+you are simply assigning names to positions.
+</div>
+
+</div>
+
+<script>
+  const sendHeight = () => {
+    window.parent.postMessage({
+      type: "IFRAME_HEIGHT",
+      height: document.body.scrollHeight
+    }, "*");
+  };
+
+  window.onload = sendHeight;
+  window.onresize = sendHeight;
+</script>
+
+</body>
+</html>
