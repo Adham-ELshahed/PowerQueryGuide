@@ -57,7 +57,7 @@ export default function Blog() {
       id: "records-lists-power-query",
       title: "Records & Lists in Power Query",
       author: "Ahmad Askar",
-      date: "2026-03-20",
+      date: "2026-03-29",
       readTime: "7 min read",
       category: "Power Query",
       featured: true,
