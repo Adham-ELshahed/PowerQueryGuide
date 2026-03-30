@@ -506,7 +506,27 @@ By switching to a flat table and using Power Query to automate the transformatio
 
 This is RACI done right. Not just as documentation — but as a living part of your project governance.
 
-**Ready to implement this approach?** [Get the complete RACI Matrix template with Power Query transformation here](https://businessish.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)`
+---
+
+## Take Your RACI to the Next Level
+
+You’ve seen how transforming a traditional RACI into a flat table can completely change the way you manage responsibilities, visibility, and accountability.
+
+But instead of building everything from scratch…
+
+### Start with a ready-to-use, fully automated template
+
+✔ Pre-built flat RACI structure  
+✔ Power Query transformation included  
+✔ One-click refresh  
+✔ Clean, scalable, and analysis-ready  
+✔ Works seamlessly with Excel & Power BI  
+
+ **[Get the RACI Matrix Template with Power Query Automation](https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)**
+
+---
+
+ Whether you're managing a small team or a complex project, this template helps you move from static documentation to real, data-driven project governance.`
     }
   ];
 
