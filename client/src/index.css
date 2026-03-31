@@ -165,3 +165,14 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 [id] {
   scroll-margin-top: 5rem;
 }
+.blog-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.blog-link:hover {
+  color: #16a34a;
+  text-decoration: underline;
+}

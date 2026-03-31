@@ -777,9 +777,16 @@ But instead of building everything from scratch…
                               // REGULAR PARAGRAPHS
                               if (paragraph.trim()) {
                                 return (
-                                  <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
-                                    {paragraph}
-                                  </p>
+                                  <p
+                                    key={pIndex}
+                                    className="mb-4 text-gray-700 leading-relaxed"
+                                    dangerouslySetInnerHTML={{
+                                      __html: paragraph.replace(
+                                        /\[([^\]]+)\]\(([^)]+)\)/g,
+                                        '<a href="$2" target="_blank" class="blog-link">$1</a>'
+                                      )
+                                    }}
+                                  />
                                 );
                               }
 
