@@ -39,11 +39,17 @@ export default function Blog() {
 
   // ADDED: Effect to handle initial scroll if URL has a hash (e.g., #metric-trap-kpi-failure)
   useEffect(() => {
-    if (window.location.hash) {
-      const id = window.location.hash.replace('#', '');
-      // Small timeout ensures the DOM elements are rendered before we try to scroll
+    const hash = window.location.hash.replace('#', '');
+
+    if (hash) {
+      const index = blogPosts.findIndex(post => post.id === hash);
+
+      if (index !== -1) {
+        setCurrentPostIndex(index);
+      }
+
       setTimeout(() => {
-        const element = document.getElementById(id);
+        const element = document.getElementById(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
@@ -540,6 +546,21 @@ But instead of building everything from scratch…
   const currentPost = filteredPosts[currentPostIndex] || blogPosts[0];
 
   useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      const index = blogPosts.findIndex(post => post.id === hash);
+
+      if (index !== -1) {
+        setCurrentPostIndex(index);
+        scrollToTop();
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+  useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "IFRAME_HEIGHT") {
         setIframeHeight(event.data.height);
@@ -591,7 +612,7 @@ But instead of building everything from scratch…
                     scrollToTop();
                     setQuery("");
                     setShowDropdown(false);
-                    window.history.replaceState(null, '', `#${post.id}`);
+                    window.history.pushState(null, '', `#${post.id}`);
                   }
                 }}
               >
@@ -783,7 +804,7 @@ But instead of building everything from scratch…
                                     dangerouslySetInnerHTML={{
                                       __html: paragraph.replace(
                                         /\[([^\]]+)\]\(([^)]+)\)/g,
-                                        '<a href="$2" target="_blank" class="blog-link">$1</a>'
+                                        '<a href="$2" target="_blank" rel="noopener noreferrer" class="blog-link">$1</a>'
                                       )
                                     }}
                                   />
@@ -825,7 +846,16 @@ But instead of building everything from scratch…
                         {currentPostIndex > 0 && (
                           <button
                             onClick={() => {
-                              setCurrentPostIndex(idx => Math.max(idx - 1, 0));
+                              const newIndex = Math.max(currentPostIndex - 1, 0);
+
+                              setCurrentPostIndex(newIndex);
+
+                              window.history.pushState(
+                                null,
+                                '',
+                                `#${filteredPosts[newIndex].id}`
+                              );
+
                               scrollToTop();
                             }}
                             className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate"
@@ -838,7 +868,16 @@ But instead of building everything from scratch…
                         {currentPostIndex < filteredPosts.length - 1 && (
                           <button
                             onClick={() => {
-                              setCurrentPostIndex(idx => Math.min(idx + 1, filteredPosts.length - 1));
+                              const newIndex = Math.min(currentPostIndex + 1, filteredPosts.length - 1);
+
+                              setCurrentPostIndex(newIndex);
+
+                              window.history.pushState(
+                                null,
+                                '',
+                                `#${filteredPosts[newIndex].id}`
+                              );
+
                               scrollToTop();
                             }}
                             className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate"
@@ -894,7 +933,7 @@ But instead of building everything from scratch…
                                     setCurrentPostIndex(filteredIndex);
                                     scrollToTop();
                                     // Update URL hash without jumping
-                                    window.history.replaceState(null, '', `#${post.id}`);
+                                    window.history.pushState(null, '', `#${post.id}`);
                                   }
                                 }}
                               >
