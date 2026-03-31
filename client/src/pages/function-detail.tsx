@@ -12,9 +12,10 @@ import { type Function } from "@shared/schema";
 import { useEffect } from "react";
 /* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
-  step1: "/attached_assets/functions/list.dates/step1.jfif",
-  step2: "/attached_assets/functions/list.dates/step2.jfif",
-  step3: "/attached_assets/functions/list.dates/step3.jfif",
+  list_dates_step1: "/attached_assets/functions/list.dates/step1.jfif",
+  list_dates_step2: "/attached_assets/functions/list.dates/step2.jfif",
+  list_dates_step3: "/attached_assets/functions/list.dates/step3.jfif",
+  etsy_link_raci_matrics: "/attached_assets/functions/Raci Matrix image.jpeg",
 };
 
 /* ✅ List of functions that have a dedicated HTML page */
@@ -192,7 +193,7 @@ export default function FunctionDetail() {
                       <CardTitle>Step-by-step Example</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                      {["step1", "step2", "step3"].map((key, idx) => (
+                      {["list_dates_step1", "list_dates_step2", "list_dates_step3"].map((key, idx) => (
                         <div key={idx}>
                           <p className="mb-3 font-medium">
                             {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
@@ -257,6 +258,16 @@ export default function FunctionDetail() {
                       >
                         👉 Get the RACI Matrix Template
                       </a>
+
+                      {/* ✅ ADD IMAGE HERE */}
+                      <div className="mt-4 flex justify-center">
+                        <img
+                          src={imageMap.etsy_link_raci_matrics}
+                          alt="RACI Matrix Template"
+                          className="rounded-lg shadow-md max-w-full h-auto hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+                        />
+                      </div>
+
                     </CardContent>
                   </Card>
                 )}

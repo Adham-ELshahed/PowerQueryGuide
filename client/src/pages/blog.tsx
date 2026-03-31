@@ -529,7 +529,7 @@ But instead of building everything from scratch…
 ✔ Works seamlessly with Excel & Power BI  
 
  **[Get the RACI Matrix Template with Power Query Automation](https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)**
-
+[RACI_ETSY_IMAGE]
 ---
 
  Whether you're managing a small team or a complex project, this template helps you move from static documentation to real, data-driven project governance.`
@@ -699,7 +699,8 @@ But instead of building everything from scratch…
                               const imageMap: Record<string, string> = {
                                 '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
                                 '[metricTrap]': metricTrap,
-                                '[streetLightEffect]': streetLightEffect
+                                '[streetLightEffect]': streetLightEffect,
+                                '[RACI_ETSY_IMAGE]': '/attached_assets/functions/Raci Matrix image.jpeg'
                               };
 
                               const trimmedLine = paragraph.trim();
