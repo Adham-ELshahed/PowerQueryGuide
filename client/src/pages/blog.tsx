@@ -653,14 +653,8 @@ But instead of building everything from scratch…
                   <p className="text-lg text-gray-600 mb-4">by Ahmad Askar</p>
                   <p className="text-gray-600 mb-4">Power Query, M Language, Data Transformation and more</p>
                   <div className="flex justify-center space-x-4">
-                    <Link href="https://twitter.com/ahmadaskar" className="text-gray-400 hover:text-blue-500">
-                      <Twitter className="h-5 w-5" />
-                    </Link>
-                    <Link href="https://linkedin.com/in/ahmadaskar" className="text-gray-400 hover:text-blue-600">
+                    <Link href="https://www.linkedin.com/company/power-query-guide/" className="text-gray-400 hover:text-blue-600">
                       <Linkedin className="h-5 w-5" />
-                    </Link>
-                    <Link href="https://github.com/ahmadaskar" className="text-gray-400 hover:text-gray-900">
-                      <Github className="h-5 w-5" />
                     </Link>
                   </div>
                 </div>
