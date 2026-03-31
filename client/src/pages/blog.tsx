@@ -528,9 +528,10 @@ But instead of building everything from scratch…
 ✔ Clean, scalable, and analysis-ready  
 ✔ Works seamlessly with Excel & Power BI  
 
- **[Get the RACI Matrix Template with Power Query Automation](https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)**
+ **[Get the RACI Matrix Template with Power Query Automation](https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)** 
  
-[RACI_ETSY_IMAGE]
+ [RACI_ETSY_IMAGE]
+
 ---
 
  Whether you're managing a small team or a complex project, this template helps you move from static documentation to real, data-driven project governance.`
