@@ -32,17 +32,17 @@ export default function FunctionDetail() {
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
   const videoPath = func
-  ? `/videos/${func.name.toLowerCase()}.mp4`
-  : null;
+    ? `/videos/${func.name.toLowerCase()}.mp4`
+    : null;
   useEffect(() => {
-  if (!videoPath) return;
+    if (!videoPath) return;
 
-  const video = document.createElement("video");
-  video.src = videoPath;
+    const video = document.createElement("video");
+    video.src = videoPath;
 
-  video.onloadeddata = () => setHasVideo(true);
-  video.onerror = () => setHasVideo(false);
-}, [videoPath]);
+    video.onloadeddata = () => setHasVideo(true);
+    video.onerror = () => setHasVideo(false);
+  }, [videoPath]);
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
@@ -67,8 +67,9 @@ export default function FunctionDetail() {
 
   const isListDates = func.name === "List.Dates";
   const hasHtmlPage = htmlFunctions.includes(func.name);
-  
-  
+  const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
+
+
   /* ✅ HTML page URL if available */
   const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
 
@@ -233,6 +234,29 @@ export default function FunctionDetail() {
                           {ex.output && <CodeBlock code={ex.output} />}
                         </div>
                       ))}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {showEtsyCTA && (
+                  <Card className="mb-6 border-green-500/30">
+                    <CardHeader>
+                      <CardTitle>Take It Further</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-ms-gray-secondary mb-3">
+                        Want to apply this in real projects with a ready-to-use structure?
+                        Get a fully automated RACI template powered by Power Query.
+                      </p>
+
+                      <a
+                        href="https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-green-600 font-medium hover:underline"
+                      >
+                        👉 Get the RACI Matrix Template
+                      </a>
                     </CardContent>
                   </Card>
                 )}
