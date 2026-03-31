@@ -653,9 +653,14 @@ But instead of building everything from scratch…
                   <p className="text-lg text-gray-600 mb-4">by Ahmad Askar</p>
                   <p className="text-gray-600 mb-4">Power Query, M Language, Data Transformation and more</p>
                   <div className="flex justify-center space-x-4">
-                    <Link href="https://www.linkedin.com/company/power-query-guide/" className="text-gray-400 hover:text-blue-600">
+                    <a
+                      href="https://www.linkedin.com/company/power-query-guide/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-blue-600"
+                    >
                       <Linkedin className="h-5 w-5" />
-                    </Link>
+                    </a>
                   </div>
                 </div>
 
