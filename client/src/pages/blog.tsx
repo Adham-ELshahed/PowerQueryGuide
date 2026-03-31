@@ -529,6 +529,7 @@ But instead of building everything from scratch…
 ✔ Works seamlessly with Excel & Power BI  
 
  **[Get the RACI Matrix Template with Power Query Automation](https://www.etsy.com/listing/4338525810/raci-matrix-with-additional-power-query)**
+ 
 [RACI_ETSY_IMAGE]
 ---
 
