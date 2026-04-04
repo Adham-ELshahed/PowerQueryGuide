@@ -194,28 +194,18 @@ export default function Home() {
               
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-4 p-4 bg-ms-gray-light rounded-lg">
-                  <span className="text-sm text-ms-gray-secondary font-mono">2024-11-15:</span>
-                  <Link href="/functions/access-data/web-browserbytag" className="text-ms-blue hover:text-ms-blue-hover font-medium">
-                    Web.BrowserByTag
-                  </Link>
-                </div>
-                <div className="flex items-center space-x-4 p-4 bg-ms-gray-light rounded-lg">
                   <span className="text-sm text-ms-gray-secondary font-mono">2024-09-10:</span>
-                  <Link href="/functions/access-data/azurestorage-datalakecontents" className="text-ms-blue hover:text-ms-blue-hover font-medium">
+                  <Link href="/function/AzureStorage.DataLakeContents" className="text-ms-blue hover:text-ms-blue-hover font-medium">
                     AzureStorage.DataLakeContents
                   </Link>
                 </div>
                 <div className="flex items-center space-x-4 p-4 bg-ms-gray-light rounded-lg">
                   <span className="text-sm text-ms-gray-secondary font-mono">2024-08-23:</span>
-                  <Link href="/functions/table/table-combinecolumns" className="text-ms-blue hover:text-ms-blue-hover font-medium">
+                  <Link href="/function/Table.CombineColumns" className="text-ms-blue hover:text-ms-blue-hover font-medium">
                     Table.CombineColumns
                   </Link>
                 </div>
               </div>
-              
-              <Link href="/changelog" className="text-ms-blue hover:text-ms-blue-hover font-medium">
-                » See all the latest updates
-              </Link>
             </section>
 
             {/* About This Reference */}
