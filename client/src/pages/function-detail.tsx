@@ -17,7 +17,7 @@ const imageMap: Record<string, string> = {
   list_dates_step2: "/attached_assets/functions/list.dates/step2.jfif",
   list_dates_step3: "/attached_assets/functions/list.dates/step3.jfif",
   etsy_link_raci_matrics: "/attached_assets/functions/Raci Matrix image.jpeg",
-  list_dates_working_days: "/attached_assets/functions/List.Dates/image_aadd94.jpeg",
+  list_dates_working_days: "/attached_assets/image_aadd94.jpeg",
 };
 
 /* List of functions that have a dedicated HTML page */
@@ -254,7 +254,7 @@ export default function FunctionDetail() {
                             className="rounded-lg border max-w-full h-auto mb-4"
                           />
                           <a
-                            href="/attached_assets/functions/List.Dates/WorkingDaysExample.xlsx"
+                            href="/attached_assets/WorkingDaysExample.xlsx"
                             download
                             className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline text-sm"
                           >
