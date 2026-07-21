@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "wouter";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
@@ -9,15 +9,14 @@ import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
-import { useEffect } from "react";
 
-/* IMAGE URLS FOR PRODUCTION (public folder) */
+/* IMAGE URLS FOR PRODUCTION (public folder) - Removed leading slashes for BASE_URL compatibility */
 const imageMap: Record<string, string> = {
-  list_dates_step1: "/attached_assets/functions/list.dates/step1.jfif",
-  list_dates_step2: "/attached_assets/functions/list.dates/step2.jfif",
-  list_dates_step3: "/attached_assets/functions/list.dates/step3.jfif",
-  etsy_link_raci_matrics: "/attached_assets/functions/Raci Matrix image.jpeg",
-  list_dates_working_days: "/attached_assets/image_aadd94.jpeg",
+  list_dates_step1: "attached_assets/functions/list.dates/step1.jfif",
+  list_dates_step2: "attached_assets/functions/list.dates/step2.jfif",
+  list_dates_step3: "attached_assets/functions/list.dates/step3.jfif",
+  etsy_link_raci_matrics: "attached_assets/functions/Raci Matrix image.jpeg",
+  list_dates_working_days: "attached_assets/image_aadd94.jpeg",
 };
 
 /* List of functions that have a dedicated HTML page */
@@ -34,8 +33,10 @@ export default function FunctionDetail() {
   const decodedName = decodeURIComponent(functionName || "");
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
+  
+  // Add BASE_URL to the video path
   const videoPath = func
-    ? `/videos/${func.name.toLowerCase()}.mp4`
+    ? `${import.meta.env.BASE_URL}videos/${func.name.toLowerCase()}.mp4`
     : null;
 
   useEffect(() => {
@@ -74,8 +75,8 @@ export default function FunctionDetail() {
   const hasHtmlPage = htmlFunctions.includes(func.name);
   const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
 
-  /* HTML page URL if available */
-  const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
+  /* HTML page URL if available - Added BASE_URL */
+  const htmlFileName = hasHtmlPage ? `${import.meta.env.BASE_URL}html/functions/${func.name}.html` : null;
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -93,7 +94,7 @@ export default function FunctionDetail() {
             {/* Breadcrumb */}
             <div className="mb-6">
               <a
-                href={`/category/${encodeURIComponent(func.category)}`}
+                href={`${import.meta.env.BASE_URL}category/${encodeURIComponent(func.category)}`}
                 className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -127,7 +128,7 @@ export default function FunctionDetail() {
                     </CardHeader>
                     <CardContent>
                       <video controls className="w-full rounded-lg">
-                        <source src={videoPath} type="video/mp4" />
+                        <source src={videoPath!} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </CardContent>
@@ -202,7 +203,7 @@ export default function FunctionDetail() {
                             {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
                           </p>
                           <img
-                            src={imageMap[key]}
+                            src={`${import.meta.env.BASE_URL}${imageMap[key]}`}
                             alt={`List.Dates ${key}`}
                             className="rounded-lg border"
                           />
@@ -219,7 +220,7 @@ export default function FunctionDetail() {
                     </CardHeader>
                     <CardContent>
                       <video controls className="w-full rounded-lg">
-                        <source src={videoPath} type="video/mp4" />
+                        <source src={videoPath!} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </CardContent>
@@ -249,12 +250,12 @@ export default function FunctionDetail() {
                             See how List.Dates can calculate working days and generate weekly summaries. Download the Excel file below to explore the tables shown in the image.
                           </p>
                           <img
-                            src={imageMap.list_dates_working_days}
+                            src={`${import.meta.env.BASE_URL}${imageMap.list_dates_working_days}`}
                             alt="List.Dates Working Days Example"
                             className="rounded-lg border max-w-full h-auto mb-4"
                           />
                           <a
-                            href="/attached_assets/WorkingDaysExample.xlsx"
+                            href={`${import.meta.env.BASE_URL}attached_assets/WorkingDaysExample.xlsx`}
                             download
                             className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline text-sm"
                           >
@@ -288,7 +289,7 @@ export default function FunctionDetail() {
 
                       <div className="mt-4 flex justify-center">
                         <img
-                          src={imageMap.etsy_link_raci_matrics}
+                          src={`${import.meta.env.BASE_URL}${imageMap.etsy_link_raci_matrics}`}
                           alt="RACI Matrix Template"
                           className="rounded-lg shadow-md max-w-full h-auto hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
                         />
@@ -311,7 +312,7 @@ export default function FunctionDetail() {
                       </p>
 
                       <a
-                        href="/blog#list-dates-power-query"
+                        href={`${import.meta.env.BASE_URL}blog#list-dates-power-query`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
