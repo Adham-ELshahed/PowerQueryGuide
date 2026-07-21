@@ -10,16 +10,18 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
 import { useEffect } from "react";
-/* ✅ IMAGE URLS FOR PRODUCTION (public folder) */
+
+/* IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
   list_dates_step1: "/attached_assets/functions/list.dates/step1.jfif",
   list_dates_step2: "/attached_assets/functions/list.dates/step2.jfif",
   list_dates_step3: "/attached_assets/functions/list.dates/step3.jfif",
   etsy_link_raci_matrics: "/attached_assets/functions/Raci Matrix image.jpeg",
+  list_dates_working_days: "/attached_assets/functions/list.dates/image_aadd94.jpg",
 };
 
-/* ✅ List of functions that have a dedicated HTML page */
-const htmlFunctions = ["Access.Database"]; // حط كل الدوال اللي عندها HTML هنا
+/* List of functions that have a dedicated HTML page */
+const htmlFunctions = ["Access.Database"]; 
 
 export default function FunctionDetail() {
   const { functionName } = useParams<{ functionName: string }>();
@@ -35,6 +37,7 @@ export default function FunctionDetail() {
   const videoPath = func
     ? `/videos/${func.name.toLowerCase()}.mp4`
     : null;
+
   useEffect(() => {
     if (!videoPath) return;
 
@@ -44,6 +47,7 @@ export default function FunctionDetail() {
     video.onloadeddata = () => setHasVideo(true);
     video.onerror = () => setHasVideo(false);
   }, [videoPath]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white pt-16">
@@ -70,8 +74,7 @@ export default function FunctionDetail() {
   const hasHtmlPage = htmlFunctions.includes(func.name);
   const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
 
-
-  /* ✅ HTML page URL if available */
+  /* HTML page URL if available */
   const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
 
   return (
@@ -98,7 +101,7 @@ export default function FunctionDetail() {
               </a>
             </div>
 
-            {/* ✅ If HTML page exists, show iframe + optional video */}
+            {/* If HTML page exists, show iframe + optional video */}
             {hasHtmlPage ? (
               <>
                 <iframe
@@ -186,6 +189,32 @@ export default function FunctionDetail() {
                   </Card>
                 )}
 
+                {/* Working Days Example - List.Dates only */}
+                {isListDates && (
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>Working Days Calculation Example</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <p className="text-ms-gray-secondary">
+                        See how List.Dates can calculate working days and generate weekly summaries. Download the Excel file below to explore the tables shown in the image.
+                      </p>
+                      <img
+                        src={imageMap.list_dates_working_days}
+                        alt="List.Dates Working Days Example"
+                        className="rounded-lg border max-w-full h-auto"
+                      />
+                      <a
+                        href="/attached_assets/functions/list.dates/WorkingDaysExample.xlsx"
+                        download
+                        className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline mt-4"
+                      >
+                        Download the Excel Template
+                      </a>
+                    </CardContent>
+                  </Card>
+                )}
+
                 {/* Images Section – List.Dates only */}
                 {isListDates && (
                   <Card className="mb-6">
@@ -208,6 +237,7 @@ export default function FunctionDetail() {
                     </CardContent>
                   </Card>
                 )}
+
                 {!hasHtmlPage && hasVideo === true && (
                   <Card className="mb-6">
                     <CardHeader>
@@ -221,6 +251,7 @@ export default function FunctionDetail() {
                     </CardContent>
                   </Card>
                 )}
+
                 {/* Examples */}
                 {func.examples?.length > 0 && (
                   <Card className="mb-6">
@@ -259,7 +290,6 @@ export default function FunctionDetail() {
                         👉 Get the RACI Matrix Template
                       </a>
 
-                      {/* ✅ ADD IMAGE HERE */}
                       <div className="mt-4 flex justify-center">
                         <img
                           src={imageMap.etsy_link_raci_matrics}
