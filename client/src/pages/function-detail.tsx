@@ -13,11 +13,11 @@ import { useEffect } from "react";
 
 /* IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
-  list_dates_step1: "/attached_assets/functions/list.dates/step1.jfif",
-  list_dates_step2: "/attached_assets/functions/list.dates/step2.jfif",
-  list_dates_step3: "/attached_assets/functions/list.dates/step3.jfif",
-  etsy_link_raci_matrics: "/attached_assets/functions/Raci Matrix image.jpeg",
-  list_dates_working_days: "/attached_assets/functions/list.dates/image_aadd94.jpg",
+  list_dates_step1: "attached_assets/functions/list.dates/step1.jfif",
+  list_dates_step2: "attached_assets/functions/list.dates/step2.jfif",
+  list_dates_step3: "attached_assets/functions/list.dates/step3.jfif",
+  etsy_link_raci_matrics: "attached_assets/functions/Raci Matrix image.jpeg",
+  list_dates_working_days: "attached_assets/functions/list.dates/image_aadd94.jpeg",
 };
 
 /* List of functions that have a dedicated HTML page */
@@ -35,7 +35,7 @@ export default function FunctionDetail() {
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
   const videoPath = func
-    ? `/videos/${func.name.toLowerCase()}.mp4`
+    ? `${import.meta.env.BASE_URL}videos/${func.name.toLowerCase()}.mp4`
     : null;
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function FunctionDetail() {
   const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
 
   /* HTML page URL if available */
-  const htmlFileName = hasHtmlPage ? `/html/functions/${func.name}.html` : null;
+  const htmlFileName = hasHtmlPage ? `${import.meta.env.BASE_URL}html/functions/${func.name}.html` : null;
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -93,7 +93,7 @@ export default function FunctionDetail() {
             {/* Breadcrumb */}
             <div className="mb-6">
               <a
-                href={`/category/${encodeURIComponent(func.category)}`}
+                href={`${import.meta.env.BASE_URL}category/${encodeURIComponent(func.category)}`}
                 className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -127,7 +127,7 @@ export default function FunctionDetail() {
                     </CardHeader>
                     <CardContent>
                       <video controls className="w-full rounded-lg">
-                        <source src={videoPath} type="video/mp4" />
+                        <source src={videoPath!} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </CardContent>
@@ -189,32 +189,6 @@ export default function FunctionDetail() {
                   </Card>
                 )}
 
-                {/* Working Days Example - List.Dates only */}
-                {isListDates && (
-                  <Card className="mb-6">
-                    <CardHeader>
-                      <CardTitle>Working Days Calculation Example</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p className="text-ms-gray-secondary">
-                        See how List.Dates can calculate working days and generate weekly summaries. Download the Excel file below to explore the tables shown in the image.
-                      </p>
-                      <img
-                        src={imageMap.list_dates_working_days}
-                        alt="List.Dates Working Days Example"
-                        className="rounded-lg border max-w-full h-auto"
-                      />
-                      <a
-                        href="/attached_assets/functions/list.dates/WorkingDaysExample.xlsx"
-                        download
-                        className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline mt-4"
-                      >
-                        Download the Excel Template
-                      </a>
-                    </CardContent>
-                  </Card>
-                )}
-
                 {/* Images Section – List.Dates only */}
                 {isListDates && (
                   <Card className="mb-6">
@@ -228,7 +202,7 @@ export default function FunctionDetail() {
                             {["1️⃣ Initial data", "2️⃣ Applying List.Dates", "3️⃣ Final result"][idx]}
                           </p>
                           <img
-                            src={imageMap[key]}
+                            src={`${import.meta.env.BASE_URL}${imageMap[key]}`}
                             alt={`List.Dates ${key}`}
                             className="rounded-lg border"
                           />
@@ -245,7 +219,7 @@ export default function FunctionDetail() {
                     </CardHeader>
                     <CardContent>
                       <video controls className="w-full rounded-lg">
-                        <source src={videoPath} type="video/mp4" />
+                        <source src={videoPath!} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </CardContent>
@@ -253,19 +227,41 @@ export default function FunctionDetail() {
                 )}
 
                 {/* Examples */}
-                {func.examples?.length > 0 && (
+                {(func.examples?.length > 0 || isListDates) && (
                   <Card className="mb-6">
                     <CardHeader>
                       <CardTitle>Examples</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                      {func.examples.map((ex, i) => (
+                      {func.examples?.map((ex, i) => (
                         <div key={i}>
                           {ex.title && <h4 className="font-semibold mb-2">{ex.title}</h4>}
                           {ex.syntax && <CodeBlock code={ex.syntax} />}
                           {ex.output && <CodeBlock code={ex.output} />}
                         </div>
                       ))}
+
+                      {/* Working Days Example - Nested inside the Examples card for List.Dates */}
+                      {isListDates && (
+                        <div className={func.examples?.length > 0 ? "pt-6 border-t border-ms-gray-border mt-6" : ""}>
+                          <h4 className="font-semibold mb-3">Working Days Calculation Example</h4>
+                          <p className="text-sm text-ms-gray-secondary mb-4">
+                            See how List.Dates can calculate working days and generate weekly summaries. Download the Excel file below to explore the tables shown in the image.
+                          </p>
+                          <img
+                            src={`${import.meta.env.BASE_URL}${imageMap.list_dates_working_days}`}
+                            alt="List.Dates Working Days Example"
+                            className="rounded-lg border max-w-full h-auto mb-4"
+                          />
+                          <a
+                            href={`${import.meta.env.BASE_URL}attached_assets/functions/list.dates/WorkingDaysExample.xlsx`}
+                            download
+                            className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline text-sm"
+                          >
+                            Download the Excel Template
+                          </a>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 )}
@@ -292,7 +288,7 @@ export default function FunctionDetail() {
 
                       <div className="mt-4 flex justify-center">
                         <img
-                          src={imageMap.etsy_link_raci_matrics}
+                          src={`${import.meta.env.BASE_URL}${imageMap.etsy_link_raci_matrics}`}
                           alt="RACI Matrix Template"
                           className="rounded-lg shadow-md max-w-full h-auto hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
                         />
@@ -315,7 +311,7 @@ export default function FunctionDetail() {
                       </p>
 
                       <a
-                        href="/blog#list-dates-power-query"
+                        href={`${import.meta.env.BASE_URL}blog#list-dates-power-query`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
