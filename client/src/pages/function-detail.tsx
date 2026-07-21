@@ -10,13 +10,16 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
 
-/* IMAGE URLS FOR PRODUCTION (public folder) - Removed leading slashes for BASE_URL compatibility */
+/* Direct asset imports */
+import workingDaysImg from "@/assets/image_aadd94.jpeg";
+import workingDaysExcel from "@/assets/WorkingDaysExample.xlsx";
+
+/* IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
   list_dates_step1: "attached_assets/functions/list.dates/step1.jfif",
   list_dates_step2: "attached_assets/functions/list.dates/step2.jfif",
   list_dates_step3: "attached_assets/functions/list.dates/step3.jfif",
   etsy_link_raci_matrics: "attached_assets/functions/Raci Matrix image.jpeg",
-  list_dates_working_days: "attached_assets/image_aadd94.jpeg",
 };
 
 /* List of functions that have a dedicated HTML page */
@@ -34,7 +37,6 @@ export default function FunctionDetail() {
   const func = allFunctions?.find(f => f.name === decodedName);
   const isLoading = !allFunctions;
   
-  // Add BASE_URL to the video path
   const videoPath = func
     ? `${import.meta.env.BASE_URL}videos/${func.name.toLowerCase()}.mp4`
     : null;
@@ -75,7 +77,6 @@ export default function FunctionDetail() {
   const hasHtmlPage = htmlFunctions.includes(func.name);
   const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
 
-  /* HTML page URL if available - Added BASE_URL */
   const htmlFileName = hasHtmlPage ? `${import.meta.env.BASE_URL}html/functions/${func.name}.html` : null;
 
   return (
@@ -102,7 +103,6 @@ export default function FunctionDetail() {
               </a>
             </div>
 
-            {/* If HTML page exists, show iframe + optional video */}
             {hasHtmlPage ? (
               <>
                 <iframe
@@ -120,7 +120,6 @@ export default function FunctionDetail() {
                   }}
                 />
 
-                {/* Render video only if it exists */}
                 {hasVideo === true && (
                   <Card className="mt-6">
                     <CardHeader>
@@ -190,7 +189,7 @@ export default function FunctionDetail() {
                   </Card>
                 )}
 
-                {/* Images Section – List.Dates only */}
+                {/* Images Section */}
                 {isListDates && (
                   <Card className="mb-6">
                     <CardHeader>
@@ -242,21 +241,26 @@ export default function FunctionDetail() {
                         </div>
                       ))}
 
-                      {/* Working Days Example - Nested inside the Examples card for List.Dates */}
+                      {/* Working Days Example with DIV Background Image */}
                       {isListDates && (
                         <div className="pt-4 border-t border-ms-gray-border mt-6">
                           <h4 className="font-semibold mb-3">Working Days Calculation Example</h4>
                           <p className="text-sm text-ms-gray-secondary mb-4">
                             See how List.Dates can calculate working days and generate weekly summaries. Download the Excel file below to explore the tables shown in the image.
                           </p>
-                          <img
-                            src={`${import.meta.env.BASE_URL}${imageMap.list_dates_working_days}`}
-                            alt="List.Dates Working Days Example"
-                            className="rounded-lg border max-w-full h-auto mb-4"
+                          <div 
+                            style={{ 
+                              backgroundImage: `url(${workingDaysImg})`,
+                              height: "350px", 
+                              width: "100%" 
+                            }}
+                            className="rounded-lg border bg-contain bg-left bg-no-repeat mb-4"
+                            role="img"
+                            aria-label="List.Dates Working Days Example"
                           />
                           <a
-                            href={`${import.meta.env.BASE_URL}attached_assets/WorkingDaysExample.xlsx`}
-                            download
+                            href={workingDaysExcel}
+                            download="WorkingDaysExample.xlsx"
                             className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline text-sm"
                           >
                             Download the Excel Template
@@ -299,7 +303,7 @@ export default function FunctionDetail() {
                   </Card>
                 )}
 
-                {/* Blog Post Link – List.Dates only */}
+                {/* Blog Post Link */}
                 {isListDates && (
                   <Card className="mb-6 border-ms-blue/30">
                     <CardHeader>
