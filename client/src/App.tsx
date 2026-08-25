@@ -18,6 +18,8 @@ import About from "@/pages/about";
 import DataTypes from "@/pages/data-types";
 import Services from "@/pages/services";
 import NotFound from "@/pages/not-found";
+import StandardNumericFormatStrings from "@/pages/standard-numeric-format-strings";
+import CustomNumericFormatStrings from "@/pages/custom-numeric-format-strings";
 
 // Explicit base path
 const basePath = import.meta.env.BASE_URL ?? "/";
@@ -39,6 +41,8 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/datatypes" component={DataTypes} />
       <Route path="/services" component={Services} />
+      <Route path="/docs/standard-numeric-format-strings" component={StandardNumericFormatStrings} />
+      <Route path="/docs/custom-numeric-format-strings" component={CustomNumericFormatStrings} />
 
       {/* Dynamic routes after static */}
       <Route path="/function/:functionName" component={FunctionDetail} />

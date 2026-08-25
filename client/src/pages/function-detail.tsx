@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useParams } from "wouter";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "wouter";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ArrowLeft } from "lucide-react";
 import { type Function } from "@shared/schema";
-import { useEffect } from "react";
 
 /* IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
@@ -71,6 +70,7 @@ export default function FunctionDetail() {
   }
 
   const isListDates = func.name === "List.Dates";
+  const isNumberToText = func.name === "Number.ToText";
   const hasHtmlPage = htmlFunctions.includes(func.name);
   const showEtsyCTA = ["Table.Pivot", "Table.Group"].includes(func.name);
 
@@ -262,6 +262,34 @@ export default function FunctionDetail() {
                           </a>
                         </div>
                       )}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Format Strings Guide – Number.ToText only */}
+                {isNumberToText && (
+                  <Card className="mb-6 border-ms-blue/30">
+                    <CardHeader>
+                      <CardTitle>Format Strings Guide</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-ms-gray-secondary mb-4">
+                        When defining the <code>format</code> parameter, you can use standard or custom patterns to control exactly how the number appears.
+                      </p>
+                      <div className="flex flex-col gap-3">
+                        <Link
+                          href="/docs/standard-numeric-format-strings"
+                          className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
+                        >
+                          👉 Standard Numeric Format Strings
+                        </Link>
+                        <Link
+                          href="/docs/custom-numeric-format-strings"
+                          className="inline-flex items-center gap-2 text-ms-blue font-medium hover:underline"
+                        >
+                          👉 Custom Numeric Format Strings
+                        </Link>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
