@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Twitter, Linkedin, Github, Calendar, Clock, Tag } from "lucide-react";
-import { Link } from "wouter";
 import frustratedWorkerImage from "@assets/36e1fd5c-e948-4deb-8a2d-64946bfc1dbd.jfif";
 import metricTrap from "@assets/metric trap.jfif";
 import streetLightEffect from "@assets/streetlight effect.jfif";
-import { CodeBlock } from "@/components/ui/code-block";
-
 
 interface BlogPost {
   id: string;
@@ -20,34 +17,34 @@ interface BlogPost {
   category: string;
   featured: boolean;
   tags: string[];
-
-  content?: string;     // بوست عادي (Markdown / نص)
-  htmlFile?: string;    // بوست HTML تفاعلي (iframe)
+  content?: string;     // Regular post (Markdown / Text)
+  htmlFile?: string;    // Interactive HTML post (iframe)
 }
 
-
-
+// Helper to parse inline markdown (Bold, Italic, Code, Links)
+const renderInline = (text: string) => {
+  let html = text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">$1</a>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">$1</code>');
+  return { __html: html };
+};
 
 export default function Blog() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Add state for current post index
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [iframeHeight, setIframeHeight] = useState<number>(0);
 
-  // Function to scroll to top smoothly
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // ADDED: Effect to handle initial scroll if URL has a hash (e.g., #metric-trap-kpi-failure)
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
-
     if (hash) {
       const index = blogPosts.findIndex(post => post.id === hash);
-
       if (index !== -1) {
         setCurrentPostIndex(index);
       }
-
       setTimeout(() => {
         const element = document.getElementById(hash);
         if (element) {
@@ -57,7 +54,6 @@ export default function Blog() {
     }
   }, []);
 
-  // Blog posts
   const blogPosts: BlogPost[] = [
     {
       id: "records-lists-power-query",
@@ -286,11 +282,11 @@ This is the standard way to calculate **Project Lead Times** or **Net Working Da
       "tags": ["KPIs", "Management", "Strategy", "Data Literacy", "Goodhart's Law"],
       "content": `**In modern business, we worship the dashboard.** There is a specific kind of comfort found in a spreadsheet full of green arrows pointing up. It suggests control. It suggests progress. It implies that we know exactly where the ship is steering.
 
-But there is a dangerous difference between **\"hitting the target\"** and **\"achieving the goal.\"**
+But there is a dangerous difference between **"hitting the target"** and **"achieving the goal."**
 
 We often assume that if we measure something, it will improve. The reality is often the opposite. When we rely too heavily on Key Performance Indicators (KPIs) without understanding human psychology, we inadvertently encourage our teams to destroy value in the pursuit of a number.
 
-Here is why your metrics might be lying to you, and why the most \"data-driven\" companies are often the ones driving off a cliff.
+Here is why your metrics might be lying to you, and why the most "data-driven" companies are often the ones driving off a cliff.
 
 [metricTrap]
 
@@ -298,14 +294,14 @@ Here is why your metrics might be lying to you, and why the most \"data-driven\"
 
 The fundamental flaw of every metric is captured by **Goodhart’s Law**:
 
-> \"When a measure becomes a target, it ceases to be a good measure.\"
+> "When a measure becomes a target, it ceases to be a good measure."
 
 This happens because metrics are simplistic representations of a complex reality. A map is not the territory. A thermometer is not the weather. When you tell a human being that their livelihood depends on moving a specific needle on a gauge, they *will* find a way to move that needle. Whether the actual result improves is entirely secondary.
 
 Here are the three ways this manifests in the workplace.
 
 
-**1. The \"Pizza Delivery\" Syndrome (Tunnel Vision)**
+**1. The "Pizza Delivery" Syndrome (Tunnel Vision)**
 
 Imagine a pizza chain that sets a strict KPI: *Every pizza must be delivered in under 30 minutes.*
 
@@ -332,7 +328,7 @@ Realizing the mistake, the government changed the metric to the *number* of nail
 
 We see this in modern offices every day:
 - **Metric:** Lines of code written → **Result:** Bloated, inefficient software.
-- **Metric:** Number of bugs fixed → **Result:** Developers \"fixing\" trivial issues while ignoring critical architectural flaws.
+- **Metric:** Number of bugs fixed → **Result:** Developers "fixing" trivial issues while ignoring critical architectural flaws.
 
 **The Cobra Effect**
 This is the most dangerous flaw. When a metric is tied to an incentive (like a bonus), people will find the easiest way to hit the number without actually doing the work.
@@ -344,9 +340,9 @@ During British rule in India, the government offered a bounty for every dead cob
 Perhaps the most insidious flaw is the tendency to value only what we can easily measure, while ignoring what is actually valuable.
 
 This is known as the **Streetlight Effect**:
-*A man searches for his lost keys under a streetlight at night. A police officer asks, \"Are you sure you lost them here?\" The man replies, \"No, I lost them in the park, but this is where the light is.\"*
+*A man searches for his lost keys under a streetlight at night. A police officer asks, "Are you sure you lost them here?" The man replies, "No, I lost them in the park, but this is where the light is."*
 
-We measure website clicks because they are easy to count. We measure \"hours at the desk\" because it’s easy to track. But we rarely measure:
+We measure website clicks because they are easy to count. We measure "hours at the desk" because it’s easy to track. But we rarely measure:
 - Trust
 - Creativity
 - Psychological safety
@@ -360,13 +356,13 @@ Why? Because those things are messy and hard to quantify. When you manage solely
 
 This doesn't mean we should abolish metrics. It means we need to stop treating them as the *truth* and start treating them as *evidence*.
 
-To fix your KPI strategy, you must adopt a **\"Counter-Measure\" mindset**:
+To fix your KPI strategy, you must adopt a **"Counter-Measure" mindset**:
 
 **1. Never Measure Quantity Without Quality**
 If you measure how fast a call center agent hangs up the phone (Average Handle Time), you must pair it with a counter-metric for First Call Resolution. You cannot reward speed if it sacrifices the solution.
 
 **2. Hunt for the Loophole**
-Before rolling out a new KPI, play the \"Evil Genius\" game. Ask your team: *\"If I wanted to get a huge bonus by manipulating this number without actually doing any real work, how would I do it?\"* Once you find the loophole, close it before you start measuring.
+Before rolling out a new KPI, play the "Evil Genius" game. Ask your team: *"If I wanted to get a huge bonus by manipulating this number without actually doing any real work, how would I do it?"* Once you find the loophole, close it before you start measuring.
 
 **3. Accept Subjectivity**
 Stop trying to turn everything into a number. Sometimes, the best way to evaluate performance is not a calculation, but a conversation.
@@ -538,20 +534,14 @@ But instead of building everything from scratch…
     }
   ];
 
-  const categories = ["All", "Power Query", "Power BI", "DAX", "M Language", "Analysis Services"];
   const topPosts = blogPosts.slice(0, 3);
-
-  // All blog posts (no filtering needed for main display)
   const filteredPosts = blogPosts;
-
-
   const currentPost = filteredPosts[currentPostIndex] || blogPosts[0];
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
       const index = blogPosts.findIndex(post => post.id === hash);
-
       if (index !== -1) {
         setCurrentPostIndex(index);
         scrollToTop();
@@ -559,27 +549,22 @@ But instead of building everything from scratch…
     };
 
     window.addEventListener('hashchange', handleHashChange);
-
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "IFRAME_HEIGHT") {
         setIframeHeight(event.data.height);
       }
     };
-
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-
-
-  // ------------------ SEARCH BAR COMPONENT ------------------
   const SearchBar = () => {
     const [query, setQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
-
     const results = blogPosts.filter(post =>
       post.title.toLowerCase().includes(query.toLowerCase())
     );
@@ -626,7 +611,6 @@ But instead of building everything from scratch…
       </div>
     );
   };
-  // ---------------- END SEARCH BAR COMPONENT ----------------
 
   return (
     <div className="min-h-screen bg-white">
@@ -642,8 +626,10 @@ But instead of building everything from scratch…
         <main className="flex-1 ml-0 lg:ml-[280px] pt-16 px-4 lg:px-0">
           <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              
               {/* Main Content */}
               <div className="lg:col-span-3">
+                
                 {/* Blog Header */}
                 <div className="text-center mb-12 pb-8 border-b border-gray-200">
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
@@ -664,8 +650,7 @@ But instead of building everything from scratch…
                   </div>
                 </div>
 
-
-                {/* Blog Post */}
+                {/* Blog Post Rendering */}
                 <div className="space-y-0">
                   {filteredPosts.length > 0 ? (
                     <div key={currentPost.id} id={currentPost.id} className="scroll-mt-24">
@@ -682,21 +667,21 @@ But instead of building everything from scratch…
 
                         <div className="prose prose-gray max-w-none">
                           {currentPost.htmlFile ? (
-                            // ✅ Render full interactive HTML post safely
+                            // Render HTML File
                             <iframe
                               src={`/html/blog/${currentPost.htmlFile}`}
                               title={currentPost.title}
                               className="w-full border-0 rounded-xl"
-                              style={{
-                                height: iframeHeight ? `${iframeHeight}px` : "100vh"
-                              }}
+                              style={{ height: iframeHeight ? `${iframeHeight}px` : "100vh" }}
                               scrolling="no"
                             />
-
-
                           ) : (
-                            // ✅ Fallback to existing Markdown-ish content (UNCHANGED)
+                            // Advanced Markdown Parser
                             (currentPost.content ?? '').split('\n\n').map((paragraph, pIndex) => {
+                              const trimmedPara = paragraph.trim();
+                              if (!trimmedPara) return null;
+
+                              // 1. IMAGE MAPPING
                               const imageMap: Record<string, string> = {
                                 '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
                                 '[metricTrap]': metricTrap,
@@ -704,14 +689,11 @@ But instead of building everything from scratch…
                                 '[RACI_ETSY_IMAGE]': '/attached_assets/functions/Raci Matrix image.jpeg'
                               };
 
-                              const trimmedLine = paragraph.trim();
-
-                              // IMAGE TAG
-                              if (imageMap[trimmedLine]) {
+                              if (imageMap[trimmedPara]) {
                                 return (
                                   <div key={pIndex} className="my-8 flex justify-center">
                                     <img
-                                      src={imageMap[trimmedLine]}
+                                      src={imageMap[trimmedPara]}
                                       alt="Blog illustration"
                                       className="rounded-lg shadow-lg max-w-full h-auto"
                                       style={{ maxHeight: '400px' }}
@@ -720,108 +702,125 @@ But instead of building everything from scratch…
                                 );
                               }
 
-                              // CODE BLOCK
-                              if (paragraph.startsWith('```')) {
-                                const lines = paragraph.split('\n');
-                                const language = lines[0].slice(3);
-                                const code = lines.slice(1, -1).join('\n');
-
+                              // 2. HTML TABLES/BLOCKS
+                              if (trimmedPara.startsWith('<')) {
                                 return (
-                                  <div key={pIndex} className="my-6">
-                                    <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
-                                      <span className="text-gray-400 text-xs font-mono uppercase">
-                                        {language || 'code'}
-                                      </span>
-                                      <button
-                                        onClick={() => navigator.clipboard.writeText(code)}
-                                        className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
-                                      >
-                                        Copy
-                                      </button>
-                                    </div>
-                                    <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
-                                      <code>{code}</code>
-                                    </pre>
-                                  </div>
+                                  <div 
+                                    key={pIndex} 
+                                    className="my-6 overflow-x-auto w-full"
+                                    dangerouslySetInnerHTML={{ __html: trimmedPara }} 
+                                  />
                                 );
                               }
 
-                              // HEADINGS
-                              if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+                              // 3. CODE BLOCKS
+                              if (trimmedPara.startsWith('```')) {
+                                const match = trimmedPara.match(/```(\w*)\n([\s\S]*?)\n?```/);
+                                if (match) {
+                                  const language = match[1] || 'code';
+                                  const code = match[2];
+                                  return (
+                                    <div key={pIndex} className="my-6">
+                                      <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
+                                        <span className="text-gray-400 text-xs font-mono uppercase">{language}</span>
+                                        <button
+                                          onClick={() => navigator.clipboard.writeText(code)}
+                                          className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                                        >
+                                          Copy
+                                        </button>
+                                      </div>
+                                      <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
+                                        <code>{code}</code>
+                                      </pre>
+                                    </div>
+                                  );
+                                }
+                              }
+
+                              // 4. BLOCKQUOTES
+                              if (trimmedPara.startsWith('> ')) {
+                                return (
+                                  <blockquote key={pIndex} className="border-l-4 border-blue-500 bg-gray-50 pl-5 py-4 pr-4 rounded-r-lg my-6 text-gray-700 italic">
+                                    <div dangerouslySetInnerHTML={renderInline(trimmedPara.replace(/^>\s?/gm, ''))} />
+                                  </blockquote>
+                                );
+                              }
+
+                              // 5. HORIZONTAL RULE
+                              if (trimmedPara === '---') {
+                                return <hr key={pIndex} className="my-10 border-t-2 border-gray-100" />;
+                              }
+
+                              // 6. HEADINGS
+                              if (trimmedPara.startsWith('## ')) {
+                                return <h2 key={pIndex} className="text-2xl font-bold text-gray-900 mt-10 mb-5" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(3))} />;
+                              }
+                              if (trimmedPara.startsWith('### ')) {
+                                return <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(4))} />;
+                              }
+                              // Support for existing **Heading** syntax that is single lined
+                              if (trimmedPara.startsWith('**') && trimmedPara.endsWith('**') && !trimmedPara.includes('\n')) {
                                 return (
                                   <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                                    {paragraph.slice(2, -2)}
+                                    <span dangerouslySetInnerHTML={renderInline(trimmedPara.slice(2, -2))} />
                                   </h3>
                                 );
                               }
 
-                              // LIST ITEMS
-                              if (paragraph.includes('- ') || /^\d+\.\s/.test(paragraph)) {
-                                const lines = paragraph.split('\n');
+                              // 7. LIST ITEMS (Bulleted `- ` or Numbered `1.` or `1-`)
+                              if (trimmedPara.startsWith('- ') || /^\d+[\.-]\s/.test(trimmedPara)) {
+                                const lines = trimmedPara.split('\n');
                                 return (
-                                  <div key={pIndex} className="my-4">
+                                  <div key={pIndex} className="my-4 space-y-2 ml-2">
                                     {lines.map((line, lIndex) => {
-                                      if (line.startsWith('- ')) {
+                                      const tl = line.trim();
+                                      if (!tl) return null;
+
+                                      if (tl.startsWith('- ')) {
                                         return (
-                                          <div key={lIndex} className="flex items-start mb-2">
-                                            <span className="text-green-600 mr-3 mt-1 text-sm">•</span>
-                                            <div className="text-gray-700 leading-relaxed flex-1">
-                                              {line.slice(2)}
-                                            </div>
+                                          <div key={lIndex} className="flex items-start">
+                                            <span className="text-blue-500 mr-3 mt-1 font-bold text-sm">•</span>
+                                            <div className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={renderInline(tl.slice(2))} />
                                           </div>
                                         );
-                                      } else if (/^\d+\.\s/.test(line)) {
-                                        const match = line.match(/^(\d+)\.\s/);
-                                        const number = match ? match[1] : '1';
-                                        const content = line.replace(/^\d+\.\s/, '');
+                                      } else if (/^\d+[\.-]\s/.test(tl)) {
+                                        const match = tl.match(/^(\d+)[\.-]\s(.*)/);
+                                        const num = match ? match[1] : '1';
+                                        const content = match ? match[2] : tl;
                                         return (
-                                          <div key={lIndex} className="flex items-start mb-2">
-                                            <span className="text-green-600 mr-3 font-semibold text-sm">
-                                              {number}.
-                                            </span>
-                                            <div className="text-gray-700 leading-relaxed flex-1">
-                                              {content}
-                                            </div>
+                                          <div key={lIndex} className="flex items-start">
+                                            <span className="text-blue-500 mr-2 min-w-[20px] font-semibold">{num}.</span>
+                                            <div className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={renderInline(content)} />
                                           </div>
                                         );
-                                      } else if (line.trim()) {
+                                      } else {
                                         return (
-                                          <p key={lIndex} className="mb-2 text-gray-700 leading-relaxed">
-                                            {line}
-                                          </p>
+                                          <div key={lIndex} className="flex items-start">
+                                            <span className="mr-2 min-w-[20px]"></span>
+                                            <div className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={renderInline(tl)} />
+                                          </div>
                                         );
                                       }
-                                      return null;
                                     })}
                                   </div>
                                 );
                               }
 
-                              // REGULAR PARAGRAPHS
-                              if (paragraph.trim()) {
-                                return (
-                                  <p
-                                    key={pIndex}
-                                    className="mb-4 text-gray-700 leading-relaxed"
-                                    dangerouslySetInnerHTML={{
-                                      __html: paragraph.replace(
-                                        /\[([^\]]+)\]\(([^)]+)\)/g,
-                                        '<a href="$2" target="_blank" rel="noopener noreferrer" class="blog-link">$1</a>'
-                                      )
-                                    }}
-                                  />
-                                );
-                              }
-
-                              return null;
+                              // 8. REGULAR PARAGRAPHS
+                              return (
+                                <p
+                                  key={pIndex}
+                                  className="mb-5 text-gray-700 leading-relaxed"
+                                  dangerouslySetInnerHTML={renderInline(trimmedPara)}
+                                />
+                              );
                             })
                           )}
                         </div>
 
-
-
-
-                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
+                        {/* Post Meta */}
+                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-10 pt-6 border-t border-gray-100">
                           <div className="flex items-center">
                             <Calendar className="h-4 w-4 mr-1" />
                             {new Date(currentPost.date).toLocaleDateString('en-US', {
@@ -844,45 +843,28 @@ But instead of building everything from scratch…
 
                       {/* Next / Previous Buttons */}
                       <div className="flex justify-between mt-8 space-x-4">
-                        {/* Previous Button */}
                         {currentPostIndex > 0 && (
                           <button
                             onClick={() => {
                               const newIndex = Math.max(currentPostIndex - 1, 0);
-
                               setCurrentPostIndex(newIndex);
-
-                              window.history.pushState(
-                                null,
-                                '',
-                                `#${filteredPosts[newIndex].id}`
-                              );
-
+                              window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
                               scrollToTop();
                             }}
-                            className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate"
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate transition-colors"
                           >
                             ← Previous: {filteredPosts[currentPostIndex - 1].title}
                           </button>
                         )}
-
-                        {/* Next Button */}
                         {currentPostIndex < filteredPosts.length - 1 && (
                           <button
                             onClick={() => {
                               const newIndex = Math.min(currentPostIndex + 1, filteredPosts.length - 1);
-
                               setCurrentPostIndex(newIndex);
-
-                              window.history.pushState(
-                                null,
-                                '',
-                                `#${filteredPosts[newIndex].id}`
-                              );
-
+                              window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
                               scrollToTop();
                             }}
-                            className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate"
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate transition-colors"
                           >
                             Next: {filteredPosts[currentPostIndex + 1].title} →
                           </button>
@@ -900,19 +882,17 @@ But instead of building everything from scratch…
                   )}
                 </div>
 
-
-
               </div>
 
               {/* Sidebar */}
               <div className="lg:col-span-1">
                 <div className="sticky top-24 space-y-6 max-h-[calc(100vh-6rem)] overflow-y-auto">
+                  
                   {/* Search and Language Controls */}
                   <div className="bg-gray-50 rounded-lg p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Search</h3>
                     <div className="space-y-4">
                       <SearchBar />
-
                     </div>
                   </div>
 
@@ -921,7 +901,7 @@ But instead of building everything from scratch…
                     <div className="bg-gray-50 rounded-lg p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Posts</h3>
                       <div className="space-y-4">
-                        {topPosts.map((post, idx) => (
+                        {topPosts.map((post) => (
                           <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
                             <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
                               <a
@@ -929,12 +909,10 @@ But instead of building everything from scratch…
                                 className="hover:text-blue-600 transition-colors block truncate"
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  // Update current post index to match clicked post
                                   const filteredIndex = filteredPosts.findIndex(p => p.id === post.id);
                                   if (filteredIndex !== -1) {
                                     setCurrentPostIndex(filteredIndex);
                                     scrollToTop();
-                                    // Update URL hash without jumping
                                     window.history.pushState(null, '', `#${post.id}`);
                                   }
                                 }}
@@ -950,13 +928,9 @@ But instead of building everything from scratch…
                       </div>
                     </div>
                   )}
-
-
-
-
-
                 </div>
               </div>
+
             </div>
           </div>
         </main>
