@@ -581,7 +581,10 @@ But instead of building everything from scratch…
       <div className="relative">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"/>
-          <Input onChange="{(e)" placeholder="Search posts..." value="{query}"> {
+          <Input 
+            placeholder="Search posts..." 
+            value={query}
+            onChange={(e) => {
               setQuery(e.target.value);
               setShowDropdown(true);
             }}
@@ -619,10 +622,14 @@ But instead of building everything from scratch…
 
   return (
     <div className="min-h-screen bg-white">
-      <Header isMobileMenuOpen="{isMobileMenuOpen}" onMobileMenuToggle="{()"> setIsMobileMenuOpen(!isMobileMenuOpen)}
+      <Header 
+        isMobileMenuOpen={isMobileMenuOpen} 
+        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
       <div className="flex">
-        <Sidebar isOpen="{isMobileMenuOpen}" onClose="{()"> setIsMobileMenuOpen(false)}
+        <Sidebar 
+          isOpen={isMobileMenuOpen} 
+          onClose={() => setIsMobileMenuOpen(false)}
         />
         <main className="flex-1 ml-0 lg:ml-[280px] pt-16 px-4 lg:px-0">
           <div className="max-w-7xl mx-auto px-6 py-8">
@@ -641,7 +648,7 @@ But instead of building everything from scratch…
                   <p className="text-gray-600 mb-4">Power Query, M Language, Data Transformation and more</p>
                   <div className="flex justify-center space-x-4">
                     <a
-                      href="[https://www.linkedin.com/company/power-query-guide/](https://www.linkedin.com/company/power-query-guide/)"
+                      href="https://www.linkedin.com/company/power-query-guide/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 hover:text-blue-600"
