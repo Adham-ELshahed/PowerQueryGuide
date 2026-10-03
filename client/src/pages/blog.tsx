@@ -34,7 +34,8 @@ const renderInline = (text: string) => {
     })
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">$1</code>');
+    // Escaped backticks for build safety
+    .replace(new RegExp("`(.*?)`", "g"), '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">$1</code>');
   return { __html: html };
 };
 
@@ -579,11 +580,8 @@ But instead of building everything from scratch…
     return (
       <div className="relative">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            placeholder="Search posts..."
-            value={query}
-            onChange={(e) => {
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"/>
+          <Input onChange="{(e)" placeholder="Search posts..." value="{query}"> {
               setQuery(e.target.value);
               setShowDropdown(true);
             }}
@@ -621,14 +619,10 @@ But instead of building everything from scratch…
 
   return (
     <div className="min-h-screen bg-white">
-      <Header
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      <Header isMobileMenuOpen="{isMobileMenuOpen}" onMobileMenuToggle="{()"> setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
       <div className="flex">
-        <Sidebar
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
+        <Sidebar isOpen="{isMobileMenuOpen}" onClose="{()"> setIsMobileMenuOpen(false)}
         />
         <main className="flex-1 ml-0 lg:ml-[280px] pt-16 px-4 lg:px-0">
           <div className="max-w-7xl mx-auto px-6 py-8">
@@ -647,12 +641,12 @@ But instead of building everything from scratch…
                   <p className="text-gray-600 mb-4">Power Query, M Language, Data Transformation and more</p>
                   <div className="flex justify-center space-x-4">
                     <a
-                      href="https://www.linkedin.com/company/power-query-guide/"
+                      href="[https://www.linkedin.com/company/power-query-guide/](https://www.linkedin.com/company/power-query-guide/)"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 hover:text-blue-600"
                     >
-                      <Linkedin className="h-5 w-5" />
+                      <Linkedin className="h-5 w-5"/>
                     </a>
                   </div>
                 </div>
@@ -720,6 +714,233 @@ But instead of building everything from scratch…
                                 );
                               }
 
-                              // 3. CODE BLOCKS
+                              // 3. CODE BLOCKS - Using safe string construction to avoid ESBuild Regex Parsing errors
                               if (trimmedPara.startsWith('```')) {
-                                const match = trimmedPara.match(/
+                                const match = trimmedPara.match(new RegExp("```(\\w*)\\n([\\s\\S]*?)\\n?```"));
+                                if (match) {
+                                  const language = match[1] || 'code';
+                                  const code = match[2];
+                                  return (
+                                    <div key={pIndex} className="my-6">
+                                      <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
+                                        <span className="text-gray-400 text-xs font-mono uppercase">{language}</span>
+                                        <button
+                                          onClick={() => navigator.clipboard.writeText(code)}
+                                          className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                                        >
+                                          Copy
+                                        </button>
+                                      </div>
+                                      <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
+                                        <code>{code}</code>
+                                      </pre>
+                                    </div>
+                                  );
+                                }
+                              }
+
+                              // 4. BLOCKQUOTES
+                              if (trimmedPara.startsWith('> ')) {
+                                return (
+                                  <blockquote key={pIndex} className="border-l-4 border-blue-500 bg-gray-50 pl-5 py-4 pr-4 rounded-r-lg my-6 text-gray-700 italic">
+                                    <div dangerouslySetInnerHTML={renderInline(trimmedPara.replace(/^>\s?/gm, ''))} />
+                                  </blockquote>
+                                );
+                              }
+
+                              // 5. HORIZONTAL RULE
+                              if (trimmedPara === '---') {
+                                return <hr key={pIndex} className="my-10 border-t-2 border-gray-100" />;
+                              }
+
+                              // 6. HEADINGS
+                              if (trimmedPara.startsWith('## ')) {
+                                return <h2 key={pIndex} className="text-2xl font-bold text-gray-900 mt-10 mb-5" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(3))} />;
+                              }
+                              if (trimmedPara.startsWith('### ')) {
+                                return <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(4))} />;
+                              }
+                              // Support for existing **Heading** syntax that is single lined
+                              if (trimmedPara.startsWith('**') && trimmedPara.endsWith('**') && !trimmedPara.includes('\n')) {
+                                return (
+                                  <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
+                                    <span dangerouslySetInnerHTML={renderInline(trimmedPara.slice(2, -2))} />
+                                  </h3>
+                                );
+                              }
+
+                              // 7 & 8. MIXED TEXT AND LISTS (or plain paragraphs)
+                              const lines = trimmedPara.split('\n');
+                              
+                              // Check if there are any list items mixed within this paragraph block
+                              const hasListItems = lines.some(line => {
+                                const tl = line.trim();
+                                return tl.startsWith('- ') || /^\d+[\.-]\s/.test(tl);
+                              });
+
+                              if (hasListItems) {
+                                return (
+                                  <div key={pIndex} className="mb-5 text-gray-700 leading-relaxed space-y-2">
+                                    {lines.map((line, lIndex) => {
+                                      const tl = line.trim();
+                                      if (!tl) return null;
+
+                                      if (tl.startsWith('- ')) {
+                                        return (
+                                          <div key={lIndex} className="flex items-start ml-4">
+                                            <span className="text-blue-500 mr-3 mt-1 font-bold text-sm">•</span>
+                                            <div className="flex-1" dangerouslySetInnerHTML={renderInline(tl.slice(2))} />
+                                          </div>
+                                        );
+                                      } else if (/^\d+[\.-]\s/.test(tl)) {
+                                        const match = tl.match(/^(\d+)[\.-]\s(.*)/);
+                                        const num = match ? match[1] : '1';
+                                        const content = match ? match[2] : tl;
+                                        return (
+                                          <div key={lIndex} className="flex items-start ml-4">
+                                            <span className="text-blue-500 mr-2 min-w-[20px] font-semibold">{num}.</span>
+                                            <div className="flex-1" dangerouslySetInnerHTML={renderInline(content)} />
+                                          </div>
+                                        );
+                                      } else {
+                                        // Regular text line inside a mixed block (e.g., heading or opening sentence before a list)
+                                        return (
+                                          <div key={lIndex} dangerouslySetInnerHTML={renderInline(tl)} />
+                                        );
+                                      }
+                                    })}
+                                  </div>
+                                );
+                              }
+
+                              // 8. REGULAR PARAGRAPHS (No lists detected)
+                              return (
+                                <p
+                                  key={pIndex}
+                                  className="mb-5 text-gray-700 leading-relaxed"
+                                  dangerouslySetInnerHTML={renderInline(trimmedPara)}
+                                />
+                              );
+                            })
+                          )}
+                        </div>
+
+                        {/* Post Meta */}
+                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-10 pt-6 border-t border-gray-100">
+                          <div className="flex items-center">
+                            <Calendar className="h-4 w-4 mr-1" />
+                            {new Date(currentPost.date).toLocaleDateString('en-US', {
+                              year: 'numeric', month: 'long', day: 'numeric'
+                            })}
+                          </div>
+                          <div className="flex items-center">
+                            <Clock className="h-4 w-4 mr-1" />
+                            {currentPost.readTime}
+                          </div>
+                          <div className="flex items-center">
+                            <Tag className="h-4 w-4 mr-1" />
+                            <Badge variant="outline" className="text-xs">
+                              {currentPost.category}
+                            </Badge>
+                          </div>
+                          <span>by {currentPost.author}</span>
+                        </div>
+                      </article>
+
+                      {/* Next / Previous Buttons */}
+                      <div className="flex justify-between mt-8 space-x-4">
+                        {currentPostIndex > 0 && (
+                          <button
+                            onClick={() => {
+                              const newIndex = Math.max(currentPostIndex - 1, 0);
+                              setCurrentPostIndex(newIndex);
+                              window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
+                              scrollToTop();
+                            }}
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate transition-colors"
+                          >
+                            ← Previous: {filteredPosts[currentPostIndex - 1].title}
+                          </button>
+                        )}
+                        {currentPostIndex < filteredPosts.length - 1 && (
+                          <button
+                            onClick={() => {
+                              const newIndex = Math.min(currentPostIndex + 1, filteredPosts.length - 1);
+                              setCurrentPostIndex(newIndex);
+                              window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
+                              scrollToTop();
+                            }}
+                            className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate transition-colors"
+                          >
+                            Next: {filteredPosts[currentPostIndex + 1].title} →
+                          </button>
+                        )}
+                      </div>
+
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <h2 className="text-xl font-semibold text-gray-900 mb-4">No Blog Posts Yet</h2>
+                      <p className="text-gray-600">
+                        Blog posts will appear here when they are added to the site.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Sidebar */}
+              <div className="lg:col-span-1">
+                <div className="sticky top-24 space-y-6 max-h-[calc(100vh-6rem)] overflow-y-auto">
+                  
+                  {/* Search and Language Controls */}
+                  <div className="bg-gray-50 rounded-lg p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Search</h3>
+                    <div className="space-y-4">
+                      <SearchBar />
+                    </div>
+                  </div>
+
+                  {/* Top Posts */}
+                  {topPosts.length > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Posts</h3>
+                      <div className="space-y-4">
+                        {topPosts.map((post) => (
+                          <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
+                            <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
+                              <a
+                                href={`#${post.id}`}
+                                className="hover:text-blue-600 transition-colors block truncate"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  const filteredIndex = filteredPosts.findIndex(p => p.id === post.id);
+                                  if (filteredIndex !== -1) {
+                                    setCurrentPostIndex(filteredIndex);
+                                    scrollToTop();
+                                    window.history.pushState(null, '', `#${post.id}`);
+                                  }
+                                }}
+                              >
+                                {post.title}
+                              </a>
+                            </h4>
+                            <div className="text-xs text-gray-600">
+                              {new Date(post.date).toLocaleDateString()} • {post.readTime}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
