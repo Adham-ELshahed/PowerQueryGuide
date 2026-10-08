@@ -17,6 +17,7 @@ import Blog from "@/pages/blog";
 import About from "@/pages/about";
 import DataTypes from "@/pages/data-types";
 import Services from "@/pages/services";
+import Enumerations from "@/pages/enumerations";
 import NotFound from "@/pages/not-found";
 import StandardNumericFormatStrings from "@/pages/standard-numeric-format-strings";
 import CustomNumericFormatStrings from "@/pages/custom-numeric-format-strings";
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/datatypes" component={DataTypes} />
       <Route path="/services" component={Services} />
+      <Route path="/enumerations" component={Enumerations} />
       <Route path="/docs/standard-numeric-format-strings" component={StandardNumericFormatStrings} />
       <Route path="/docs/custom-numeric-format-strings" component={CustomNumericFormatStrings} />
 

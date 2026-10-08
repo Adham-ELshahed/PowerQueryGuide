@@ -14,6 +14,7 @@ export default function Header({ isMobileMenuOpen, onMobileMenuToggle }: HeaderP
   const navigationLinks = [
     { href: "/blog", label: "Blog" },
     { href: "/datatypes", label: "Data Types" },
+    { href: "/enumerations", label: "Enumerations" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
   ];
