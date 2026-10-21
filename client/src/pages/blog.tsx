@@ -1,9 +1,9 @@
 import { useState, useEffect, ReactNode } from "react";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
+import DocsLayout from "@/components/layout/docs-layout";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Twitter, Linkedin, Github, Calendar, Clock, Tag } from "lucide-react";
+import { linkifyHtml } from "@/lib/link-rules";
 import frustratedWorkerImage from "@assets/36e1fd5c-e948-4deb-8a2d-64946bfc1dbd.jfif";
 import metricTrap from "@assets/metric trap.jfif";
 import streetLightEffect from "@assets/streetlight effect.jfif";
@@ -25,22 +25,25 @@ interface BlogPost {
 const renderInline = (text: string) => {
   let html = text
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
-      // Apply green underline styling for Power Query Guide links
-      if (url.includes('powerquery.guide/function/')) {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-green-600 underline hover:text-green-800 font-medium">${linkText}</a>`;
+      // References inside this site stay in the same tab and use the shared
+      // link style (absolute powerquery.guide URLs are made relative).
+      if (url.startsWith('/') || url.includes('powerquery.guide/')) {
+        const href = url.replace(/^https:\/\/powerquery\.guide/, '');
+        return `<a href="${href}" class="auto-link font-medium">${linkText}</a>`;
       }
-      // Default blue styling for all other links
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">${linkText}</a>`;
+      // Default styling for external links
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-ms-blue hover:underline font-medium">${linkText}</a>`;
     })
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     // Escaped backticks for build safety
-    .replace(new RegExp("`(.*?)`", "g"), '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">$1</code>');
-  return { __html: html };
+    .replace(new RegExp("`(.*?)`", "g"), '<code class="code-inline">$1</code>');
+  // Hyper-link functions / data types / enumeration constants already named
+  // in the copy (content itself is never changed — only wrapped in <a>).
+  return { __html: linkifyHtml(html, { className: 'auto-link' }) };
 };
 
 export default function Blog() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [iframeHeight, setIframeHeight] = useState<number>(0);
 
@@ -94,7 +97,7 @@ export default function Blog() {
       category: "Power Query",
       featured: true,
       tags: ["Power Query", "M Language", "Dates", "Calendar", "Project Management"],
-      content: `The [List.Dates](https://powerquery.guide/function/List.Dates) function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
+      content: `The [List.Dates](/function/List.Dates) function is a powerful tool in Power Query for generating sequential date lists, which are essential for creating dynamic calendar tables or filling gaps in data.
 
 Here are a few practical examples of how to use it.
 
@@ -133,7 +136,7 @@ List.Dates(#date(2026, 1, 1), 26, #duration(14, 0, 0, 0))
 
 **4. Dynamic Date Range (Today back to 30 days)**
 
-In real-world scenarios, you often want a list that updates relative to the current date. You can combine [List.Dates](https://powerquery.guide/function/List.Dates) with [DateTime.LocalNow](https://powerquery.guide/function/DateTime.LocalNow).
+In real-world scenarios, you often want a list that updates relative to the current date. You can combine [List.Dates](/function/List.Dates) with [DateTime.LocalNow](/function/DateTime.LocalNow).
 
 \`\`\`powerquery
 List.Dates(
@@ -160,17 +163,17 @@ List.Dates(
   <tbody>
     <tr>
       <td><strong>start</strong></td>
-      <td>date</td>
+      <td><a href="/datatypes#date" class="auto-link">date</a></td>
       <td>The initial date where the list begins.</td>
     </tr>
     <tr>
       <td><strong>count</strong></td>
-      <td>number</td>
+      <td><a href="/datatypes#decimal-number" class="auto-link">number</a></td>
       <td>How many total items (dates) will be in the list.</td>
     </tr>
     <tr>
       <td><strong>step</strong></td>
-      <td>duration</td>
+      <td><a href="/datatypes#duration" class="auto-link">duration</a></td>
       <td>The increment between dates, defined as #duration(days, hours, minutes, seconds).</td>
     </tr>
   </tbody>
@@ -180,7 +183,7 @@ List.Dates(
 
 ---
 
-To make the count argument dynamic, you need to calculate the difference between two dates using a simple subtraction (which Power Query treats as a duration) and then convert that duration into a number of days using [Duration.Days](https://powerquery.guide/function/Duration.Days).
+To make the count argument dynamic, you need to calculate the difference between two dates using a simple subtraction (which Power Query treats as a duration) and then convert that duration into a number of days using [Duration.Days](/function/Duration.Days).
 
 **The Dynamic Formula Pattern**
 
@@ -231,11 +234,11 @@ Since you are dealing with schedules, this dynamic approach allows you to:
 
 ---
 
-To exclude weekends, we use a "Generate and Filter" pattern. Because [List.Dates](https://powerquery.guide/function/List.Dates) creates a standard sequential list, we apply a filter using Date.DayOfWeek to keep only the days we want.
+To exclude weekends, we use a "Generate and Filter" pattern. Because [List.Dates](/function/List.Dates) creates a standard sequential list, we apply a filter using Date.DayOfWeek to keep only the days we want.
 
 **The "Workdays Only" Formula**
 
-In Power Query, [Date.DayOfWeek](https://powerquery.guide/function/Date.DayOfWeek) returns 0 for Sunday and 6 for Saturday (by default). To get Monday through Friday, we filter for values between 1 and 5.
+In Power Query, [Date.DayOfWeek](/function/Date.DayOfWeek) returns 0 for Sunday and 6 for Saturday (by default). To get Monday through Friday, we filter for values between 1 and 5.
 
 Here is the code to generate a dynamic list of workdays between two dates:
 
@@ -259,7 +262,7 @@ in
 \`\`\`
 
 **Why use Day.Monday?**
-By adding [Day.Monday](https://powerquery.guide/function/Day.Monday) as the optional second argument in [Date.DayOfWeek](https://powerquery.guide/function/Date.DayOfWeek), you force Power Query to treat Monday as 0. This makes your filter logic much cleaner:
+By adding [Day.Monday](/enumeration/day-type#day-monday) as the optional second argument in [Date.DayOfWeek](/function/Date.DayOfWeek), you force Power Query to treat Monday as 0. This makes your filter logic much cleaner:
 - **0 to 4** = Monday to Friday (Workdays)
 - **5 and 6** = Saturday and Sunday (Weekends)
 
@@ -580,7 +583,7 @@ But instead of building everything from scratch…
     return (
       <div className="relative">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"/>
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ms-gray-secondary h-4 w-4"/>
           <Input 
             placeholder="Search posts..." 
             value={query}
@@ -595,11 +598,11 @@ But instead of building everything from scratch…
         </div>
 
         {showDropdown && results.length > 0 && (
-          <ul className="absolute z-50 w-full bg-white border border-gray-200 rounded mt-1 shadow-lg max-h-60 overflow-y-auto">
+          <ul className="absolute z-50 w-full bg-white border border-ms-gray-border rounded mt-1 shadow-lg max-h-60 overflow-y-auto">
             {results.map((post) => (
               <li
                 key={post.id}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer truncate"
+                className="px-4 py-2 hover:bg-canvas-inset cursor-pointer truncate"
                 onMouseDown={() => {
                   const indexInFiltered = filteredPosts.findIndex(p => p.id === post.id);
                   if (indexInFiltered !== -1) {
@@ -621,37 +624,30 @@ But instead of building everything from scratch…
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header 
-        isMobileMenuOpen={isMobileMenuOpen} 
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
+    <DocsLayout>
       <div className="flex">
-        <Sidebar 
-          isOpen={isMobileMenuOpen} 
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
-        <main className="flex-1 ml-0 lg:ml-[280px] pt-16 px-4 lg:px-0">
-          <div className="max-w-7xl mx-auto px-6 py-8">
+        <main className="flex-1 min-w-0">
+          <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               
               {/* Main Content */}
               <div className="lg:col-span-3">
                 
                 {/* Blog Header */}
-                <div className="text-center mb-12 pb-8 border-b border-gray-200">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="text-center mb-12 pb-8 border-b border-ms-gray-border">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-ms-blue flex items-center justify-center">
                     <span className="text-white font-bold text-xl">AA</span>
                   </div>
-                  <h1 className="text-4xl font-bold text-gray-900 mb-1">Power Query Blog</h1>
-                  <p className="text-lg text-gray-600 mb-4">by Ahmad Askar</p>
-                  <p className="text-gray-600 mb-4">Power Query, M Language, Data Transformation and more</p>
+                  <h1 className="text-4xl font-bold text-ms-gray mb-1">Power Query Blog</h1>
+                  <p className="text-lg text-ms-gray-secondary mb-4">by Ahmad Askar</p>
+                  <p className="text-ms-gray-secondary mb-4">Power Query, M Language, Data Transformation and more</p>
                   <div className="flex justify-center space-x-4">
                     <a
                       href="https://www.linkedin.com/company/power-query-guide/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-blue-600"
+                      aria-label="Power Query Guide on LinkedIn"
+                      className="text-ms-gray-secondary hover:text-ms-blue"
                     >
                       <Linkedin className="h-5 w-5"/>
                     </a>
@@ -664,12 +660,12 @@ But instead of building everything from scratch…
                     <div key={currentPost.id} id={currentPost.id} className="scroll-mt-24">
                       <article className="py-8">
                         {currentPost.featured && (
-                          <Badge className="mb-3 bg-blue-100 text-blue-800 hover:bg-blue-100">
+                          <Badge className="mb-3 bg-ms-blue-light text-ms-blue hover:bg-ms-blue-light">
                             Featured
                           </Badge>
                         )}
 
-                        <h2 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
+                        <h2 className="text-2xl font-bold text-ms-gray mb-6 leading-tight">
                           {currentPost.title}
                         </h2>
 
@@ -716,7 +712,7 @@ But instead of building everything from scratch…
                                   <div 
                                     key={pIndex} 
                                     className="my-6 overflow-x-auto w-full"
-                                    dangerouslySetInnerHTML={{ __html: trimmedPara }} 
+                                    dangerouslySetInnerHTML={{ __html: linkifyHtml(trimmedPara, { className: 'auto-link' }) }} 
                                   />
                                 );
                               }
@@ -726,19 +722,21 @@ But instead of building everything from scratch…
                                 const match = trimmedPara.match(new RegExp("```(\\w*)\\n([\\s\\S]*?)\\n?```"));
                                 if (match) {
                                   const language = match[1] || 'code';
+                                  // Match the label <CodeBlock> shows for M snippets
+                                  const languageLabel = language.toLowerCase() === 'powerquery' ? 'Power Query M' : language;
                                   const code = match[2];
                                   return (
-                                    <div key={pIndex} className="my-6">
-                                      <div className="bg-gray-900 rounded-t-lg px-4 py-2 flex items-center justify-between">
-                                        <span className="text-gray-400 text-xs font-mono uppercase">{language}</span>
+                                    <div key={pIndex} className="code-panel my-6">
+                                      <div className="code-bar">
+                                        <span className="code-label">{languageLabel}</span>
                                         <button
                                           onClick={() => navigator.clipboard.writeText(code)}
-                                          className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                                          className="copy-btn"
                                         >
                                           Copy
                                         </button>
                                       </div>
-                                      <pre className="bg-gray-800 text-gray-100 p-4 rounded-b-lg text-sm overflow-x-auto font-mono leading-relaxed">
+                                      <pre>
                                         <code>{code}</code>
                                       </pre>
                                     </div>
@@ -749,7 +747,7 @@ But instead of building everything from scratch…
                               // 4. BLOCKQUOTES
                               if (trimmedPara.startsWith('> ')) {
                                 return (
-                                  <blockquote key={pIndex} className="border-l-4 border-blue-500 bg-gray-50 pl-5 py-4 pr-4 rounded-r-lg my-6 text-gray-700 italic">
+                                  <blockquote key={pIndex} className="border-l-4 border-ms-blue bg-canvas-inset pl-5 py-4 pr-4 rounded-r-lg my-6 text-ms-gray-secondary">
                                     <div dangerouslySetInnerHTML={renderInline(trimmedPara.replace(/^>\s?/gm, ''))} />
                                   </blockquote>
                                 );
@@ -757,20 +755,20 @@ But instead of building everything from scratch…
 
                               // 5. HORIZONTAL RULE
                               if (trimmedPara === '---') {
-                                return <hr key={pIndex} className="my-10 border-t-2 border-gray-100" />;
+                                return <hr key={pIndex} className="my-10 border-t-2 border-ms-gray-border" />;
                               }
 
                               // 6. HEADINGS
                               if (trimmedPara.startsWith('## ')) {
-                                return <h2 key={pIndex} className="text-2xl font-bold text-gray-900 mt-10 mb-5" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(3))} />;
+                                return <h2 key={pIndex} className="text-2xl font-bold text-ms-gray mt-10 mb-5" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(3))} />;
                               }
                               if (trimmedPara.startsWith('### ')) {
-                                return <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(4))} />;
+                                return <h3 key={pIndex} className="text-xl font-bold text-ms-gray mt-8 mb-4" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(4))} />;
                               }
                               // Support for existing **Heading** syntax that is single lined
                               if (trimmedPara.startsWith('**') && trimmedPara.endsWith('**') && !trimmedPara.includes('\n')) {
                                 return (
-                                  <h3 key={pIndex} className="text-xl font-bold text-gray-900 mt-8 mb-4">
+                                  <h3 key={pIndex} className="text-xl font-bold text-ms-gray mt-8 mb-4">
                                     <span dangerouslySetInnerHTML={renderInline(trimmedPara.slice(2, -2))} />
                                   </h3>
                                 );
@@ -787,7 +785,7 @@ But instead of building everything from scratch…
 
                               if (hasListItems) {
                                 return (
-                                  <div key={pIndex} className="mb-5 text-gray-700 leading-relaxed space-y-2">
+                                  <div key={pIndex} className="mb-5 text-ms-gray-secondary leading-relaxed space-y-2">
                                     {lines.map((line, lIndex) => {
                                       const tl = line.trim();
                                       if (!tl) return null;
@@ -795,7 +793,7 @@ But instead of building everything from scratch…
                                       if (tl.startsWith('- ')) {
                                         return (
                                           <div key={lIndex} className="flex items-start ml-4">
-                                            <span className="text-blue-500 mr-3 mt-1 font-bold text-sm">•</span>
+                                            <span className="text-ms-blue mr-3 mt-1 font-bold text-sm">•</span>
                                             <div className="flex-1" dangerouslySetInnerHTML={renderInline(tl.slice(2))} />
                                           </div>
                                         );
@@ -805,7 +803,7 @@ But instead of building everything from scratch…
                                         const content = match ? match[2] : tl;
                                         return (
                                           <div key={lIndex} className="flex items-start ml-4">
-                                            <span className="text-blue-500 mr-2 min-w-[20px] font-semibold">{num}.</span>
+                                            <span className="text-ms-blue mr-2 min-w-[20px] font-semibold">{num}.</span>
                                             <div className="flex-1" dangerouslySetInnerHTML={renderInline(content)} />
                                           </div>
                                         );
@@ -824,7 +822,7 @@ But instead of building everything from scratch…
                               return (
                                 <p
                                   key={pIndex}
-                                  className="mb-5 text-gray-700 leading-relaxed"
+                                  className="mb-5 text-ms-gray-secondary leading-relaxed"
                                   dangerouslySetInnerHTML={renderInline(trimmedPara)}
                                 />
                               );
@@ -833,7 +831,7 @@ But instead of building everything from scratch…
                         </div>
 
                         {/* Post Meta */}
-                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-10 pt-6 border-t border-gray-100">
+                        <div className="flex items-center space-x-4 text-sm text-ms-gray-secondary mt-10 pt-6 border-t border-ms-gray-border">
                           <div className="flex items-center">
                             <Calendar className="h-4 w-4 mr-1" />
                             {new Date(currentPost.date).toLocaleDateString('en-US', {
@@ -864,7 +862,7 @@ But instead of building everything from scratch…
                               window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
                               scrollToTop();
                             }}
-                            className="flex-1 p-4 rounded-lg border border-gray-300 text-left hover:bg-gray-100 truncate transition-colors"
+                            className="flex-1 p-4 rounded-lg border border-ms-gray-border text-left hover:bg-canvas-inset truncate transition-colors"
                           >
                             ← Previous: {filteredPosts[currentPostIndex - 1].title}
                           </button>
@@ -877,7 +875,7 @@ But instead of building everything from scratch…
                               window.history.pushState(null, '', `#${filteredPosts[newIndex].id}`);
                               scrollToTop();
                             }}
-                            className="flex-1 p-4 rounded-lg border border-gray-300 text-right hover:bg-gray-100 truncate transition-colors"
+                            className="flex-1 p-4 rounded-lg border border-ms-gray-border text-right hover:bg-canvas-inset truncate transition-colors"
                           >
                             Next: {filteredPosts[currentPostIndex + 1].title} →
                           </button>
@@ -887,8 +885,8 @@ But instead of building everything from scratch…
                     </div>
                   ) : (
                     <div className="text-center py-12">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-4">No Blog Posts Yet</h2>
-                      <p className="text-gray-600">
+                      <h2 className="text-xl font-semibold text-ms-gray mb-4">No Blog Posts Yet</h2>
+                      <p className="text-ms-gray-secondary">
                         Blog posts will appear here when they are added to the site.
                       </p>
                     </div>
@@ -902,8 +900,8 @@ But instead of building everything from scratch…
                 <div className="sticky top-24 space-y-6 max-h-[calc(100vh-6rem)] overflow-y-auto">
                   
                   {/* Search and Language Controls */}
-                  <div className="bg-gray-50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Search</h3>
+                  <div className="panel p-6">
+                    <h3 className="text-lg font-semibold text-ms-gray mb-4">Search</h3>
                     <div className="space-y-4">
                       <SearchBar />
                     </div>
@@ -911,15 +909,15 @@ But instead of building everything from scratch…
 
                   {/* Top Posts */}
                   {topPosts.length > 0 && (
-                    <div className="bg-gray-50 rounded-lg p-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Posts</h3>
+                    <div className="panel p-6">
+                      <h3 className="text-lg font-semibold text-ms-gray mb-4">Top Posts</h3>
                       <div className="space-y-4">
                         {topPosts.map((post) => (
-                          <div key={post.id} className="border-b border-gray-200 pb-3 last:border-b-0">
-                            <h4 className="font-medium text-gray-900 text-sm leading-tight mb-2">
+                          <div key={post.id} className="border-b border-ms-gray-border pb-3 last:border-b-0">
+                            <h4 className="font-medium text-ms-gray text-sm leading-tight mb-2">
                               <a
                                 href={`#${post.id}`}
-                                className="hover:text-blue-600 transition-colors block truncate"
+                                className="hover:text-ms-blue transition-colors block truncate"
                                 onClick={(e) => {
                                   e.preventDefault();
                                   const filteredIndex = filteredPosts.findIndex(p => p.id === post.id);
@@ -933,7 +931,7 @@ But instead of building everything from scratch…
                                 {post.title}
                               </a>
                             </h4>
-                            <div className="text-xs text-gray-600">
+                            <div className="text-xs text-ms-gray-secondary">
                               {new Date(post.date).toLocaleDateString()} • {post.readTime}
                             </div>
                           </div>
@@ -948,6 +946,6 @@ But instead of building everything from scratch…
           </div>
         </main>
       </div>
-    </div>
+    </DocsLayout>
   );
 }

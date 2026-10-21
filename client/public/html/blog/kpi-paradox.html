@@ -6,15 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The KPI Paradox: Rethinking Business Metrics</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        /* Design-system palette (mirrors client/src/index.css) so the Tailwind
+           utilities used in this post match the rest of the site. */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        canvas: '#f4f6f9',
+                        inset: '#eef1f5',
+                        line: '#e3e7ee',
+                        ink: '#191e29',
+                        muted: '#626874',
+                        brand: '#1f7a59',
+                        'brand-dark': '#175f46',
+                        'brand-light': '#f1f9f5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #F9FAFB;
-            --text-primary: #1F2937;
-            --accent-highlight: #EA580C;
+            --bg-primary: #f4f6f9;
+            --text-primary: #191e29;
+            --accent-highlight: #1f7a59;
         }
 
         body {
@@ -26,7 +51,7 @@
         h1,
         h2,
         h3 {
-            font-family: 'Merriweather', serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .chart-container {
@@ -61,22 +86,22 @@
 <body class="flex flex-col min-h-screen">
 
     <!-- NAVIGATION -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-line shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
-            <span class="font-serif font-bold text-xl text-gray-800 tracking-tight">The KPI Paradox</span>
+            <span class="font-serif font-bold text-xl text-ink tracking-tight">The KPI Paradox</span>
             <div class="hidden md:flex space-x-8">
-                <button onclick="scrollToSection('section-intro')" class="text-gray-500 hover:text-gray-900">The
+                <button onclick="scrollToSection('section-intro')" class="text-muted hover:text-ink">The
                     Argument</button>
                 <button onclick="scrollToSection('section-productivity')"
-                    class="text-gray-500 hover:text-gray-900">Human Variable</button>
+                    class="text-muted hover:text-ink">Human Variable</button>
                 <button onclick="scrollToSection('section-financial')"
-                    class="text-gray-500 hover:text-gray-900">Financial Trap</button>
-                <button onclick="scrollToSection('section-behavior')" class="text-gray-500 hover:text-gray-900">Behavior
+                    class="text-muted hover:text-ink">Financial Trap</button>
+                <button onclick="scrollToSection('section-behavior')" class="text-muted hover:text-ink">Behavior
                     Metrics</button>
             </div>
             <button class="md:hidden" onclick="toggleMobileMenu()">≡</button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-2 py-2 space-y-1">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-line px-2 py-2 space-y-1">
             <button onclick="scrollToSection('section-intro')">The Argument</button>
             <button onclick="scrollToSection('section-productivity')">Human Variable</button>
             <button onclick="scrollToSection('section-financial')">Financial Trap</button>
@@ -87,34 +112,34 @@
     <main class="flex-grow">
 
         <!-- HERO -->
-        <section id="section-intro" class="py-20 text-center bg-gradient-to-b from-white to-gray-50">
+        <section id="section-intro" class="py-20 text-center bg-gradient-to-b from-white to-inset">
             <h1 class="text-4xl md:text-5xl font-bold font-serif mb-6">Are KPIs and Balanced Scorecards <span
-                    class="text-orange-600">Bad for Business?</span></h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Measuring humans like machines can hurt businesses.</p>
+                    class="text-brand">Bad for Business?</span></h1>
+            <p class="text-xl text-muted max-w-2xl mx-auto">Measuring humans like machines can hurt businesses.</p>
             <button onclick="scrollToSection('section-productivity')"
-                class="mt-6 px-8 py-3 bg-gray-900 text-white rounded-lg">Explore Flaws</button>
+                class="mt-6 px-8 py-3 bg-brand text-white rounded-lg">Explore Flaws</button>
         </section>
 
         <!-- PRODUCTIVITY -->
-        <section id="section-productivity" class="py-16 bg-white border-t border-gray-100">
+        <section id="section-productivity" class="py-16 bg-white border-t border-line">
             <div class="max-w-6xl mx-auto px-4">
                 <h2 class="text-3xl font-bold font-serif mb-4">The Human Variable</h2>
                 <p class="mb-6">A "Smart Friend" can outperform a team in hours. Standard KPIs fail to capture this.</p>
                 <div class="flex justify-start gap-2 mb-4">
                     <button id="btn-view-kpi" onclick="updateProductivityChart('kpi')"
-                        class="px-4 py-2 bg-gray-100 text-gray-900 rounded">KPI View</button>
+                        class="px-4 py-2 bg-inset text-ink rounded">KPI View</button>
                     <button id="btn-view-reality" onclick="updateProductivityChart('reality')"
-                        class="px-4 py-2 text-gray-500 rounded">Reality View</button>
+                        class="px-4 py-2 text-muted rounded">Reality View</button>
                 </div>
                 <div class="chart-container mb-4">
                     <canvas id="productivityChart"></canvas>
                 </div>
-                <p id="productivity-insight" class="italic text-gray-700">Standard metrics hide the outlier.</p>
+                <p id="productivity-insight" class="italic text-muted">Standard metrics hide the outlier.</p>
             </div>
         </section>
 
         <!-- FINANCIAL -->
-        <section id="section-financial" class="py-16 bg-gray-50">
+        <section id="section-financial" class="py-16 bg-inset">
             <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="space-y-4">
                     <h2 class="text-3xl font-bold font-serif">Financial Trap</h2>
@@ -133,34 +158,34 @@
         </section>
 
         <!-- BEHAVIOR -->
-        <section id="section-behavior" class="py-16 bg-white border-t border-gray-100">
+        <section id="section-behavior" class="py-16 bg-white border-t border-line">
             <div class="max-w-5xl mx-auto px-4 text-center">
                 <h2 class="text-3xl font-bold font-serif mb-4">Measuring Human Behavior</h2>
                 <p class="mb-8">Metrics fail to capture human complexity.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                    <div class="interactive-card bg-inset p-4 rounded border cursor-pointer"
                         onclick="toggleCard(this)">
                         <h3 class="font-bold mb-2">Driving Skill</h3>
                         <p>Some drive better than others.</p>
-                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                        <div class="hidden-content bg-brand-light p-2 rounded mt-2 border border-brand/30">
                             Standard metrics ignore fundamental capability differences.
                         </div>
                         <p class="italic text-xs mt-1">Click to reveal flaw</p>
                     </div>
-                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                    <div class="interactive-card bg-inset p-4 rounded border cursor-pointer"
                         onclick="toggleCard(this)">
                         <h3 class="font-bold mb-2">Hours Worked</h3>
                         <p>Hours alone do not measure output.</p>
-                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                        <div class="hidden-content bg-brand-light p-2 rounded mt-2 border border-brand/30">
                             Efficient workers look "lazy" under standard metrics.
                         </div>
                         <p class="italic text-xs mt-1">Click to reveal flaw</p>
                     </div>
-                    <div class="interactive-card bg-gray-50 p-4 rounded border cursor-pointer"
+                    <div class="interactive-card bg-inset p-4 rounded border cursor-pointer"
                         onclick="toggleCard(this)">
                         <h3 class="font-bold mb-2">Lines of Code</h3>
                         <p>Quantity ≠ Quality.</p>
-                        <div class="hidden-content bg-orange-50 p-2 rounded mt-2 border border-orange-100">
+                        <div class="hidden-content bg-brand-light p-2 rounded mt-2 border border-brand/30">
                             Encourages bloat and poor quality.
                         </div>
                         <p class="italic text-xs mt-1">Click to reveal flaw</p>
@@ -184,14 +209,14 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const ctxProd = document.getElementById('productivityChart').getContext('2d');
-            productivityChart = new Chart(ctxProd, { type: 'bar', data: { labels: dataStore.productivity.labels, datasets: [{ label: 'Hours', data: dataStore.productivity.kpi, backgroundColor: '#9CA3AF' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+            productivityChart = new Chart(ctxProd, { type: 'bar', data: { labels: dataStore.productivity.labels, datasets: [{ label: 'Hours', data: dataStore.productivity.kpi, backgroundColor: 'hsl(220 13% 72%)' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
 
             const ctxAmazon = document.getElementById('amazonChart').getContext('2d');
             amazonChart = new Chart(ctxAmazon, {
                 type: 'line', data: {
                     labels: dataStore.amazon.years, datasets: [
-                        { label: 'Net Profit', data: dataStore.amazon.profit, borderColor: '#4B5563', backgroundColor: 'rgba(75,85,99,0.1)', fill: true },
-                        { label: 'Reinvestment', data: dataStore.amazon.investment, borderColor: '#EA580C', backgroundColor: 'rgba(234,88,12,0.1)', fill: true }
+                        { label: 'Net Profit', data: dataStore.amazon.profit, borderColor: 'hsl(220 8% 42%)', backgroundColor: 'hsl(220 8% 42% / 0.1)', fill: true },
+                        { label: 'Reinvestment', data: dataStore.amazon.investment, borderColor: 'hsl(158 60% 30%)', backgroundColor: 'hsl(158 60% 30% / 0.1)', fill: true }
                     ]
                 }, options: { responsive: true, maintainAspectRatio: false }
             });
@@ -215,8 +240,8 @@
         function updateProductivityChart(view) {
             state.productivityView = view;
             const btnK = document.getElementById('btn-view-kpi'); const btnR = document.getElementById('btn-view-reality'); const insight = document.getElementById('productivity-insight');
-            if (view === 'kpi') { productivityChart.data.datasets[0].data = dataStore.productivity.kpi; productivityChart.data.datasets[0].backgroundColor = '#9CA3AF'; insight.textContent = 'Standard metrics hide the outlier.'; btnK.classList.add('bg-gray-100', 'text-gray-900'); btnR.classList.remove('bg-gray-100', 'text-gray-900'); btnR.classList.add('text-gray-500'); btnK.classList.remove('text-gray-500'); }
-            else { productivityChart.data.datasets[0].data = dataStore.productivity.reality; productivityChart.data.datasets[0].backgroundColor = dataStore.productivity.reality.map((v, i) => i === 3 ? '#EA580C' : '#D1D5DB'); insight.textContent = "Reality: Smart Friend delivers massive value."; btnR.classList.add('bg-gray-100', 'text-gray-900'); btnK.classList.remove('bg-gray-100', 'text-gray-900'); btnK.classList.add('text-gray-500'); btnR.classList.remove('text-gray-500'); }
+            if (view === 'kpi') { productivityChart.data.datasets[0].data = dataStore.productivity.kpi; productivityChart.data.datasets[0].backgroundColor = 'hsl(220 13% 72%)'; insight.textContent = 'Standard metrics hide the outlier.'; btnK.classList.add('bg-inset', 'text-ink'); btnR.classList.remove('bg-inset', 'text-ink'); btnR.classList.add('text-muted'); btnK.classList.remove('text-muted'); }
+            else { productivityChart.data.datasets[0].data = dataStore.productivity.reality; productivityChart.data.datasets[0].backgroundColor = dataStore.productivity.reality.map((v, i) => i === 3 ? 'hsl(158 60% 30%)' : 'hsl(220 13% 85%)'); insight.textContent = "Reality: Smart Friend delivers massive value."; btnR.classList.add('bg-inset', 'text-ink'); btnK.classList.remove('bg-inset', 'text-ink'); btnK.classList.add('text-muted'); btnR.classList.remove('text-muted'); }
             productivityChart.update();
             setTimeout(sendHeight, 100);
 

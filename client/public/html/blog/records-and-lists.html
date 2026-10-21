@@ -7,34 +7,71 @@
 <title>Records & Lists in Power Query</title>
 
 <style>
+  :root {
+    --canvas: hsl(216 26% 97.4%);
+    --canvas-inset: hsl(216 22% 95.4%);
+    --radius: 0.75rem;
+    --ms-blue: hsl(158 60% 30%);
+    --ms-blue-hover: hsl(158 62% 25%);
+    --ms-blue-light: hsl(152 65% 95%);
+    --ms-gray: hsl(222 25% 13%);
+    --ms-gray-secondary: hsl(220 8% 42%);
+    --ms-gray-border: hsl(220 13% 90%);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.7;
-    color: #374151;
+    color: var(--ms-gray-secondary);
     margin: 0;
-    padding: 40px 20px;
-    background: #ffffff;
+    padding: 2.5rem 1.25rem;
+    background: var(--canvas);
   }
 
-  .func-link {
-    color: #16a34a;
+  @media (min-width: 640px) {
+    body { padding: 2.5rem 2rem; }
+  }
+
+  @media (min-width: 1024px) {
+    body { padding: 3.5rem 3.5rem; }
+  }
+
+  a {
+    color: var(--ms-blue);
     text-decoration: none;
-    font-weight: 600;
   }
 
-  .func-link:hover {
+  a:hover {
+    color: var(--ms-blue-hover);
     text-decoration: underline;
   }
-  
+
+  .func-link,
+  .auto-link {
+    color: var(--ms-blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: hsl(158 60% 30% / 0.35);
+    text-underline-offset: 3px;
+  }
+
+  .func-link:hover,
+  .auto-link:hover {
+    color: var(--ms-blue-hover);
+    text-decoration-color: currentColor;
+  }
+
   .container {
-    max-width: 900px;
+    max-width: 56rem;
     margin: auto;
   }
 
   h1 {
     font-size: 32px;
     font-weight: 700;
-    color: #111827;
+    letter-spacing: -0.02em;
+    color: var(--ms-gray);
     margin-bottom: 10px;
   }
 
@@ -43,14 +80,14 @@
     font-weight: 700;
     margin-top: 40px;
     margin-bottom: 10px;
-    color: #1d4ed8;
+    color: var(--ms-gray);
   }
 
   h3 {
     font-size: 20px;
     font-weight: 600;
     margin-top: 25px;
-    color: #111827;
+    color: var(--ms-gray);
   }
 
   p {
@@ -58,19 +95,36 @@
   }
 
   code {
-    background: #f3f4f6;
-    padding: 3px 6px;
-    border-radius: 5px;
-    font-family: monospace;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-weight: 500;
+    padding: 0.15em 0.4em;
+    border-radius: 0.3125rem;
+    background: hsl(220 20% 96%);
+    border: 1px solid hsl(220 13% 91%);
+    color: hsl(158 55% 26%);
   }
 
   pre {
-    background: #111827;
-    color: #e5e7eb;
-    padding: 16px;
-    border-radius: 10px;
+    background: hsl(222 28% 11%);
+    border: 1px solid hsl(222 20% 18%);
+    color: #d4d4d4;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
     overflow-x: auto;
     margin: 20px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
   }
 
   table {
@@ -78,29 +132,40 @@
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 14px;
+    overflow: hidden;
+    border: 1px solid var(--ms-gray-border);
+    border-radius: 0.5rem;
   }
 
   th, td {
-    border: 1px solid #e5e7eb;
-    padding: 10px;
+    padding: 10px 12px;
     text-align: left;
+    border-bottom: 1px solid var(--ms-gray-border);
   }
 
   th {
-    background: #f9fafb;
+    background: var(--canvas-inset);
+    color: var(--ms-gray-secondary);
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
   }
 
   hr {
     border: none;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--ms-gray-border);
     margin: 40px 0;
   }
 
   .highlight {
-    background: #eff6ff;
+    background: var(--ms-blue-light);
     padding: 16px;
-    border-left: 4px solid #3b82f6;
+    border-left: 4px solid var(--ms-blue);
     border-radius: 6px;
     margin: 20px 0;
   }
@@ -111,7 +176,7 @@
   }
 
   .yes {
-    color: #16a34a;
+    color: var(--ms-blue);
     font-weight: bold;
   }
 
@@ -119,7 +184,6 @@
     color: #dc2626;
     font-weight: bold;
   }
-
 </style>
 </head>
 
@@ -350,7 +414,7 @@ Internally, each row becomes:
 </table>
 
 <div class="highlight">
-Once this clicks, functions like <strong><a href="https://powerquery.guide/function/Record.FromList" class="func-link" target="_top">
+Once this clicks, functions like <strong><a href="/function/Record.FromList" class="func-link" target="_top">
   Record.FromList
 </a></strong> make perfect sense —
 you are simply assigning names to positions.

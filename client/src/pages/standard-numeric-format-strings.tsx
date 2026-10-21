@@ -1,14 +1,10 @@
-import { useState } from "react";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import DocsLayout from "@/components/layout/docs-layout";
 import { CodeBlock } from "@/components/ui/code-block";
+import { AutoLink } from "@/lib/auto-link";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 export default function StandardNumericFormatStrings() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const specifiers = [
     {
@@ -125,22 +121,15 @@ export default function StandardNumericFormatStrings() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-16">
-      <Header
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
-
+    <DocsLayout>
       <div className="flex">
-        <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
-
-        <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
-          <div className="max-w-4xl mx-auto px-6 py-8">
+        <main className="flex-1 min-w-0">
+          <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
             {/* Breadcrumb */}
-            <div className="mb-6">
+            <div className="mb-7">
               <Link
                 href="/function/Number.ToText"
-                className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
+                className="inline-flex items-center gap-2 text-sm font-medium text-ms-blue transition-colors hover:text-ms-blue-hover hover:underline"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Number.ToText
@@ -148,63 +137,74 @@ export default function StandardNumericFormatStrings() {
             </div>
 
             {/* Header */}
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl font-bold">Standard Numeric Format Strings</h1>
-                <Badge variant="outline">Format Guide</Badge>
-              </div>
-              <p className="text-lg text-ms-gray-secondary leading-relaxed">
-                Standard numeric format strings format common numeric types using the{" "}
-                <code className="font-mono font-semibold text-sm">Number.ToText</code> function. A standard
-                format string consists of a single alphabetic character (format specifier) followed
-                by an optional integer (precision specifier). Any format string that contains more than one alphabetic character, including white space, is interpreted as a custom numeric format string.
+            <header className="mb-8 border-b border-ms-gray-border pb-8">
+              <p className="eyebrow mb-3">Format Guide</p>
+              <h1 className="text-4xl font-bold tracking-tight text-ms-gray sm:text-5xl">
+                Standard Numeric Format Strings
+              </h1>
+              <p className="mt-3 text-lg text-ms-gray-secondary">
+                <AutoLink>
+                  Standard numeric format strings format common numeric types using the{" "}
+                  <code className="font-mono font-semibold text-sm">Number.ToText</code> function. A standard
+                  format string consists of a single alphabetic character (format specifier) followed
+                  by an optional integer (precision specifier). Any format string that contains more than one alphabetic character, including white space, is interpreted as a custom numeric format string.
+                </AutoLink>
               </p>
-            </div>
+            </header>
 
             {/* Syntax Overview */}
-            <Card className="mb-6 border-ms-blue/30">
-              <CardHeader>
-                <CardTitle>Syntax Structure</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <section className="panel mb-6 overflow-hidden border-ms-blue/40">
+              <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-ms-blue-light/60 px-5 py-3 sm:px-6">
+                <span className="h-1.5 w-1.5 rounded-full bg-ms-blue" aria-hidden="true" />
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">Syntax Structure</h2>
+              </div>
+              <div className="space-y-4 p-5 sm:p-6">
                 <p className="text-ms-gray-secondary">
                   A standard numeric format string takes the form <code className="font-mono font-semibold text-sm">[format specifier][precision specifier]</code>.
                 </p>
                 <CodeBlock code={`Number.ToText(123.456, "C2") // Displays $123.46 (in en-US)`} />
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
             {/* Padding Note */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Padding and Alignment</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <section className="panel mb-6 overflow-hidden">
+              <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">Padding and Alignment</h2>
+              </div>
+              <div className="space-y-4 p-5 sm:p-6">
                 <p className="text-ms-gray-secondary">
-                  The precision specifier only controls the number of digits or decimal places in the result string. To pad a result string with leading or trailing spaces (or other characters) to achieve a specific width, you must use the <code className="font-mono font-semibold text-sm">Text.PadStart</code> and <code className="font-mono font-semibold text-sm">Text.PadEnd</code> functions.
+                  <AutoLink>
+                    The precision specifier only controls the number of digits or decimal places in the result string. To pad a result string with leading or trailing spaces (or other characters) to achieve a specific width, you must use the <code className="font-mono font-semibold text-sm">Text.PadStart</code> and <code className="font-mono font-semibold text-sm">Text.PadEnd</code> functions.
+                  </AutoLink>
                 </p>
                 <CodeBlock code={`let\n  amounts = {16305.32, 18794.16},\n  result = Text.Format(\n    " Beginning Balance      Ending Balance#(cr,lf) #{0}#{1}",\n    {\n      Text.PadEnd(Number.ToText(amounts{0}, "C2"), 28),\n      Text.PadStart(Number.ToText(amounts{1}, "C2"), 14)\n    }\n  )\nin\n  result\n\n// Displays:\n// Beginning Balance      Ending Balance\n// $16,305.32             $18,794.16`} />
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
             {/* Specifiers */}
-            <h2 className="text-2xl font-bold mb-4 mt-8">Standard Format Specifiers</h2>
-            <div className="space-y-6">
-              {specifiers.map((item, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle className="text-xl">{item.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="text-sm text-ms-gray-secondary">{item.description}</div>
-                    <CodeBlock code={item.example} />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <section className="doc-section mb-8">
+              <div className="section-head mb-5">
+                <h2 className="text-2xl font-bold text-ms-gray">Standard Format Specifiers</h2>
+              </div>
+              <div className="space-y-6">
+                {specifiers.map((item, index) => (
+                  <section key={index} className="panel overflow-hidden">
+                    <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                      <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                      <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">{item.name}</h3>
+                    </div>
+                    <div className="space-y-4 p-5 sm:p-6">
+                      <div className="text-sm text-ms-gray-secondary">{item.description}</div>
+                      <CodeBlock code={item.example} />
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </section>
           </div>
         </main>
       </div>
-    </div>
+    </DocsLayout>
   );
 }

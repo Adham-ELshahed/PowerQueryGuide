@@ -1,12 +1,7 @@
-import { useState } from "react";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import DocsLayout from "@/components/layout/docs-layout";
+import { AutoLink } from "@/lib/auto-link";
 
 export default function DataTypes() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const dataTypes = [
     {
@@ -100,42 +95,44 @@ export default function DataTypes() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-16">
-      <Header 
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
+    <DocsLayout>
       <div className="flex">
-        <Sidebar 
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
-        <main className="ml-0 lg:ml-280 flex-1 min-h-screen">
-          <div className="max-w-6xl mx-auto px-6 py-8">
+        <main className="flex-1 min-w-0">
+          <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
             {/* Page Header */}
-            <div className="mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">Data Types in Power Query</h1>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Power Query employs data types to organize and structure information within datasets. 
-                These classifications are applied at the column level, ensuring all values within a field adhere to the specified type requirements.
+            <header className="border-b border-ms-gray-border pb-8">
+              <h1 className="text-4xl font-bold tracking-tight text-ms-gray sm:text-5xl">
+                Data Types in Power Query
+              </h1>
+              <p className="mt-3 text-lg text-ms-gray-secondary">
+                <AutoLink>
+                  Power Query employs data types to organize and structure information within datasets. 
+                  These classifications are applied at the column level, ensuring all values within a field adhere to the specified type requirements.
+                </AutoLink>
               </p>
-            </div>
+            </header>
 
             {/* Table of Contents */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl">Table of Contents</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <section className="panel mb-10 mt-9 overflow-hidden">
+              <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-ms-gray-border"
+                  aria-hidden="true"
+                />
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">
+                  Table of Contents
+                </h2>
+              </div>
+              <div className="p-5 sm:p-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
-                    <h3 className="font-semibold text-ms-blue mb-2">Sections</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-ms-blue">Sections</h3>
                     <ul className="space-y-2">
                       {sections.map((section) => (
                         <li key={section.id}>
                           <a 
                             href={`#${section.id}`} 
-                            className="text-blue-600 hover:text-blue-800 hover:underline"
+                            className="text-ms-blue hover:text-ms-blue-hover hover:underline"
                           >
                             {section.title}
                           </a>
@@ -144,12 +141,12 @@ export default function DataTypes() {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-ms-blue mb-2">Quick Access</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-ms-blue">Quick Access</h3>
                     <ul className="space-y-2">
                       <li>
                         <a 
                           href="#data-types-table" 
-                          className="text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-ms-blue hover:text-ms-blue-hover hover:underline"
                         >
                           Complete Data Types Reference
                         </a>
@@ -157,7 +154,7 @@ export default function DataTypes() {
                       <li>
                         <a 
                           href="#best-practices" 
-                          className="text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-ms-blue hover:text-ms-blue-hover hover:underline"
                         >
                           Best Practices
                         </a>
@@ -165,22 +162,26 @@ export default function DataTypes() {
                     </ul>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
             {/* Overview Section */}
-            <section id="overview" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Power Query employs data types to organize and structure information within datasets. 
-                  These classifications are applied at the column level, ensuring all values within a field adhere to the specified type requirements.
+            <section id="overview" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Overview</h2>
+              <div className="mt-5 space-y-5">
+                <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                  <AutoLink>
+                    Power Query employs data types to organize and structure information within datasets. 
+                    These classifications are applied at the column level, ensuring all values within a field adhere to the specified type requirements.
+                  </AutoLink>
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Column data types are visually indicated through icons positioned at the left side of each column header, providing immediate type identification.
+                <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                  <AutoLink>
+                    Column data types are visually indicated through icons positioned at the left side of each column header, providing immediate type identification.
+                  </AutoLink>
                 </p>
-                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                  <p className="text-blue-800">
+                <div className="border-l-4 border-l-ms-blue bg-ms-blue-light p-4">
+                  <p className="text-[17px] leading-8 text-ms-gray">
                     <strong>Important:</strong> Power Query delivers type-specific transformation tools and options that adapt to each column's data type. 
                     When working with Date columns, for instance, you'll access date-specific operations and filters. 
                     These contextual features appear across the interface, including Transform tabs, Add column sections, and filtering mechanisms.
@@ -190,206 +191,218 @@ export default function DataTypes() {
             </section>
 
             {/* Data Types Reference Table */}
-            <section id="data-types-table" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Complete Data Types Reference</h2>
-              <div className="grid gap-6">
+            <section id="data-types-table" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Complete Data Types Reference</h2>
+              <div className="mt-5 grid gap-5">
                 {dataTypes.map((dataType, index) => (
-                  <Card 
+                  <div 
                     key={index} 
                     id={dataType.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}
-                    className="border-l-4 border-l-ms-blue scroll-mt-20"
+                    className="panel scroll-mt-20 overflow-hidden border-l-4 border-l-ms-blue"
                   >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-2xl">{dataType.icon}</span>
-                        <CardTitle className="text-xl text-ms-blue">{dataType.name}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700 leading-relaxed">{dataType.description}</p>
-                    </CardContent>
-                  </Card>
+                    <div className="flex items-center gap-3 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                      <span className="text-2xl">{dataType.icon}</span>
+                      <h3 className="text-lg font-semibold text-ms-blue">{dataType.name}</h3>
+                    </div>
+                    <div className="p-5 sm:p-6">
+                      <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                        <AutoLink>{dataType.description}</AutoLink>
+                      </p>
+                    </div>
+                  </div>
                 ))}
               </div>
             </section>
 
-            <Separator className="my-12" />
+            <div className="my-12 border-t border-ms-gray-border" />
 
             {/* Data Type Detection */}
-            <section id="detection" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Data Type Detection</h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
+            <section id="detection" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Data Type Detection</h2>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   Automatic type identification operates differently based on your data source:
-                </p>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg text-ms-blue">Structured Data Sources</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700">
-                        Including databases and similar sources where Power Query extracts schema information directly, 
-                        automatically applying appropriate types to each column based on the source definition.
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg text-ms-blue">Unstructured Sources</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700">
-                        Including Excel workbooks, CSV files, and text documents where Power Query analyzes 
-                        content patterns to determine appropriate types. This automatic detection is enabled by default for such sources.
-                      </p>
-                    </CardContent>
-                  </Card>
+                </AutoLink>
+              </p>
+              <div className="mt-5 grid gap-5 md:grid-cols-2">
+                <div className="panel p-5 sm:p-6">
+                  <h3 className="text-lg font-semibold text-ms-blue">Structured Data Sources</h3>
+                  <p className="mt-2 text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
+                      Including databases and similar sources where Power Query extracts schema information directly, 
+                      automatically applying appropriate types to each column based on the source definition.
+                    </AutoLink>
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
-                  Manual type detection is available through the <strong>Detect data type</strong> feature located in the 
-                  <strong>Any column</strong> section of the <strong>Transform</strong> ribbon for on-demand type assignment.
-                </p>
+                <div className="panel p-5 sm:p-6">
+                  <h3 className="text-lg font-semibold text-ms-blue">Unstructured Sources</h3>
+                  <p className="mt-2 text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
+                      Including Excel workbooks, CSV files, and text documents where Power Query analyzes 
+                      content patterns to determine appropriate types. This automatic detection is enabled by default for such sources.
+                    </AutoLink>
+                  </p>
+                </div>
               </div>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                Manual type detection is available through the <strong>Detect data type</strong> feature located in the 
+                <strong>Any column</strong> section of the <strong>Transform</strong> ribbon for on-demand type assignment.
+              </p>
             </section>
 
             {/* How to Define Column Data Type */}
-            <section id="definition" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">How to Define a Column Data Type</h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
+            <section id="definition" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">How to Define a Column Data Type</h2>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   Column data types can be modified through multiple interface locations:
-                </p>
-                <div className="grid gap-4 mb-6">
-                  <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg">
-                    <Badge variant="outline" className="mt-1">1</Badge>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Home Tab</h4>
-                      <p className="text-gray-700">Access the Data type dropdown within the Transform section of the Home ribbon.</p>
-                    </div>
+                </AutoLink>
+              </p>
+              <div className="mt-5 grid gap-4">
+                <div className="panel flex items-start gap-3 p-4">
+                  <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-ms-blue/30 bg-ms-blue-light text-xs font-semibold text-ms-blue">1</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-ms-blue">Home Tab</h3>
+                    <p className="mt-1 text-[17px] leading-8 text-ms-gray-secondary">
+                      <AutoLink>
+                        Access the Data type dropdown within the Transform section of the Home ribbon.
+                      </AutoLink>
+                    </p>
                   </div>
-                  <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg">
-                    <Badge variant="outline" className="mt-1">2</Badge>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Transform Tab</h4>
-                      <p className="text-gray-700">Use the Data type dropdown located in the Any column section of the Transform ribbon.</p>
-                    </div>
+                </div>
+                <div className="panel flex items-start gap-3 p-4">
+                  <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-ms-blue/30 bg-ms-blue-light text-xs font-semibold text-ms-blue">2</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-ms-blue">Transform Tab</h3>
+                    <p className="mt-1 text-[17px] leading-8 text-ms-gray-secondary">
+                      <AutoLink>
+                        Use the Data type dropdown located in the Any column section of the Transform ribbon.
+                      </AutoLink>
+                    </p>
                   </div>
-                  <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg">
-                    <Badge variant="outline" className="mt-1">3</Badge>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Column Header Icon</h4>
-                      <p className="text-gray-700">Click directly on the type icon positioned at the left side of any column header.</p>
-                    </div>
+                </div>
+                <div className="panel flex items-start gap-3 p-4">
+                  <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-ms-blue/30 bg-ms-blue-light text-xs font-semibold text-ms-blue">3</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-ms-blue">Column Header Icon</h3>
+                    <p className="mt-1 text-[17px] leading-8 text-ms-gray-secondary">
+                      <AutoLink>
+                        Click directly on the type icon positioned at the left side of any column header.
+                      </AutoLink>
+                    </p>
                   </div>
-                  <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg">
-                    <Badge variant="outline" className="mt-1">4</Badge>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">Context Menu</h4>
-                      <p className="text-gray-700">Right-click on any column and select Change Type from the context menu.</p>
-                    </div>
+                </div>
+                <div className="panel flex items-start gap-3 p-4">
+                  <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-ms-blue/30 bg-ms-blue-light text-xs font-semibold text-ms-blue">4</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-ms-blue">Context Menu</h3>
+                    <p className="mt-1 text-[17px] leading-8 text-ms-gray-secondary">
+                      <AutoLink>
+                        Right-click on any column and select Change Type from the context menu.
+                      </AutoLink>
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
 
             {/* Automatic Detection Settings */}
-            <section className="mb-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Automatic Detection of Column Data Type and Headers</h3>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
+            <section className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Automatic Detection of Column Data Type and Headers</h2>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   This feature targets unstructured data sources by analyzing the initial 200 rows to identify 
                   appropriate column types and header structures. When activated, Power Query automatically implements 
                   two transformation steps in your query:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
-                  <li><strong>Header promotion:</strong> Elevates the first data row to serve as column headers.</li>
-                  <li><strong>Type conversion:</strong> Transforms values from generic Any type to specific types based on content analysis.</li>
-                </ul>
-                <p className="text-gray-700 leading-relaxed">
+                </AutoLink>
+              </p>
+              <ul className="mt-5 list-disc list-inside space-y-2 text-[17px] leading-8 text-ms-gray-secondary marker:text-ms-blue">
+                <li><strong>Header promotion:</strong> Elevates the first data row to serve as column headers.</li>
+                <li><strong>Type conversion:</strong> Transforms values from generic Any type to specific types based on content analysis.</li>
+              </ul>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   This functionality is active by default and can be customized in both Power Query Online and Desktop versions 
                   through the Options interface within Data load configuration.
-                </p>
-              </div>
+                </AutoLink>
+              </p>
             </section>
 
             {/* Document or Project Locale */}
-            <section id="locale" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Document or Project Locale</h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
+            <section id="locale" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Document or Project Locale</h2>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   Power Query manages two essential aspects that control presentation and data interpretation:
-                </p>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg text-ms-blue">Localization</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700">
-                        Determines the display language and interface elements used throughout Power Query.
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg text-ms-blue">Globalization</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700">
-                        Controls value formatting standards and governs how textual information is interpreted and processed.
-                      </p>
-                    </CardContent>
-                  </Card>
+                </AutoLink>
+              </p>
+              <div className="mt-5 grid gap-5 md:grid-cols-2">
+                <div className="panel p-5 sm:p-6">
+                  <h3 className="text-lg font-semibold text-ms-blue">Localization</h3>
+                  <p className="mt-2 text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
+                      Determines the display language and interface elements used throughout Power Query.
+                    </AutoLink>
+                  </p>
                 </div>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  <strong>Locale</strong> combines both elements into a unified setting that guides text interpretation and type conversion. 
-                  For instance, <strong>English (United States)</strong> locale establishes US English for interface display and applies 
-                  American formatting conventions for value processing.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
+                <div className="panel p-5 sm:p-6">
+                  <h3 className="text-lg font-semibold text-ms-blue">Globalization</h3>
+                  <p className="mt-2 text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
+                      Controls value formatting standards and governs how textual information is interpreted and processed.
+                    </AutoLink>
+                  </p>
+                </div>
+              </div>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <strong>Locale</strong> combines both elements into a unified setting that guides text interpretation and type conversion. 
+                For instance, <strong>English (United States)</strong> locale establishes US English for interface display and applies 
+                American formatting conventions for value processing.
+              </p>
+              <p className="mt-5 text-[17px] leading-8 text-ms-gray-secondary">
+                <AutoLink>
                   During type definition or conversion operations, Power Query relies on locale settings to properly 
                   interpret source values before applying transformations to target data types.
-                </p>
-              </div>
+                </AutoLink>
+              </p>
             </section>
 
             {/* Best Practices */}
-            <section id="best-practices" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Best Practices</h2>
-              <div className="grid gap-4">
-                <Card className="border-l-4 border-l-green-500">
-                  <CardContent className="pt-6">
-                    <h4 className="font-semibold text-green-700 mb-2">✓ Establish Clear Type Definitions</h4>
-                    <p className="text-gray-700">
+            <section id="best-practices" className="doc-section mb-12">
+              <h2 className="text-2xl font-bold text-ms-gray">Best Practices</h2>
+              <div className="mt-5 grid gap-4">
+                <div className="panel border-l-4 border-l-green-500 p-6">
+                  <h3 className="mb-2 text-lg font-semibold text-ms-blue">✓ Establish Clear Type Definitions</h3>
+                  <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
                       Always specify explicit data types for columns when working with unstructured data sources to ensure consistent data processing.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="border-l-4 border-l-yellow-500">
-                  <CardContent className="pt-6">
-                    <h4 className="font-semibold text-yellow-700 mb-2">⚠ Eliminate Generic Types</h4>
-                    <p className="text-gray-700">
+                    </AutoLink>
+                  </p>
+                </div>
+                <div className="panel border-l-4 border-l-yellow-500 p-6">
+                  <h3 className="mb-2 text-lg font-semibold text-yellow-700">⚠ Eliminate Generic Types</h3>
+                  <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
                       Prevent using Any data type in final query outputs, as undefined types can cause unpredictable results and processing errors.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="border-l-4 border-l-blue-500">
-                  <CardContent className="pt-6">
-                    <h4 className="font-semibold text-blue-700 mb-2">💡 Select Precision-Appropriate Types</h4>
-                    <p className="text-gray-700">
+                    </AutoLink>
+                  </p>
+                </div>
+                <div className="panel border-l-4 border-l-blue-500 p-6">
+                  <h3 className="mb-2 text-lg font-semibold text-ms-blue">💡 Select Precision-Appropriate Types</h3>
+                  <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
                       Utilize Fixed Decimal Number or Whole Number formats when exact calculations are required and floating-point approximations must be avoided.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="border-l-4 border-l-purple-500">
-                  <CardContent className="pt-6">
-                    <h4 className="font-semibold text-purple-700 mb-2">🔧 Optimize Detection Configuration</h4>
-                    <p className="text-gray-700">
+                    </AutoLink>
+                  </p>
+                </div>
+                <div className="panel border-l-4 border-l-purple-500 p-6">
+                  <h3 className="mb-2 text-lg font-semibold text-purple-700">🔧 Optimize Detection Configuration</h3>
+                  <p className="text-[17px] leading-8 text-ms-gray-secondary">
+                    <AutoLink>
                       Adjust automatic type detection settings to match your specific workflow requirements, particularly when processing diverse unstructured data.
-                    </p>
-                  </CardContent>
-                </Card>
+                    </AutoLink>
+                  </p>
+                </div>
               </div>
             </section>
 
@@ -397,6 +410,6 @@ export default function DataTypes() {
           </div>
         </main>
       </div>
-    </div>
+    </DocsLayout>
   );
 }

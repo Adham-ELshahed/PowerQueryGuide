@@ -1,14 +1,10 @@
-import { useState } from "react";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import DocsLayout from "@/components/layout/docs-layout";
 import { CodeBlock } from "@/components/ui/code-block";
+import { AutoLink } from "@/lib/auto-link";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 export default function CustomNumericFormatStrings() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const specifiers = [
     {
@@ -33,7 +29,9 @@ export default function CustomNumericFormatStrings() {
             Replaces the <code className="font-mono font-semibold text-sm">"#"</code> symbol with the corresponding digit if one is present; otherwise, no digit appears in the result string. Note that this specifier never displays a zero that isn't a significant digit, even if zero is the only digit in the string.
           </p>
           <p className="mb-4">
-            To return a result string in which absent digits or leading zeroes are replaced by spaces, use <code className="font-mono font-semibold text-sm">Text.PadStart</code>.
+            <AutoLink>
+              To return a result string in which absent digits or leading zeroes are replaced by spaces, use <code className="font-mono font-semibold text-sm">Text.PadStart</code>.
+            </AutoLink>
           </p>
         </>
       ),
@@ -131,22 +129,15 @@ export default function CustomNumericFormatStrings() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-16">
-      <Header
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
-
+    <DocsLayout>
       <div className="flex">
-        <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
-
-        <main className="ml-0 lg:ml-280 flex-1 min-h-screen px-4 lg:px-0">
-          <div className="max-w-4xl mx-auto px-6 py-8">
+        <main className="flex-1 min-w-0">
+          <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
             {/* Breadcrumb */}
-            <div className="mb-6">
+            <div className="mb-7">
               <Link
                 href="/function/Number.ToText"
-                className="text-ms-blue hover:underline flex items-center gap-2 text-sm"
+                className="inline-flex items-center gap-2 text-sm font-medium text-ms-blue transition-colors hover:text-ms-blue-hover hover:underline"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Number.ToText
@@ -154,34 +145,53 @@ export default function CustomNumericFormatStrings() {
             </div>
 
             {/* Header */}
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl font-bold">Custom Numeric Format Strings</h1>
-                <Badge variant="outline">Format Guide</Badge>
-              </div>
-              <p className="text-lg text-ms-gray-secondary leading-relaxed">
+            <header className="mb-8 border-b border-ms-gray-border pb-8">
+              <p className="eyebrow mb-3">Format Guide</p>
+              <h1 className="text-4xl font-bold tracking-tight text-ms-gray sm:text-5xl">
+                Custom Numeric Format Strings
+              </h1>
+              <p className="mt-3 text-lg text-ms-gray-secondary">
                 You can create a custom numeric format string, which consists of one or more custom numeric specifiers, to define how to format numeric data. A custom numeric format string is any format string that isn't a standard numeric format string.
               </p>
-            </div>
+            </header>
 
             {/* Specifiers */}
-            <h2 className="text-2xl font-bold mb-4">Custom Format Specifiers</h2>
-            <div className="space-y-6">
-              {specifiers.map((item, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle className="text-xl">{item.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="text-sm text-ms-gray-secondary">{item.description}</div>
-                    <CodeBlock code={item.example} />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <section className="doc-section mb-8">
+              <div className="section-head mb-5">
+                <h2 className="text-2xl font-bold text-ms-gray">Custom Format Specifiers</h2>
+              </div>
+              <div className="space-y-6">
+                {specifiers.map((item, index) =>
+                  item.name.length <= 40 ? (
+                    <section key={index} className="panel overflow-hidden">
+                      <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                        <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                        <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">{item.name}</h3>
+                      </div>
+                      <div className="space-y-4 p-5 sm:p-6">
+                        <div className="text-sm text-ms-gray-secondary">{item.description}</div>
+                        <CodeBlock code={item.example} />
+                      </div>
+                    </section>
+                  ) : (
+                    <section key={index} className="doc-section">
+                      <div className="section-head mb-4">
+                        <h3 className="text-xl font-bold text-ms-gray">{item.name}</h3>
+                      </div>
+                      <div className="panel p-5 sm:p-6">
+                        <div className="space-y-4">
+                          <div className="text-sm text-ms-gray-secondary">{item.description}</div>
+                          <CodeBlock code={item.example} />
+                        </div>
+                      </div>
+                    </section>
+                  )
+                )}
+              </div>
+            </section>
           </div>
         </main>
       </div>
-    </div>
+    </DocsLayout>
   );
 }

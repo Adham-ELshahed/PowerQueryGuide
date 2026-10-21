@@ -1,33 +1,19 @@
-import { useState } from "react";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
+import DocsLayout from "@/components/layout/docs-layout";
 
 export default function Services() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-white">
-      <Header
-        isMobileMenuOpen={isMobileMenuOpen}
-        onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      />
-
+    <DocsLayout>
       <div className="flex">
-        <Sidebar
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
-
-        <main className="flex-1 ml-0 lg:ml-[280px] pt-16 px-4 lg:px-0">
-          <div className="max-w-5xl mx-auto px-6 py-12">
+        <main className="flex-1 min-w-0">
+          <div className="mx-auto max-w-5xl px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
 
             {/* HERO */}
-            <div className="text-center mb-14">
-              <h1 className="text-4xl font-bold text-gray-900 mb-6">
+            <div className="mb-14 text-center">
+              <h1 className="mb-6 text-4xl font-bold tracking-tight text-ms-gray sm:text-5xl">
                 Power Query Data Services
               </h1>
 
-              <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+              <p className="mx-auto max-w-2xl text-lg text-ms-gray-secondary">
                 Messy spreadsheets, slow Power BI refreshes, or inconsistent
                 datasets? We help companies transform raw data into clean,
                 structured, analysis-ready datasets using
@@ -37,7 +23,7 @@ export default function Services() {
               <div className="mt-8">
                 <a
                   href="mailto:sales@powerquery.guide"
-                  className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+                  className="inline-flex items-center gap-2 rounded-lg bg-ms-blue px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-ms-blue-hover"
                 >
                   Request Data Consultation
                 </a>
@@ -45,103 +31,127 @@ export default function Services() {
             </div>
 
             {/* SERVICES */}
-            <section className="mb-16">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">
-                Our Services
-              </h2>
+            <section className="doc-section mb-14">
+              <div className="section-head mb-5">
+                <h2 className="text-2xl font-bold text-ms-gray">
+                  Our Services
+                </h2>
+              </div>
 
               <div className="grid md:grid-cols-2 gap-8">
 
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                  <h3 className="text-xl font-semibold mb-3">
-                    Data Cleaning
-                  </h3>
+                <div className="panel overflow-hidden">
+                  <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                    <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">
+                      Data Cleaning
+                    </h3>
+                  </div>
 
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Remove duplicates, fix inconsistent formats, normalize
-                    columns, and prepare your raw datasets for reliable
-                    analysis.
-                  </p>
+                  <div className="p-5 sm:p-6">
+                    <p className="text-sm leading-relaxed text-ms-gray-secondary">
+                      Remove duplicates, fix inconsistent formats, normalize
+                      columns, and prepare your raw datasets for reliable
+                      analysis.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                  <h3 className="text-xl font-semibold mb-3">
-                    Power Query Optimization
-                  </h3>
+                <div className="panel overflow-hidden">
+                  <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                    <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">
+                      Power Query Optimization
+                    </h3>
+                  </div>
 
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Improve slow queries, implement query folding, and design
-                    efficient Power Query pipelines for large datasets.
-                  </p>
+                  <div className="p-5 sm:p-6">
+                    <p className="text-sm leading-relaxed text-ms-gray-secondary">
+                      Improve slow queries, implement query folding, and design
+                      efficient Power Query pipelines for large datasets.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                  <h3 className="text-xl font-semibold mb-3">
-                    Data Transformation
-                  </h3>
+                <div className="panel overflow-hidden">
+                  <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                    <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">
+                      Data Transformation
+                    </h3>
+                  </div>
 
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Convert messy exports from CRMs, ERPs, and spreadsheets
-                    into structured tables ready for reporting.
-                  </p>
+                  <div className="p-5 sm:p-6">
+                    <p className="text-sm leading-relaxed text-ms-gray-secondary">
+                      Convert messy exports from CRMs, ERPs, and spreadsheets
+                      into structured tables ready for reporting.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                  <h3 className="text-xl font-semibold mb-3">
-                    Automation
-                  </h3>
+                <div className="panel overflow-hidden">
+                  <div className="flex items-center gap-2.5 border-b border-ms-gray-border bg-canvas-inset px-5 py-3 sm:px-6">
+                    <span className="h-1.5 w-1.5 rounded-full bg-ms-gray-border" aria-hidden="true" />
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ms-gray-secondary">
+                      Automation
+                    </h3>
+                  </div>
 
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Replace repetitive manual data preparation with automated
-                    Power Query workflows that update instantly.
-                  </p>
+                  <div className="p-5 sm:p-6">
+                    <p className="text-sm leading-relaxed text-ms-gray-secondary">
+                      Replace repetitive manual data preparation with automated
+                      Power Query workflows that update instantly.
+                    </p>
+                  </div>
                 </div>
 
               </div>
             </section>
 
             {/* PROCESS */}
-            <section className="mb-16">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">
-                How It Works
-              </h2>
+            <section className="doc-section mb-14">
+              <div className="section-head mb-5">
+                <h2 className="text-2xl font-bold text-ms-gray">
+                  How It Works
+                </h2>
+              </div>
 
               <div className="grid md:grid-cols-3 gap-6">
 
-                <div className="bg-blue-50 border border-blue-100 p-6 rounded-lg text-center">
-                  <div className="text-blue-600 font-bold text-2xl mb-2">1</div>
+                <div className="rounded-xl border border-ms-blue bg-ms-blue-light p-6 text-center">
+                  <div className="mb-2 text-2xl font-bold text-ms-blue">1</div>
 
-                  <h3 className="font-semibold mb-2">
+                  <h3 className="mb-2 text-lg font-semibold text-ms-gray">
                     Share Your Data
                   </h3>
 
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-ms-gray-secondary">
                     Send a sample dataset and describe the challenge you're
                     facing.
                   </p>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-100 p-6 rounded-lg text-center">
-                  <div className="text-blue-600 font-bold text-2xl mb-2">2</div>
+                <div className="rounded-xl border border-ms-blue bg-ms-blue-light p-6 text-center">
+                  <div className="mb-2 text-2xl font-bold text-ms-blue">2</div>
 
-                  <h3 className="font-semibold mb-2">
+                  <h3 className="mb-2 text-lg font-semibold text-ms-gray">
                     Analysis
                   </h3>
 
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-ms-gray-secondary">
                     We analyze the data structure and identify cleaning,
                     transformation, and optimization opportunities.
                   </p>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-100 p-6 rounded-lg text-center">
-                  <div className="text-blue-600 font-bold text-2xl mb-2">3</div>
+                <div className="rounded-xl border border-ms-blue bg-ms-blue-light p-6 text-center">
+                  <div className="mb-2 text-2xl font-bold text-ms-blue">3</div>
 
-                  <h3 className="font-semibold mb-2">
+                  <h3 className="mb-2 text-lg font-semibold text-ms-gray">
                     Solution Delivery
                   </h3>
 
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-ms-gray-secondary">
                     Receive optimized Power Query scripts and clean datasets
                     ready for reporting and analysis.
                   </p>
@@ -151,28 +161,30 @@ export default function Services() {
             </section>
 
             {/* WHO IS IT FOR */}
-            <section className="mb-16">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                Who This Is For
-              </h2>
+            <section className="doc-section mb-14">
+              <div className="section-head mb-5">
+                <h2 className="text-2xl font-bold text-ms-gray">
+                  Who This Is For
+                </h2>
+              </div>
 
-              <ul className="list-disc pl-6 text-gray-700 leading-relaxed space-y-2">
-                <li>Companies working with messy Excel exports</li>
-                <li>Teams building Power BI dashboards</li>
-                <li>Businesses integrating multiple data sources</li>
-                <li>Analysts dealing with slow Power Query refreshes</li>
-                <li>Organizations preparing data for reporting pipelines</li>
+              <ul className="max-w-3xl list-disc space-y-2 border-l-2 border-ms-blue/25 pl-5 text-[17px] leading-7 text-ms-gray-secondary">
+                <li className="marker:text-ms-blue">Companies working with messy Excel exports</li>
+                <li className="marker:text-ms-blue">Teams building Power BI dashboards</li>
+                <li className="marker:text-ms-blue">Businesses integrating multiple data sources</li>
+                <li className="marker:text-ms-blue">Analysts dealing with slow Power Query refreshes</li>
+                <li className="marker:text-ms-blue">Organizations preparing data for reporting pipelines</li>
               </ul>
             </section>
 
             {/* CALL TO ACTION */}
-            <section className="bg-green-50 border border-green-200 p-8 rounded-lg text-center">
+            <section className="rounded-xl border border-ms-blue bg-ms-blue-light p-8 text-center">
 
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="mb-4 text-2xl font-bold text-ms-gray">
                 Need Help With Your Data?
               </h2>
 
-              <p className="text-gray-700 mb-6 max-w-xl mx-auto">
+              <p className="mx-auto mb-6 max-w-xl text-[17px] leading-8 text-ms-gray-secondary">
                 Share your dataset and describe the problem you're facing.
                 We'll help you clean, transform, and automate your data
                 workflows using Power Query.
@@ -180,7 +192,7 @@ export default function Services() {
 
               <a
                 href="mailto:sales@powerquery.guide"
-                className="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition"
+                className="inline-flex items-center gap-2 rounded-lg bg-ms-blue px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-ms-blue-hover"
               >
                 Contact Us
               </a>
@@ -190,6 +202,6 @@ export default function Services() {
           </div>
         </main>
       </div>
-    </div>
+    </DocsLayout>
   );
 }

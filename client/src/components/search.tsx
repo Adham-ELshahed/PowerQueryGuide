@@ -46,9 +46,9 @@ export default function SearchComponent({ placeholder = "Search functions...", c
       {isOpen && searchResults && searchResults.length > 0 && (
         <Card className="absolute top-full left-0 right-0 mt-1 z-50 max-h-96 overflow-y-auto">
           <div className="p-2">
-            {searchResults.slice(0, 10).map((func) => (
+            {searchResults.slice(0, 10).map((func, index) => (
               <Link
-                key={func.id}
+                key={`${func.name}-${index}`}
                 href={`/functions/${func.category}/${func.name}`}
                 className="block p-3 hover:bg-ms-gray-light rounded-md transition-colors"
                 onClick={() => setIsOpen(false)}

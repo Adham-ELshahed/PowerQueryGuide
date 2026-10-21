@@ -18,18 +18,34 @@ import About from "@/pages/about";
 import DataTypes from "@/pages/data-types";
 import Services from "@/pages/services";
 import Enumerations from "@/pages/enumerations";
+import EnumerationDetail from "@/pages/enumeration-detail";
 import NotFound from "@/pages/not-found";
 import StandardNumericFormatStrings from "@/pages/standard-numeric-format-strings";
 import CustomNumericFormatStrings from "@/pages/custom-numeric-format-strings";
 
-// Explicit base path
-const basePath = import.meta.env.BASE_URL ?? "/";
+// Explicit base path — wouter expects "" (not "/") for root deployments,
+// otherwise it joins base + href into protocol-relative URLs like "//blog".
+const rawBase = import.meta.env.BASE_URL ?? "/";
+const basePath = rawBase === "/" ? "" : rawBase.replace(/\/$/, "");
 
 function Router() {
   useAnalytics();
   const [location] = useLocation();
 
   useEffect(() => {
+    // Land on the element a #hash points at (client-side navigation never
+    // triggers the browser's own fragment scroll); otherwise start at top.
+    const id = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+    if (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        // Chrome only resolves :target against the DOM present at navigation
+        // time, so mirror the :target highlight with an explicit class.
+        el.classList.add("is-target");
+        el.scrollIntoView({ block: "start" });
+        return;
+      }
+    }
     window.scrollTo(0, 0);
   }, [location]);
 
@@ -48,6 +64,7 @@ function Router() {
 
       {/* Dynamic routes after static */}
       <Route path="/function/:functionName" component={FunctionDetail} />
+      <Route path="/enumeration/:slug" component={EnumerationDetail} />
       <Route path="/category/:category" component={Category} />
 
       {/* Fallback */}
