@@ -12,6 +12,7 @@ import {
   enumerationHref,
   memberAnchor,
 } from "@/data/enumerations";
+import { connectorGuideForFunction, connectorHref } from "@/data/connectors";
 
 /* IMAGE URLS FOR PRODUCTION (public folder) */
 const imageMap: Record<string, string> = {
@@ -105,6 +106,9 @@ export default function FunctionDetail() {
     : legacyType
       ? enumerationHref(legacyType.slug)
       : null;
+
+  /* Connector guide that documents this function as its entry point, if any */
+  const connectorGuide = connectorGuideForFunction(decodedName);
 
   useEffect(() => {
     if (isLoading || func || !legacyHref) return;
@@ -242,6 +246,24 @@ export default function FunctionDetail() {
                       })}
                   </div>
                 </header>
+
+                {/* Connector guide cross-link (entry-function pages only) */}
+                {connectorGuide && (
+                  <Section title="Connector Guide" className="border-ms-blue/40" tint>
+                    <p className="text-ms-gray-secondary mb-4">
+                      <AutoLink>
+                        {`This function is the entry point of the ${connectorGuide.name} connector. Its guide covers prerequisites, what the connector returns, and working recipes for mail, calendars and contacts.`}
+                      </AutoLink>
+                    </p>
+                    <Link
+                      href={connectorHref(connectorGuide.slug)}
+                      className="group inline-flex items-center gap-2 rounded-lg px-2 py-1.5 -mx-2 text-ms-blue font-medium transition-colors hover:bg-ms-blue-light/60"
+                    >
+                      👉 Read the {connectorGuide.name} connector guide
+                      <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </Section>
+                )}
 
                 {/* Syntax */}
                 <Section title="Syntax">

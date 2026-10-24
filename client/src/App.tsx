@@ -19,6 +19,8 @@ import DataTypes from "@/pages/data-types";
 import Services from "@/pages/services";
 import Enumerations from "@/pages/enumerations";
 import EnumerationDetail from "@/pages/enumeration-detail";
+import Connectors from "@/pages/connectors";
+import ConnectorExchangeOnline from "@/pages/connector-exchange-online";
 import NotFound from "@/pages/not-found";
 import StandardNumericFormatStrings from "@/pages/standard-numeric-format-strings";
 import CustomNumericFormatStrings from "@/pages/custom-numeric-format-strings";
@@ -59,6 +61,8 @@ function Router() {
       <Route path="/datatypes" component={DataTypes} />
       <Route path="/services" component={Services} />
       <Route path="/enumerations" component={Enumerations} />
+      <Route path="/connectors" component={Connectors} />
+      <Route path="/connectors/exchange-online" component={ConnectorExchangeOnline} />
       <Route path="/docs/standard-numeric-format-strings" component={StandardNumericFormatStrings} />
       <Route path="/docs/custom-numeric-format-strings" component={CustomNumericFormatStrings} />
 
