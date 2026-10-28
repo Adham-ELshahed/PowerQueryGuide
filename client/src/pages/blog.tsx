@@ -43,6 +43,26 @@ const renderInline = (text: string) => {
   return { __html: linkifyHtml(html, { className: 'auto-link' }) };
 };
 
+// Split post content into paragraphs on blank lines — but keep ``` fenced
+// code blocks intact even when the code itself contains blank lines (e.g.
+// groups of commented steps), so a fence never breaks into prose fragments.
+const splitParagraphs = (text: string): string[] => {
+  const parts: string[] = [];
+  let current: string[] = [];
+  let inFence = false;
+  for (const line of text.split('\n')) {
+    if (line.trimStart().startsWith('```')) inFence = !inFence;
+    if (!inFence && line.trim() === '') {
+      parts.push(current.join('\n'));
+      current = [];
+    } else {
+      current.push(line);
+    }
+  }
+  if (current.length > 0) parts.push(current.join('\n'));
+  return parts.filter((part) => part.trim() !== '');
+};
+
 export default function Blog() {
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [iframeHeight, setIframeHeight] = useState<number>(0);
@@ -66,6 +86,117 @@ export default function Blog() {
   }, []);
 
   const blogPosts: BlogPost[] = [
+    {
+      id: "counting-characters-power-query",
+      title: "Counting Characters in Power Query: The \"44\" Trap and How to Solve It",
+      author: "Ahmad Askar",
+      date: "2026-10-28",
+      readTime: "5 min read",
+      category: "Power Query",
+      featured: true,
+      tags: ["Power Query", "M Language", "Text Functions", "Lists"],
+      content: `It usually starts as a simple brain-teaser: How many times does the digit 4 appear when counting from 1 to 100?
+
+If you run the numbers in your head, you'll land on exactly 20. But in my three decades of working in data architecture and ETL engineering, I've found that it's often these simple puzzles that best reveal how we think about data transformations.
+
+When I run Power Query workshops or write documentation for powerquery.guide, I love using exercises like this. Translating this puzzle into M code is a fantastic way to explore list operations, text parsing, and a very common logical trap that catches even seasoned data analysts.
+
+Let's walk through how to solve this from scratch, starting with the most elegant approach, and then exploring a common pitfall.
+
+## Approach 1: The "Flatten and Count" Method
+
+If we step back from thinking about numbers and instead think of the sequence as one giant block of text, we can solve this incredibly efficiently. Instead of evaluating 100 individual items, we generate the list, merge it into a single text string ("1234567891011...100"), and count the target characters.
+
+Here is the M code to achieve this in a Blank Query:
+
+\`\`\`powerquery
+let
+    // 1. Generate the sequence
+    SourceList = {1..100},
+
+    // 2. Convert to text and combine into one continuous string
+    CombinedText = Text.Combine(List.Transform(SourceList, Text.From)),
+
+    // 3. Find the index positions of every "4"
+    FindFours = Text.PositionOf(CombinedText, "4", Occurrence.All),
+
+    // 4. Count the total index positions found
+    Result = List.Count(FindFours)
+in
+    Result
+\`\`\`
+
+By leveraging Text.PositionOf with Occurrence.All, Power Query dynamically returns a list of every starting index where "4" appears. We simply count the size of that list. It's clean, low-code, and highly performant.
+
+## The Alternative Attempt: The "44" Trap
+
+Often, analysts will approach this problem differently, opting to evaluate the list item by item. A very common piece of M code I see looks like this:
+
+\`\`\`powerquery
+List.Count(
+    List.Select(
+        List.Transform( Query1, each Text.From(_) ),
+        each Text.Contains(_, "4")
+    )
+)
+\`\`\`
+
+If you run this, the engine returns 19.
+
+Where did the missing digit go? The culprit is the number 44.
+
+This happens because Text.Contains acts as a boolean filter. It asks a simple True/False question: Does this string contain a 4? When it hits "41", it returns True. When it hits "44", it also returns True. List.Select dutifully keeps the row, and List.Count counts that row exactly once.
+
+By treating the problem as a row-filtering exercise, the logic misses the duplicate occurrence nested inside the string.
+
+## Fixing the Item-by-Item Approach
+
+If you want to maintain the row-by-row transformation step—perhaps because you are building a larger dimensional model and need to retain the granularity—you have to shift from evaluating a condition to aggregating occurrences.
+
+Here are two elegant ways to correct the logic so it correctly returns 20.
+
+### Method A: The Indexing Approach
+
+Instead of filtering, we can transform each number into a count of its own "4"s, and then sum the results.
+
+\`\`\`powerquery
+List.Sum(
+    List.Transform(
+        Query1,
+        each List.Count(Text.PositionOf(Text.From(_), "4", Occurrence.All))
+    )
+)
+\`\`\`
+
+When the engine evaluates "44", Text.PositionOf finds the character at index 0 and index 1. List.Count converts that into the integer 2, which is seamlessly aggregated by List.Sum.
+
+### Method B: The Length Difference Trick
+
+I always enjoy utilizing this method because it's a classic, old-school text parsing technique that I've used across multiple languages over the years, not just in M.
+
+We measure the length of the string, remove the target character, and measure it again. The difference is your count.
+
+\`\`\`powerquery
+List.Sum(
+    List.Transform(
+        Query1,
+        each
+            let
+                CurrentText = Text.From(_)
+            in
+                Text.Length(CurrentText) - Text.Length(Text.Replace(CurrentText, "4", ""))
+    )
+)
+\`\`\`
+
+With this approach, "44" starts with a length of 2. We replace the "4"s with empty strings, dropping the length to 0. The difference is exactly 2.
+
+## The Takeaway
+
+Whether you're migrating legacy core systems or just cleaning up a messy Excel extract, precision is everything in our line of work. This exercise is a great reminder to always be mindful of the difference between counting rows that meet a condition, and counting the data points within the rows themselves.
+
+Keep your transformations deliberate, and happy querying!`
+    },
     {
       id: "records-lists-power-query",
       title: "Records & Lists in Power Query",
@@ -681,7 +812,7 @@ But instead of building everything from scratch…
                             />
                           ) : (
                             // Advanced Markdown Parser
-                            (currentPost.content ?? '').split('\n\n').map((paragraph, pIndex) => {
+                            splitParagraphs(currentPost.content ?? '').map((paragraph, pIndex) => {
                               const trimmedPara = paragraph.trim();
                               if (!trimmedPara) return null;
 
