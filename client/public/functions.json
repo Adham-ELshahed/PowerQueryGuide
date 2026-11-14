@@ -35,6 +35,51 @@
     "volatile": false
   },
   {
+    "name": "Acterys.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Acterys: Model Automation & Planning connector.",
+    "syntax": "Acterys.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Actian.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Actian connector.",
+    "syntax": "Actian.Contents(server as text, database as text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "ActiveDirectory.Domains",
     "category": "access-datafunctions",
     "description": "Returns a list of Active Directory domains in the same forest as the specified domain or of the current machine's domain if none is specified.",
@@ -152,6 +197,122 @@
     "volatile": false
   },
   {
+    "name": "ADPAnalytics.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the ADP Analytics connector.",
+    "syntax": "ADPAnalytics.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AmazonAthena.Databases",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Amazon Athena connector.",
+    "syntax": "AmazonAthena.Databases(DSN as text, optional role as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "DSN",
+        "type": "text",
+        "description": "It can be an user or system data source name"
+      },
+      {
+        "name": "role",
+        "type": "nullable text",
+        "description": "The role value to be used while connecting through AAD."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AmazonOpenSearchService.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Amazon OpenSearch Service connector.",
+    "syntax": "AmazonOpenSearchService.Contents(Server as text, Port as number, UseSSL as logical) as table.",
+    "parameters": [
+      {
+        "name": "Server",
+        "type": "text",
+        "description": "The hostname of the OpenSearch server."
+      },
+      {
+        "name": "Port",
+        "type": "number",
+        "description": "Port which OpenSearch server listens on."
+      },
+      {
+        "name": "UseSSL",
+        "type": "logical",
+        "description": "Use SSL"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AmazonRedshift.Database",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the tables on the Amazon Redshift cluster server in the database database  — entry point of the Amazon Redshift connector.",
+    "syntax": "AmazonRedshift.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"contoso.redshift.amazonaws.com:5439\"."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"dev\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "AnalysisServices.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of multidimensional cubes or tabular models from the Analysis Services database database on server server. An optional record parameter, options, may be specified to control the following options:\n• Query: A native MDX query used to retrieve data.\n• TypedMeasureColumns: A logical value indicating if the types specified in the multidimensional or tabular model will be used for the types of the added measure columns. When set to false, the type \"number\" will be used for all measure columns. The default value for this option is false.\n• Culture: A culture name specifying the culture for the data. This corresponds to the 'Locale Identifier' connection string property.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: driver-dependent).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• SubQueries: A number (0, 1 or 2) that sets the value of the \"SubQueries\" property in the connection string. This controls the behavior of calculated members on subselects or subcubes. ( (default: 2)).Implementation",
@@ -207,6 +368,543 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Anaplan.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Anaplan connector.",
+    "syntax": "Anaplan.Contents(apiUrl as text, authUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "apiUrl",
+        "type": "text",
+        "description": "Ex: https://api.anaplan.com"
+      },
+      {
+        "name": "authUrl",
+        "type": "text",
+        "description": "Ex: https://us1a.app.anaplan.com"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ApacheSpark.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the tables on the specified Spark cluster — entry point of the Azure HDInsight Spark connector.",
+    "syntax": "ApacheSpark.Tables(server as text, protocol as number, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Spark Server"
+      },
+      {
+        "name": "protocol",
+        "type": "number",
+        "description": "The protocol to use when connecting to an instance of Spark."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "appFigures.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the appFigures connector.",
+    "syntax": "appFigures.Tables() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AptixInsights.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Topcon Aptix Insights connector.",
+    "syntax": "AptixInsights.Feed(url as text, optional query as nullable any) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Enter the url to the Aptix OData API endpoint you wish to connect."
+      },
+      {
+        "name": "query",
+        "type": "nullable any",
+        "description": "Enter a record for querystring values to pass"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Asana.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Asana connector.",
+    "syntax": "Asana.Tables(link as text) as table.",
+    "parameters": [
+      {
+        "name": "link",
+        "type": "text",
+        "description": "Enter the URL for a portfolio or team. The response will include task data from all projects in that portfolio or team"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AssembleViews.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Assemble Views connector.",
+    "syntax": "AssembleViews.Feed(resourceUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "resourceUrl",
+        "type": "text",
+        "description": "Assemble Insight Url"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AtScale.Cubes",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the AtScale cubes connector.",
+    "syntax": "AtScale.Cubes(server as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Specify the AtScale server URL"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Specify the options to connect to AtScale server"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AutodeskConstructionCloud.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Autodesk Construction Cloud connector.",
+    "syntax": "AutodeskConstructionCloud.Feed(region as text) as table.",
+    "parameters": [
+      {
+        "name": "region",
+        "type": "text",
+        "description": "The type that represents all text values."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AutomationAnywhere.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Automation Anywhere connector.",
+    "syntax": "AutomationAnywhere.Feed(CRVersion as text, CRHostName as text) as table.",
+    "parameters": [
+      {
+        "name": "CRVersion",
+        "type": "text",
+        "description": "Control room version, 10.x/11.x OR Automation 360. Automation 360 customers need not mention the BI host as Bot Insight is an integral part of Control Room"
+      },
+      {
+        "name": "CRHostName",
+        "type": "text",
+        "description": "HostName/IpAddress of server where Control Room Service is running"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AutomyDataAnalytics.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Automy Data Analytics connector.",
+    "syntax": "AutomyDataAnalytics.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureCosmosDBForMongoDBvCore.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Cosmos DB for MongoDB vCore connector.",
+    "syntax": "AzureCosmosDBForMongoDBvCore.Contents(baseURL as text, optional database as nullable text, optional collection as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "baseURL",
+        "type": "text",
+        "description": "Please enter the endpoint"
+      },
+      {
+        "name": "database",
+        "type": "nullable text",
+        "description": "Please enter the database name"
+      },
+      {
+        "name": "collection",
+        "type": "nullable text",
+        "description": "Please enter the collection name"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureCostManagement.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Cost Management connector.",
+    "syntax": "AzureCostManagement.Tables(scope as text, scopeValue as text, numberOfMonths as number, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "scope",
+        "type": "text",
+        "description": "Select the scope name to fetch the records."
+      },
+      {
+        "name": "scopeValue",
+        "type": "text",
+        "description": "Enter the value for \"Scope Identifier\", only if the selected \"Scope\" is \"Manually Input Scope\""
+      },
+      {
+        "name": "numberOfMonths",
+        "type": "number",
+        "description": "Specify the number of months of data you want to report on. If you wish to analyze a specific date range, enter number of months as 0 and specify dates in 'Advanced Options'"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureDatabaseForMySQL.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Database for MySQL connector.",
+    "syntax": "AzureDatabaseForMySQL.Database(server as text, database as text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"azuremysql.mysql.database.azure.com:3306\"."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureDataExplorer.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Data Explorer (Kusto) connector.",
+    "syntax": "AzureDataExplorer.Contents(cluster as text, optional database as nullable text, optional tableOrQuery as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "cluster",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"https://mycluster.kusto.windows.net\"."
+      },
+      {
+        "name": "database",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"MyDatabase\"."
+      },
+      {
+        "name": "tableOrQuery",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (Table name or Azure Data Explorer query) Sample value: \"Logs | where [Timestamp] > ago(1h)\"; \"TracesTable\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureDeviceRegistry.Query",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Device Registry connector.",
+    "syntax": "AzureDeviceRegistry.Query(scope as text, optional subscriptions as nullable text, optional namespaces as nullable text, optional customAttributes as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "scope",
+        "type": "text",
+        "description": "Choose whether to retrieve data from all Azure subscriptions in your tenant or from specific subscriptions."
+      },
+      {
+        "name": "subscriptions",
+        "type": "nullable text",
+        "description": "Applies only when Scope is set to Subscription. By default, all subscriptions are included. Enter one or more Subscription IDs, separated by commas, to narrow the scope to specific subscriptions."
+      },
+      {
+        "name": "namespaces",
+        "type": "nullable text",
+        "description": "Applies only when Scope is set to Subscription. By default, the namespace filter applies across all subscriptions if no Subscription IDs are provided. Enter one or more ADR namespaces, separated by commas, to filter results."
+      },
+      {
+        "name": "customAttributes",
+        "type": "nullable text",
+        "description": "Enter a comma-separated list of up to 100 custom attribute names to include as separate columns. A column named \"attributes\" will always be included and contains all custom attributes in JSON format, even if they are not listed in this field."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureHorizonDB.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure HorizonDB Database connector.",
+    "syntax": "AzureHorizonDB.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "The host name or address of the Azure HorizonDB Database server (e.g., myserver.postgres.database.azure.com)"
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "The name of the database on the Azure HorizonDB Database server"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzurePostgreSQL.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Database for PostgreSQL connector.",
+    "syntax": "AzurePostgreSQL.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "The server address of your PostgreSQL database."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "The name of your PostgreSQL database"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "AzureResourceGraph.Query",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Resource Graph connector.",
+    "syntax": "AzureResourceGraph.Query(query as text, optional scope as nullable text, optional subscription as nullable text, optional managementGroup as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "query",
+        "type": "text",
+        "description": "The resources query. See sample queries: https://learn.microsoft.com/azure/governance/resource-graph/samples/starter?tabs=azure-cli"
+      },
+      {
+        "name": "scope",
+        "type": "nullable text",
+        "description": "Select query scope. If a management group or a subscription is not selected, the query scope is all resources."
+      },
+      {
+        "name": "subscription",
+        "type": "nullable text",
+        "description": "If you've selected a subscription scope, enter the Azure subscriptions to execute the query against."
+      },
+      {
+        "name": "managementGroup",
+        "type": "nullable text",
+        "description": "If you've selected a management group scope, enter the Azure management groups to execute the query against."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -343,6 +1041,232 @@
     "volatile": false
   },
   {
+    "name": "BI360.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Solver connector.",
+    "syntax": "BI360.Contents(Url as text) as table.",
+    "parameters": [
+      {
+        "name": "Url",
+        "type": "text",
+        "description": "Solver API URL"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "BIConnector.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the BI Connector connector.",
+    "syntax": "BIConnector.Contents(dsnname as text) as table.",
+    "parameters": [
+      {
+        "name": "dsnname",
+        "type": "text",
+        "description": "Required parameter of type text. (Enter the ODBC Data Source Name(DSN)*) Sample value: \"obiee-sales-reports\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "BinaryFormat.7BitEncodedSignedInteger",
+    "category": "access-datafunctions",
+    "description": "A binary format that reads a 64-bit signed integer that was encoded using a 7-bit variable-length encoding.",
+    "syntax": "BinaryFormat.7BitEncodedSignedInteger(binary as binary) as any",
+    "parameters": [
+      {
+        "name": "binary",
+        "type": "binary",
+        "description": "Parameter of type binary"
+      }
+    ],
+    "returnType": "any",
+    "examples": [],
+    "remarks": "A binary format that reads a 64-bit signed integer that was encoded using a 7-bit variable-length encoding.",
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "BitSightSecurityRatings.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Bitsight Security Ratings connector.",
+    "syntax": "BitSightSecurityRatings.Contents(optional company_guid as nullable text, optional affects_rating_findings as nullable logical) as table.",
+    "parameters": [
+      {
+        "name": "company_guid",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text."
+      },
+      {
+        "name": "affects_rating_findings",
+        "type": "nullable logical",
+        "description": "Optional parameter of type nullable logical."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Bloomberg.Query",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Bloomberg Data and Analytics connector.",
+    "syntax": "Bloomberg.Query(Bloomberg as text) as table.",
+    "parameters": [
+      {
+        "name": "Bloomberg",
+        "type": "text",
+        "description": "Required parameter of type text. (Query) Sample value: \"select ... from ... or for(...) get(...)\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "BQECore.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the BQE Core connector.",
+    "syntax": "BQECore.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "BuildingConnected.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table of entities for the given url and entity name — entry point of the BuildingConnected connector.",
+    "syntax": "BuildingConnected.Contents(optional rangeStart as nullable datetimezone, optional rangeEnd as nullable datetimezone, optional includeClosed as nullable logical) as table.",
+    "parameters": [
+      {
+        "name": "rangeStart",
+        "type": "nullable datetimezone",
+        "description": "The start of the range to filter by."
+      },
+      {
+        "name": "rangeEnd",
+        "type": "nullable datetimezone",
+        "description": "The end of the range to filter by."
+      },
+      {
+        "name": "includeClosed",
+        "type": "nullable logical",
+        "description": "Whether to include closed projects or previous versions of bids in the results."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CCHTagetik.Contents4",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Wolters Kluwer CCH Tagetik connector.",
+    "syntax": "CCHTagetik.Contents4(URL as text, Database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "URL",
+        "type": "text",
+        "description": "Wolters Kluwer CCH Tagetik URL environment"
+      },
+      {
+        "name": "Database",
+        "type": "text",
+        "description": "Wolters Kluwer CCH Tagetik Database environment"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CDataConnectCloud.ContentsV2",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant data from the connected data source in CData Connect Cloud — entry point of the CData Connect Cloud connector.",
+    "syntax": "CDataConnectCloud.ContentsV2(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Cdm.AddMeasureColumn",
     "category": "access-datafunctions",
     "description": "Adds a column with the name column to the cube that contains the results of the measure measureSelector applied in the row context of each row. Measure application is affected by changes to dimension granularity and slicing. Measure values will be adjusted after certain cube operations are performed.",
@@ -393,6 +1317,273 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Cds.Entities",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Common Data Service (Legacy) connector.",
+    "syntax": "Cds.Entities(url as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Url to the server instance."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional settings that can change the behavior of the query."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Celonis.Navigation",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Celonis EMS connector.",
+    "syntax": "Celonis.Navigation(URL as text) as table.",
+    "parameters": [
+      {
+        "name": "URL",
+        "type": "text",
+        "description": "Enter your team's Celonis EMS URL."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Cherwell.SavedSearches",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Cherwell connector.",
+    "syntax": "Cherwell.SavedSearches(API URL as text, Client ID as text, optional Locale as nullable text, optional Saved Search URL as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "API URL",
+        "type": "text",
+        "description": "Cherwell REST API URL"
+      },
+      {
+        "name": "Client ID",
+        "type": "text",
+        "description": "Cherwell REST API Client ID/key"
+      },
+      {
+        "name": "Locale",
+        "type": "nullable text",
+        "description": "Locale"
+      },
+      {
+        "name": "Saved Search URL",
+        "type": "nullable text",
+        "description": "Provide a path to a specific Saved Search, if preferred; leave this blank to browse all searches"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ClickHouse.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the ClickHouse connector.",
+    "syntax": "ClickHouse.Database(server as text, port as number, optional database as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Name of ClickHouse Host (name only, without prefixes"
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "description": "Port used by ClickHouse"
+      },
+      {
+        "name": "database",
+        "type": "nullable text",
+        "description": "Name of ClickHouse database"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Additional connection string options separated by semicolon"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CloudBluePSA.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the CloudBluePSA connector.",
+    "syntax": "CloudBluePSA.Feed(url as text, filter as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "The URL to the GET API endpoint on your CloudBlue PSA instance"
+      },
+      {
+        "name": "filter",
+        "type": "text",
+        "description": "Enter the filter object in JSON format"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Cognite.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Cognite Data Fusion (OData) connector.",
+    "syntax": "Cognite.Contents(project as text, optional environment as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "project",
+        "type": "text",
+        "description": "Enter a project name, data model URL, or custom query to connect to CDF"
+      },
+      {
+        "name": "environment",
+        "type": "nullable text",
+        "description": "This is the URL used to reach the API. For Data Models, fetch the endpoint from the Fusion UI."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CogniteDataSource.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Cognite Data Fusion (REST API) connector.",
+    "syntax": "CogniteDataSource.Contents(project as text, organization as text) as table.",
+    "parameters": [
+      {
+        "name": "project",
+        "type": "text",
+        "description": "The name of the CDF project where the data is stored. It's common to have at least two CDF projects — one for production and one for testing."
+      },
+      {
+        "name": "organization",
+        "type": "text",
+        "description": "Often, this is your company name without spaces or an abbreviation of your company name."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CommonDataService.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Dataverse connector.",
+    "syntax": "CommonDataService.Database(optional server as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "nullable text",
+        "description": "Specify a Dataverse environment to connect to. This field is optional and when not specified all Dataverse environments available to the logged in user will be displayed in the \"Choose data\" screen"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Specify the options to connect to your Dataverse instance"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "CosmosDB.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Cosmos DB v2 connector.",
+    "syntax": "CosmosDB.Contents(host as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "host",
+        "type": "text",
+        "description": "Cosmos DB Endpoint"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -877,6 +2068,189 @@
     "volatile": false
   },
   {
+    "name": "CustomerInsights.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Dynamics 365 Customer Insights connector.",
+    "syntax": "CustomerInsights.Contents(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Databricks.Catalogs",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Databricks connector.",
+    "syntax": "Databricks.Catalogs(host as text, httpPath as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "host",
+        "type": "text",
+        "description": "The hostname of the Databricks server."
+      },
+      {
+        "name": "httpPath",
+        "type": "text",
+        "description": "The HTTP path of the cluster."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DatabricksMultiCloud.Catalogs",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Databricks connector.",
+    "syntax": "DatabricksMultiCloud.Catalogs(host as text, httpPath as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "host",
+        "type": "text",
+        "description": "The hostname of the Databricks server."
+      },
+      {
+        "name": "httpPath",
+        "type": "text",
+        "description": "The HTTP path of the cluster."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DataLake.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table containing a row for each folder and file found at url from Azure Data Lake Storage Gen1 — entry point of the Azure Data Lake Storage Gen1 connector.",
+    "syntax": "DataLake.Contents(url as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"swebhdfs://contoso.azuredatalake.net/\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DataVirtuality.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Data Virtuality LDW connector.",
+    "syntax": "DataVirtuality.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Data Virtuality LDW server address. You can also enter a port number. If omitted, port 35433 will be used."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "The virtual database (vdb) to connect to."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DataWorld.Dataset",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Data.World - Get Dataset connector.",
+    "syntax": "DataWorld.Dataset(owner as text, id as text, optional query as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "owner",
+        "type": "text",
+        "description": "User name and unique identifier of the creator of the dataset. For example, in the URL: https://data.world/jonloyens/an-intro-to-dataworld-dataset , jonloyens is the unique identifier of the creator of the dataset."
+      },
+      {
+        "name": "id",
+        "type": "text",
+        "description": "Dataset unique identifier. For example, in the URL: https://data.world/jonloyens/an-intro-to-dataworld-dataset , an-intro-to-dataworld-dataset is the unique identifier of the dataset."
+      },
+      {
+        "name": "query",
+        "type": "nullable text",
+        "description": "dwSQL Query to issue against this dataset."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "DB2.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of SQL tables and views available in a Db2 database on server server in the database instance named database. The port may be optionally specified with the server, separated by a colon. An optional record parameter, options, may be specified to control the following options:\n• CreateNavigationProperties: A logical (true/false) that sets whether to generate navigation properties on the returned values (default: true).\n• NavigationPropertyNameGenerator: A function that is used for the creation of names for navigation properties.\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• HierarchicalNavigation: A logical (true/false) that sets whether to view the tables grouped by their schema names (default: false).\n• Implementation: Specifies the internal database provider implementation to use. Valid values are: \"IBM\" and \"Microsoft\".\n• BinaryCodePage: A number for the CCSID (Coded Character Set Identifier) to decode Db2 FOR BIT binary data into character strings. Applies to Implementation = \"Microsoft\". Set 0 to disable conversion (default). Set 1 to convert based on database encoding. Set other CCSID number to convert to application encoding.\n• PackageCollection: Specifies a string value for package collection (default: \"NULLID\") to enable use of shared packages required to process SQL statements. Applies to Implementation = \"Microsoft\".UseDb2\n• ConnectGateway: Specifies whether the connection is being made through a Db2 Connect gateway. Applies to Implementation = \"Microsoft\".",
@@ -917,6 +2291,23 @@
     "volatile": false
   },
   {
+    "name": "DCWInsights.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Digital Construction Works Insights connector.",
+    "syntax": "DCWInsights.Feed() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": true,
+    "volatile": false
+  },
+  {
     "name": "DeltaLake.Table",
     "category": "access-datafunctions",
     "description": "Returns the contents of the Delta Lake table.",
@@ -945,6 +2336,424 @@
     "volatile": false
   },
   {
+    "name": "DeltaSharing.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Delta Sharing connector.",
+    "syntax": "DeltaSharing.Contents(host as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "host",
+        "type": "text",
+        "description": "Delta Sharing Server URL"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Denodo.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Denodo connector.",
+    "syntax": "Denodo.Contents(DSN as text, optional debug as nullable logical, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "DSN",
+        "type": "text",
+        "description": "Name of the ODBC data source or Connection String"
+      },
+      {
+        "name": "debug",
+        "type": "nullable logical",
+        "description": "Logical value: true or false"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Denodo Connector options for low-level configuration of the connection"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Dremio.DatabasesV370",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the datasets on Dremio Server — entry point of the Dremio Software connector.",
+    "syntax": "Dremio.DatabasesV370(server as text, encryption as text, optional engine as nullable text, optional routingTag as nullable text, optional routingQueue as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. (Dremio Server) Sample value: \"servername:31010\"."
+      },
+      {
+        "name": "encryption",
+        "type": "text",
+        "description": "Encryption must be enabled if connecting direct from PBI Service"
+      },
+      {
+        "name": "engine",
+        "type": "nullable text",
+        "description": "The name of engine on which to run the query. If you do not specify an engine, Dremio will auto-select an engine based on the project’s Engine Routing rules."
+      },
+      {
+        "name": "routingTag",
+        "type": "nullable text",
+        "description": "Used for workload management"
+      },
+      {
+        "name": "routingQueue",
+        "type": "nullable text",
+        "description": "Used for workload management"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DremioCloud.DatabasesByServerV370",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the datasets on the specified server on Dremio Cloud — entry point of the Dremio Cloud connector.",
+    "syntax": "DremioCloud.DatabasesByServerV370(server as text, optional projectId as nullable text, optional engine as nullable text, optional routingTag as nullable text, optional routingQueue as nullable text, optional encryption as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Server is sql.dremio.cloud for Dremio Cloud US, sql.eu.dremio.cloud for Dremio Cloud Europe or <coordinator>:31010 for Dremio Software"
+      },
+      {
+        "name": "projectId",
+        "type": "nullable text",
+        "description": "The UUID of the project. You can find this on the Project Settings > General Information page. (Dremio Cloud only)"
+      },
+      {
+        "name": "engine",
+        "type": "nullable text",
+        "description": "The name of engine on which to run the query. If you do not specify an engine, Dremio will auto-select an engine based on the project’s Engine Routing rules."
+      },
+      {
+        "name": "routingTag",
+        "type": "nullable text",
+        "description": "An arbitrary tag that you can refer to in Queue Routing rules. (Dremio Software only)"
+      },
+      {
+        "name": "routingQueue",
+        "type": "nullable text",
+        "description": "The name of the queue to which this query should be assigned. If you do not specify a queue, Dremio will auto-select a queue based on the Queue Routing rules. (Dremio Software only)"
+      },
+      {
+        "name": "encryption",
+        "type": "nullable text",
+        "description": "Alternative location of trusted certificates if not using the default system trust store"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Dynamics365BusinessCentral.ApiContentsWithOptions",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Dynamics 365 Business Central data — entry point of the Dynamics 365 Business Central connector.",
+    "syntax": "Dynamics365BusinessCentral.ApiContentsWithOptions(optional environment as nullable text, optional company as nullable text, optional apiRoute as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "environment",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"Production\"."
+      },
+      {
+        "name": "company",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"Microsoft\"."
+      },
+      {
+        "name": "apiRoute",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (API category (or API route)) Sample value: \"v2.0\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Dynamics365BusinessCentralOnPremises.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Dynamics 365 Business Central (on-premises) data — entry point of the Dynamics 365 Business Central (on-premises) connector.",
+    "syntax": "Dynamics365BusinessCentralOnPremises.Contents(url as text, optional company as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. (OData URL) Sample value: \"https://dynamics365businesscentralonpremises:Port/<instance>/ODataV4/\"."
+      },
+      {
+        "name": "company",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"Microsoft\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DynamicsNav.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Dynamics NAV data — entry point of the Dynamics NAV connector.",
+    "syntax": "DynamicsNav.Contents(url as text, optional company as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. (OData URL) Sample value: \"https://dynamicsnavserver:Port/<instance>/ODataV4/\"."
+      },
+      {
+        "name": "company",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"Microsoft\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "DynatraceGrail.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Dynatrace Grail connector.",
+    "syntax": "DynatraceGrail.Contents(url as text, optional QueryInput as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Enter your Dynatrace environment, for example: https://123environment.apps.dynatrace.com ."
+      },
+      {
+        "name": "QueryInput",
+        "type": "nullable text",
+        "description": "Enter your custom DQL query."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Query limits. Maximum limits when fetching data."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "EduFrame.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Eduframe Reporting connector.",
+    "syntax": "EduFrame.Contents(domainSlug as text) as table.",
+    "parameters": [
+      {
+        "name": "domainSlug",
+        "type": "text",
+        "description": "This is the slug used in your Eduframe url as <slug>.eduframe.nl"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ElasticSearch.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the ElasticSearch connector.",
+    "syntax": "ElasticSearch.Database(url as text, optional keyColumnName as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "The URL (location) of your ElasticSearch instance."
+      },
+      {
+        "name": "keyColumnName",
+        "type": "nullable text",
+        "description": "The name you would like to give the column that contains document identifiers. If you omit this field or leave this field empty, the document identifiers will be omitted."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Emigo.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Emigo Data Source connector.",
+    "syntax": "Emigo.Contents(optional DataRestrictionType as nullable text, optional DataRestrictionValue as nullable text, optional DataRestrictionMode as nullable text, optional AuthorizationMode as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "DataRestrictionType",
+        "type": "nullable text",
+        "description": "Choose the restriction type for data"
+      },
+      {
+        "name": "DataRestrictionValue",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"3\"; \"4\"; \"5\"."
+      },
+      {
+        "name": "DataRestrictionMode",
+        "type": "nullable text",
+        "description": "Choose the restriction mode for data (\"Exact\" means, that the data will be given only for the selected restriction)"
+      },
+      {
+        "name": "AuthorizationMode",
+        "type": "nullable text",
+        "description": "Choose the Authorization Mode, if not chosen then the users default Authorization Mode will be used"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "EntersoftBusinessSuite.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Entersoft Business Suite connector.",
+    "syntax": "EntersoftBusinessSuite.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "EQuIS.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the EQuIS connector.",
+    "syntax": "EQuIS.Contents(baseUri as text) as table.",
+    "parameters": [
+      {
+        "name": "baseUri",
+        "type": "text",
+        "description": "Enter the URL to your EQuIS Enterprise Site (e.g. https://mysite.equisonline.com )"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Essbase.Cubes",
     "category": "access-datafunctions",
     "description": "Returns a table of cubes grouped by Essbase server from an Essbase instance at APS server url. An optional record parameter, options, may be specified to control the following options:\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).",
@@ -967,6 +2776,74 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "eWayCRM.Contents2",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the eWay-CRM connector.",
+    "syntax": "eWayCRM.Contents2(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ExactOnlinePremium.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Exact Online Premium connector.",
+    "syntax": "ExactOnlinePremium.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Exasol.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Exasol connector.",
+    "syntax": "Exasol.Database(server as text, encrypted as text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Exasol Connection String, e.g. 192.168.80.11..15:8563 or a DSN: DSN=exa-one"
+      },
+      {
+        "name": "encrypted",
+        "type": "text",
+        "description": "If set to Yes, connection will be encrypted"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1047,6 +2924,97 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Fabric.Warehouse",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Warehouse connector.",
+    "syntax": "Fabric.Warehouse(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "FabricSql.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SQL database in Fabric connector.",
+    "syntax": "FabricSql.Contents(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "FactSetAnalytics.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the FactSet connector.",
+    "syntax": "FactSetAnalytics.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Fhir.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the FHIR connector.",
+    "syntax": "Fhir.Contents(url as text, optional searchQuery as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "FHIR Server URL"
+      },
+      {
+        "name": "searchQuery",
+        "type": "nullable text",
+        "description": "Specific FHIR query"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1137,6 +3105,84 @@
     "volatile": false
   },
   {
+    "name": "Foundry.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Palantir Foundry connector.",
+    "syntax": "Foundry.Contents(BaseUri as text, optional datasetRid as nullable text, optional branch as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "BaseUri",
+        "type": "text",
+        "description": "The base URL of the Foundry environment"
+      },
+      {
+        "name": "datasetRid",
+        "type": "nullable text",
+        "description": "The dataset resource identifier to load data from"
+      },
+      {
+        "name": "branch",
+        "type": "nullable text",
+        "description": "The branch to load data from"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Funnel.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns navigation table to help the user navigate their Workspaces and respective Data Shares — entry point of the Funnel connector.",
+    "syntax": "Funnel.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Github.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant GitHub data — entry point of the GitHub connector.",
+    "syntax": "Github.Tables(RepositoryOwner as text, Repository as text) as table.",
+    "parameters": [
+      {
+        "name": "RepositoryOwner",
+        "type": "text",
+        "description": "Required parameter of type text. (Owner) Sample value: \"Name or organization\"."
+      },
+      {
+        "name": "Repository",
+        "type": "text",
+        "description": "Required parameter of type text. (Repository name) Sample value: \"dotnet\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "GoogleAnalytics.Accounts",
     "category": "access-datafunctions",
     "description": "Returns Google Analytics accounts that are accessible from the current credential.",
@@ -1154,6 +3200,80 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "GoogleBigQuery.Database",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the available projects in Google BigQuery — entry point of the Google BigQuery connector.",
+    "syntax": "GoogleBigQuery.Database(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "GoogleBigQueryAad.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Google BigQuery (Microsoft Entra ID) connector.",
+    "syntax": "GoogleBigQueryAad.Database(billingProject as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "billingProject",
+        "type": "text",
+        "description": "Required parameter of type text. (Billing Project ID) Sample value: \"My Billing Project\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "GoogleSheets.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Google Sheets connector.",
+    "syntax": "GoogleSheets.Contents(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Learn more at https://aka.ms/googlesheetsconnector"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1280,6 +3400,39 @@
     "volatile": false
   },
   {
+    "name": "HexagonSmartApi.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns table from a Hexagon PPM Smart API OData feed — entry point of the Hexagon PPM Smart API connector.",
+    "syntax": "HexagonSmartApi.Feed(url as text, optional headers as nullable text, optional odataFeedVersion as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "The type that represents a text URI."
+      },
+      {
+        "name": "headers",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (Request headers) Sample value: \"SampleHeader1=SampleValue1, SampleHeader2=SampleValue2\"."
+      },
+      {
+        "name": "odataFeedVersion",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (OData.Feed Version (defaults to 2.0)) Sample value: \"2.0\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Html.Table",
     "category": "access-datafunctions",
     "description": "Returns a table containing the results of running the specified CSS selectors against the provided html. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\nRowSelector",
@@ -1386,6 +3539,112 @@
     "volatile": false
   },
   {
+    "name": "Impala.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Impala database connector.",
+    "syntax": "Impala.Database(server as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"hostname:port\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Indexima.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Indexima connector.",
+    "syntax": "Indexima.Database(server as text, port as number, optional ODBCdriver as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Indexima Data Hub Address"
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "description": "Indexima JDBC Port Number"
+      },
+      {
+        "name": "ODBCdriver",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "IndustrialAppStore.NavigationTable",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Industrial App Store connector.",
+    "syntax": "IndustrialAppStore.NavigationTable() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "InformationGrid.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the InformationGrid connector.",
+    "syntax": "InformationGrid.Contents(server as text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Enter the resolvable host name or IP address of an InformationGrid server"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Informix.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of SQL tables and views available in an Informix database on server server in the database instance named database. The port may be optionally specified with the server, separated by a colon. An optional record parameter, options, may be specified to control the following options:\n• CreateNavigationProperties: A logical (true/false) that sets whether to generate navigation properties on the returned values (default: true).\n• NavigationPropertyNameGenerator: A function that is used for the creation of names for navigation properties.\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• HierarchicalNavigation: A logical (true/false) that sets whether to view the tables grouped by their schema names (default: false).",
@@ -1420,6 +3679,166 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "IntersystemsHealthInsight.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Intersystems Health Insight connector.",
+    "syntax": "IntersystemsHealthInsight.Database(host as text, port as number, namespace as text, ssl as text, hideSystemTables as text) as table.",
+    "parameters": [
+      {
+        "name": "host",
+        "type": "text",
+        "description": "Host (IP Address)"
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "description": "InterSystems Health Insight Port"
+      },
+      {
+        "name": "namespace",
+        "type": "text",
+        "description": "InterSystems Health Insight Namespace"
+      },
+      {
+        "name": "ssl",
+        "type": "text",
+        "description": "If set to Yes, connection will be over SSL/TLS"
+      },
+      {
+        "name": "hideSystemTables",
+        "type": "text",
+        "description": "If set to Yes, system tables will be hidden"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "IntuneV2.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Intune Data Warehouse (v2) connector.",
+    "syntax": "IntuneV2.Contents(dataWarehouseAsuUri as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "dataWarehouseAsuUri",
+        "type": "text",
+        "description": "To find the OData feed for your tenant, go to the Data Warehouse page under Reports in the Intune admin console and copy the URL for OData feed."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "inwink.ScopeContents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the inwink connector.",
+    "syntax": "inwink.ScopeContents(customerId as text, scope as text, scopeId as text) as table.",
+    "parameters": [
+      {
+        "name": "customerId",
+        "type": "text",
+        "description": "your inwink customer unique identifier"
+      },
+      {
+        "name": "scope",
+        "type": "text",
+        "description": "Scope of the data"
+      },
+      {
+        "name": "scopeId",
+        "type": "text",
+        "description": "inwink scope unique identifier (audience id or event id or community id)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "JamfPro.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Jamf Pro connector.",
+    "syntax": "JamfPro.Contents(jamfUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "jamfUrl",
+        "type": "text",
+        "description": "The URL for your Jamf Pro instance"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "JethroODBC.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Jethro connector.",
+    "syntax": "JethroODBC.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1489,6 +3908,555 @@
     "volatile": false
   },
   {
+    "name": "Kognitwin.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Kognitwin connector.",
+    "syntax": "Kognitwin.Contents(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Enter Kognitwin URL Environment"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "kxkdbinsightsenterprise.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the KX kdb Insights Enterprise Power Query connector.",
+    "syntax": "kxkdbinsightsenterprise.Contents(HostUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "HostUrl",
+        "type": "text",
+        "description": "The URL at which your KX kdb Insights Enterprise is hosted"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Kyligence.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Kyligence connector.",
+    "syntax": "Kyligence.Database(Server as text, Port as text, Project as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "Server",
+        "type": "text",
+        "description": "Your Kyligence service host address."
+      },
+      {
+        "name": "Port",
+        "type": "text",
+        "description": "Your Kyligence service port."
+      },
+      {
+        "name": "Project",
+        "type": "text",
+        "description": "Your Kyligence project."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Options"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "KyvosODBC.Databases",
+    "category": "access-datafunctions",
+    "description": "Returns table listing the datasets on Kyvos Server — entry point of the Kyvos ODBC connector.",
+    "syntax": "KyvosODBC.Databases(server as text, httpPath as text, encryption as text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. (Kyvos Server) Sample value: \"servername:8081\"."
+      },
+      {
+        "name": "httpPath",
+        "type": "text",
+        "description": "HTTP Path to connect to Kyvos Server"
+      },
+      {
+        "name": "encryption",
+        "type": "text",
+        "description": "Required parameter of type text. (Use SSL)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Lakehouse.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Lakehouse connector.",
+    "syntax": "Lakehouse.Contents(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "LEAP.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant LEAP data — entry point of the LEAP connector.",
+    "syntax": "LEAP.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Linkar.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Linkar PICK Style / MultiValue Databases connector.",
+    "syntax": "Linkar.Contents(server as text, entrypoint as text, port as number, optional language as nullable text, optional freetext as nullable text, optional customvars as nullable text, optional FileName as nullable text, optional SelectClause as nullable text, optional DictClause as nullable text, optional SortClause as nullable text, optional sqlmode as nullable logical) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Linkar Server IP address or DNS"
+      },
+      {
+        "name": "entrypoint",
+        "type": "text",
+        "description": "Data account EntryPoint Name."
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "description": "Write the EntryPoint TCP Port"
+      },
+      {
+        "name": "language",
+        "type": "nullable text",
+        "description": "If you have different languages defined, write the language which you want to visualize the data"
+      },
+      {
+        "name": "freetext",
+        "type": "nullable text",
+        "description": "Just to identify your session in Linkar Manager"
+      },
+      {
+        "name": "customvars",
+        "type": "nullable text",
+        "description": "You can write here what you need to perform custom controls"
+      },
+      {
+        "name": "FileName",
+        "type": "nullable text",
+        "description": "Write the defined Table Name in Linkar Schemas. If you want to use a MV Table or SV Table you must use extended notation: TableName.MVTableName.SVTableName. For example to bring the group of Multivalues called MVItems we must write Orders.MVItems. Remember, all the Tables Names must be defined in Linkar Schemas."
+      },
+      {
+        "name": "SelectClause",
+        "type": "nullable text",
+        "description": "Use the syntax as a SELECT on the database. You can use Property Names or File Dictionary Names."
+      },
+      {
+        "name": "DictClause",
+        "type": "nullable text",
+        "description": "All Linkar Schemas Properties that are visible, separated by spaces. Only the data will be brought"
+      },
+      {
+        "name": "SortClause",
+        "type": "nullable text",
+        "description": "Like SELECT in the database. You can use Property Names or File Dictionary Names."
+      },
+      {
+        "name": "sqlmode",
+        "type": "nullable logical",
+        "description": "If you activate this option data will come in SQL Mode. This mode adapts your data to the style of a SQL table"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "LinkedIn.SalesNavigator",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the LinkedIn Sales Navigator connector.",
+    "syntax": "LinkedIn.SalesNavigator(selectContracts as text, optional startAt as nullable date, optional endAt as nullable date) as table.",
+    "parameters": [
+      {
+        "name": "selectContracts",
+        "type": "text",
+        "description": "Get data for either all contracts you have report access to, or just selected contracts. Choose the contracts in the Query Editor as you load data."
+      },
+      {
+        "name": "startAt",
+        "type": "nullable date",
+        "description": "First date for which data should be retrieved. If left blank, then defaults to load 90 days of data, up to and including the End Date."
+      },
+      {
+        "name": "endAt",
+        "type": "nullable date",
+        "description": "Last date for which data should be retrieved. If left blank, then defaults to today."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "LinkedInLearning.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the LinkedIn Learning - Power BI connector.",
+    "syntax": "LinkedInLearning.Contents(optional start_date as nullable datetime, optional end_date as nullable datetime) as table.",
+    "parameters": [
+      {
+        "name": "start_date",
+        "type": "nullable datetime",
+        "description": "Optional parameter of type nullable datetime."
+      },
+      {
+        "name": "end_date",
+        "type": "nullable datetime",
+        "description": "Optional parameter of type nullable datetime."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MariaDB.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns navigation table — entry point of the MariaDB connector.",
+    "syntax": "MariaDB.Contents(MariaDB Data Source as text, optional database as nullable text, optional CreateNavigationProperties as nullable logical) as table.",
+    "parameters": [
+      {
+        "name": "MariaDB Data Source",
+        "type": "text",
+        "description": "You can also enter a port number after a colon and a database name after a semicolon Example: servername:portnumber;databasename"
+      },
+      {
+        "name": "database",
+        "type": "nullable text",
+        "description": "Empty database name allows browsing databases in Navigator."
+      },
+      {
+        "name": "CreateNavigationProperties",
+        "type": "nullable logical",
+        "description": "A logical value that sets whether to generate navigation properties on the returned tables. Navigation properties are based on foreign key relationships reported by the driver. These properties show up as virtual columns that can be expanded in the query editor, creating the appropriate join. If calculating foreign key dependencies is an expensive operation for your driver, you may want to set this value to false. Default: TRUE"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Marketo.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Marketo data — entry point of the Marketo connector.",
+    "syntax": "Marketo.Tables(url as text, QueryStart as date) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. (Marketo REST API endpoint) Sample value: \"https://100-AAA-900.mktorest.com/rest\"."
+      },
+      {
+        "name": "QueryStart",
+        "type": "date",
+        "description": "Required parameter of type date. (Start date)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MarkLogicODBC.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the MarkLogic connector.",
+    "syntax": "MarkLogicODBC.Contents(server as text, port as number) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "The name of the host that is running MarkLogic"
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "description": "The port that the MarkLogic ODBC Server is running on"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MicrosoftAzureDataManagerForEnergy.Search",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Microsoft Azure Data Manager for Energy connector.",
+    "syntax": "MicrosoftAzureDataManagerForEnergy.Search(serviceName as text, dataPartition as text, kind as text, query as text, optional limit as nullable number, optional returnedFields as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "serviceName",
+        "type": "text",
+        "description": "Name of the Microsoft Azure Data Manager for Energy instance"
+      },
+      {
+        "name": "dataPartition",
+        "type": "text",
+        "description": "The ID of the Microsoft Azure Data Manager for Energy data partition"
+      },
+      {
+        "name": "kind",
+        "type": "text",
+        "description": "The kind of the record to query"
+      },
+      {
+        "name": "query",
+        "type": "text",
+        "description": "Query string based on Lucene query string syntax"
+      },
+      {
+        "name": "limit",
+        "type": "nullable number",
+        "description": "The maximum number of results to return"
+      },
+      {
+        "name": "returnedFields",
+        "type": "nullable text",
+        "description": "The fields on which to project the results"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MicrosoftSentinel.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Microsoft Sentinel connector.",
+    "syntax": "MicrosoftSentinel.Contents(cluster as text, optional database as nullable text, optional tableOrQuery as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "cluster",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"https://api.securityplatform.microsoft.com/lake/kql\"."
+      },
+      {
+        "name": "database",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. Sample value: \"MyDatabase\"."
+      },
+      {
+        "name": "tableOrQuery",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (Table name or Azure Data Explorer query) Sample value: \"Logs | where [Timestamp] > ago(1h)\"; \"TracesTable\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MicroStrategyDataset.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the MicroStrategy for Power BI connector.",
+    "syntax": "MicroStrategyDataset.Contents(libraryUrl as text, optional authMode as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "libraryUrl",
+        "type": "text",
+        "description": "Please enter a valid environment URL (by default, Library authentication is used): https://.../MicroStrategyLibrary. For OIDC authentication, add the #OIDCMode parameter to the end of your valid environment URL: https://.../MicroStrategyLibrary/#OIDCMode."
+      },
+      {
+        "name": "authMode",
+        "type": "nullable text",
+        "description": "The authentication mode used to connect to your Intelligence Server: Standard or LDAP Default is Standard"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Mixpanel.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Mixpanel connector.",
+    "syntax": "Mixpanel.Tables() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "MongoDBAtlasODBC.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the MongoDB Atlas SQL interface connector.",
+    "syntax": "MongoDBAtlasODBC.Contents(mongodbUri as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "mongodbUri",
+        "type": "text",
+        "description": "MongoDB connection URI"
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Database to connect to"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "MySQL.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of SQL tables, views, and stored scalar functions available in a MySQL database on server server in the database instance named database. The port may be optionally specified with the server, separated by a colon. An optional record parameter, options, may be specified to control the following options:\n• Encoding: A TextEncoding value that specifies the character set used to encode all queries sent to the server (default: null).\n• CreateNavigationProperties: A logical (true/false) that sets whether to generate navigation properties on the returned values (default: true).\n• NavigationPropertyNameGenerator: A function that is used for the creation of names for navigation properties.\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• TreatTinyAsBoolean: A logical (true/false) that determines whether to force tinyint columns on the server as logical values. (default: true).\n• OldGuids: A logical (true/false) that sets whether char(36) columns (if false) or binary(16) columns (if true) will be treated as GUIDs. (default: false).\n• ReturnSingleDatabase: A logical (true/false) that sets whether to return all tables of all databases (if false) or to return tables and views of the specified database (if true). (default: false).\n• HierarchicalNavigation: A logical (true/false) that sets whether to view the tables grouped by their schema names (default: false).",
@@ -1523,6 +4491,39 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Netezza.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the IBM Netezza database connector.",
+    "syntax": "Netezza.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"netezza:5480\"."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"netezza_database\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1742,6 +4743,128 @@
     "volatile": false
   },
   {
+    "name": "OneLake.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the OneLake Files connector.",
+    "syntax": "OneLake.Contents(path as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "path",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"/workspaceId/artifactId/partial/path\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Optional Values) Sample value: \"[ ConnectionTimeout = 0 ]\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "OneLake.SqlAnalytics",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Fabric SQL Analytics endpoint connector.",
+    "syntax": "OneLake.SqlAnalytics(workspace as text, database as text, artifactType as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "workspace",
+        "type": "text",
+        "description": "Required parameter of type text. (Workspace Id) Sample value: \"85599f29-c009-4253-b53b-c3ba6e4afa97\"."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text. (Database Name) Sample value: \"mySqlAnalyticsDatabase\"."
+      },
+      {
+        "name": "artifactType",
+        "type": "text",
+        "description": "Required parameter of type text. (Item Type) Sample value: \"Lakehouse\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. Sample value: \"[ ConnectionTimeout = 0 ]\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "OneStream.Navigation",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the OneStream connector.",
+    "syntax": "OneStream.Navigation(OneStreamURL as text) as table.",
+    "parameters": [
+      {
+        "name": "OneStreamURL",
+        "type": "text",
+        "description": "The address of your OneStream environment"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "OpenSearchProject.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the OpenSearch Project connector.",
+    "syntax": "OpenSearchProject.Contents(Server as text, Port as number, UseSSL as logical) as table.",
+    "parameters": [
+      {
+        "name": "Server",
+        "type": "text",
+        "description": "The hostname of the OpenSearch server."
+      },
+      {
+        "name": "Port",
+        "type": "number",
+        "description": "Port which OpenSearch server listens on."
+      },
+      {
+        "name": "UseSSL",
+        "type": "logical",
+        "description": "Use SSL"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Oracle.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of SQL tables and views from the Oracle database on server server. The port may be optionally specified with the server, separated by a colon. An optional record parameter, options, may be specified to control the following options:\n• CreateNavigationProperties: A logical (true/false) that sets whether to generate navigation properties on the returned values (default: true).\n• NavigationPropertyNameGenerator: A function that is used for the creation of names for navigation properties.\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• HierarchicalNavigation: A logical (true/false) that sets whether to view the tables grouped by their schema names (default: false).",
@@ -1777,6 +4900,52 @@
     "volatile": false
   },
   {
+    "name": "OracleERP.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Oracle ERP connector.",
+    "syntax": "OracleERP.Contents(ApplicationUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "ApplicationUrl",
+        "type": "text",
+        "description": "The type that represents a text URI."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Paxata.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Paxata connector.",
+    "syntax": "Paxata.Contents(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Paxata base url to connect to. For example, https://paxatadeploymentname.apps.azurehdinsight.net"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Pdf.Tables",
     "category": "access-datafunctions",
     "description": "Returns any tables found in pdf. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\n\n  • Implementation: The version of the algorithm to use when identifying tables. Old versions are available only for backwards compatibility, to prevent old queries from being broken by algorithm updates. The newest version should always give the best results. Valid values are \"1.3\", \"1.2\", \"1.1\", or null.\n  • StartPage: Specifies the first page in the range of pages to examine (default: 1).\n  • EndPage: Specifies the last page in the range of pages to examine (default: the last page of the document).\n  • MultiPageTables: Controls whether similar tables on consecutive pages will be automatically combined into a single table (default: true).\n  • EnforceBorderLines: Controls whether border lines are always enforced as cell boundaries (when true), or simply used as one hint among many for determining cell boundaries (when false) (default: false).",
@@ -1806,6 +4975,80 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "PlanviewEnterprise.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns table with Planview Portfolios data — entry point of the Planview Portfolios connector.",
+    "syntax": "PlanviewEnterprise.Feed(url as text, database as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. (Planview Portfolios URL (e.g. https://contoso.com/planview )) Sample value: null."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"pve\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "PlanviewOKR.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Planview OKR data — entry point of the Planview OKR connector.",
+    "syntax": "PlanviewOKR.Contents(ODataURL as text) as table.",
+    "parameters": [
+      {
+        "name": "ODataURL",
+        "type": "text",
+        "description": "Required parameter of type text. (Planview OKR OData Url)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "PlanviewProjectplace.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Planview ProjectPlace data — entry point of the Planview ProjectPlace connector.",
+    "syntax": "PlanviewProjectplace.Contents(ODataURL as text) as table.",
+    "parameters": [
+      {
+        "name": "ODataURL",
+        "type": "text",
+        "description": "Required parameter of type text. (Planview ProjectPlace OData URL)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1852,6 +5095,161 @@
     "volatile": false
   },
   {
+    "name": "PowerBI.Dataflows",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Power BI dataflows (Legacy) connector.",
+    "syntax": "PowerBI.Dataflows(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "PowerBI.Datamarts",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Datamarts connector.",
+    "syntax": "PowerBI.Datamarts(optional server as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "nullable text",
+        "description": "Specify a Datamart TDS endpoint to connect directly to single Datamart tables"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "PowerPlatform.Dataflows",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Dataflows connector.",
+    "syntax": "PowerPlatform.Dataflows(optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ProductInsights.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Product Insights connector.",
+    "syntax": "ProductInsights.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Profisee.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Profisee connector.",
+    "syntax": "Profisee.Tables(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Enter your Profisee Instance URL"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "QubolePresto.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the QubolePresto connector.",
+    "syntax": "QubolePresto.Contents(dsn as text) as table.",
+    "parameters": [
+      {
+        "name": "dsn",
+        "type": "text",
+        "description": "Required parameter of type text."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "QuickBase.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Quickbase connector.",
+    "syntax": "QuickBase.Contents(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Application URL containing Quick Base domain with application's id to identify and connect with an application and fetch data."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "RData.FromBinary",
     "category": "access-datafunctions",
     "description": "Returns a record of data frames from the RData file.",
@@ -1869,6 +5267,23 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Roamler.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Roamler connector.",
+    "syntax": "Roamler.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -1931,6 +5346,39 @@
     "volatile": false
   },
   {
+    "name": "Samsara.Records",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Samsara connector.",
+    "syntax": "Samsara.Records(Region as text, RangeStart as text, optional RangeEnd as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "Region",
+        "type": "text",
+        "description": "Select the region for you Samsara organization"
+      },
+      {
+        "name": "RangeStart",
+        "type": "text",
+        "description": "Use Month/Day/Year format. Note that Power BI Pro limits table size to 1GB, which is typically 2 months or less for granular tables like trips and speeding. The maximum range is 6 months for a single data pull (combine multiple pulls to generate tables larger than 6 months)."
+      },
+      {
+        "name": "RangeEnd",
+        "type": "nullable text",
+        "description": "Use Month/Day/Year format or leave blank."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "SapBusinessWarehouse.Cubes",
     "category": "access-datafunctions",
     "description": "Returns a table of InfoCubes and queries grouped by InfoArea from an SAP Business Warehouse instance at server server with system number systemNumberOrSystemId and Client ID clientId. An optional record parameter, optionsOrLogonGroup, may be specified to control options.",
@@ -1974,6 +5422,34 @@
     "volatile": false
   },
   {
+    "name": "SAPERP.Functions",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SAP ERP connector.",
+    "syntax": "SAPERP.Functions(connectionString as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "connectionString",
+        "type": "text",
+        "description": "JSON string containing system parameters Host, system number, client etc..."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "SapHana.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of multidimensional packages from the SAP HANA database server. An optional record parameter, options, may be specified to control the following options:\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• Distribution: A SapHanaDistribution that sets the value of the \"Distribution\" property in the connection string. Statement routing is the method of evaluating the correct server node of a distributed system before statement execution. (default: SapHanaDistribution).All.\n• Implementation: Specifies the implementation of the SAP HANA connector to use.\n• EnableColumnBinding: Binds variables to the columns of a SAP HANA result set when fetching data. May potentially improve performance at the cost of slightly higher memory utilization. (default: false).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: 15 seconds).\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).",
@@ -1996,6 +5472,39 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SDMX.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SIS-CC SDMX connector.",
+    "syntax": "SDMX.Contents(url as text, Option as text, optional Language as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "The type that represents a text URI."
+      },
+      {
+        "name": "Option",
+        "type": "text",
+        "description": "Required parameter of type text. (Display format)"
+      },
+      {
+        "name": "Language",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (Label language preference. Use IETF BCP 47 tags.) Sample value: \"fr-CH, fr, en\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -2086,6 +5595,134 @@
     "volatile": false
   },
   {
+    "name": "ShortcutsBI.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Shortcuts Business Insights connector.",
+    "syntax": "ShortcutsBI.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SingleStoreODBC.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SingleStore connector.",
+    "syntax": "SingleStoreODBC.Contents(ServerAddr as text, Database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "ServerAddr",
+        "type": "text",
+        "description": "Provide your server address"
+      },
+      {
+        "name": "Database",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"mydatabase\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Siteimprove.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Siteimprove connector.",
+    "syntax": "Siteimprove.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SmartsheetGlobal.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns nested table of available sheets, reports, folders, and workspaces from the Smartsheet API — entry point of the Smartsheet connector.",
+    "syntax": "SmartsheetGlobal.Contents(region as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "region",
+        "type": "text",
+        "description": "The Smartsheet region to connect to."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Snowflake.Databases",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Snowflake connector.",
+    "syntax": "Snowflake.Databases(server as text, warehouse as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"contoso.snowflakecomputing.com\"."
+      },
+      {
+        "name": "warehouse",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"CONTOSO_WH\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Soda.Feed",
     "category": "access-datafunctions",
     "description": "Returns a table from the contents at the specified URL url formatted according to the SODA 2.0 API. The URL must point to a valid SODA-compliant source that ends in a .csv extension.",
@@ -2103,6 +5740,102 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SoftOneBI.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SoftOne BI connector.",
+    "syntax": "SoftOneBI.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SolarWindsServiceDesk.ContentsV113",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SolarWinds Service Desk connector.",
+    "syntax": "SolarWindsServiceDesk.ContentsV113(optional RangeStart as nullable datetime, optional RangeEnd as nullable datetime, optional CustomFieldsStr as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "RangeStart",
+        "type": "nullable datetime",
+        "description": "Optional parameter of type nullable datetime."
+      },
+      {
+        "name": "RangeEnd",
+        "type": "nullable datetime",
+        "description": "Optional parameter of type nullable datetime."
+      },
+      {
+        "name": "CustomFieldsStr",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SparkPost.NavTable",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SparkPost connector.",
+    "syntax": "SparkPost.NavTable(DaysToAggregate as number) as table.",
+    "parameters": [
+      {
+        "name": "DaysToAggregate",
+        "type": "number",
+        "description": "Required parameter of type number. (Number of days worth of data to aggregate) Sample value: \"5\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Spigit.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Planview IdeaPlace data — entry point of the Planview IdeaPlace connector.",
+    "syntax": "Spigit.Contents(ODataURL as text) as table.",
+    "parameters": [
+      {
+        "name": "ODataURL",
+        "type": "text",
+        "description": "Required parameter of type text. (Planview IdeaPlace OData URL)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -2184,6 +5917,146 @@
     "volatile": false
   },
   {
+    "name": "StarburstAad.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Starburst secured by Entra ID connector.",
+    "syntax": "StarburstAad.Contents(Host as text, Port as number, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "Host",
+        "type": "text",
+        "description": "The hostname of the Starburst server."
+      },
+      {
+        "name": "Port",
+        "type": "number",
+        "description": "The port the server is running on."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "StarburstPresto.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Starburst connector.",
+    "syntax": "StarburstPresto.Contents(Host as text, Port as number, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "Host",
+        "type": "text",
+        "description": "The hostname of the Starburst server."
+      },
+      {
+        "name": "Port",
+        "type": "number",
+        "description": "The port the server is running on."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SumTotal.ODataFeed",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SumTotal connector.",
+    "syntax": "SumTotal.ODataFeed(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Customer Environment Url that allows for rowVersionId filtering by appending the parameter and the rowVersionId as a query string at the end of the url"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Supermetrics.Render",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Supermetrics connector.",
+    "syntax": "Supermetrics.Render() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SurveyMonkey.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SurveyMonkey connector.",
+    "syntax": "SurveyMonkey.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "SweetIQ.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the SweetIQ connector.",
+    "syntax": "SweetIQ.Tables() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Sybase.Database",
     "category": "access-datafunctions",
     "description": "Returns a table of SQL tables and views available in a Sybase database on server server in the database instance named database. The port may be optionally specified with the server, separated by a colon. An optional record parameter, options, may be specified to control the following options:\n• CreateNavigationProperties: A logical (true/false) that sets whether to generate navigation properties on the returned values (default: true).\n• NavigationPropertyNameGenerator: A function that is used for the creation of names for navigation properties.\n• Query: A native SQL query used to retrieve data. If the query produces multiple result sets, only the first will be returned.\n• CommandTimeout: A duration that controls how long the server-side query is allowed to run before it is canceled. (default: ten minutes).\n• ConnectionTimeout: A duration that controls how long to wait before abandoning an attempt to make a connection to the server. (default: driver-dependent).\n• HierarchicalNavigation: A logical (true/false) that sets whether to view the tables grouped by their schema names (default: false).",
@@ -2218,6 +6091,85 @@
     "compatibility": {
       "Power BI": true,
       "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Synapse.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Azure Synapse Analytics workspace connector.",
+    "syntax": "Synapse.Contents(optional option as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "option",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "TeamDesk.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the TeamDesk connector.",
+    "syntax": "TeamDesk.Database(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Any URL to your TeamDesk database"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Tenforce.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Tenforce (Smart)List connector.",
+    "syntax": "Tenforce.Contents(ApplicationUrl as text, ListId as text, DataType as text) as table.",
+    "parameters": [
+      {
+        "name": "ApplicationUrl",
+        "type": "text",
+        "description": "Url of application to connect to (include '/' at the end)"
+      },
+      {
+        "name": "ListId",
+        "type": "text",
+        "description": "(Smart)List ID to fetch (include 'l' or 'f' in the ID)"
+      },
+      {
+        "name": "DataType",
+        "type": "text",
+        "description": "Determines type of returned data"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
@@ -2259,34 +6211,234 @@
     "volatile": false
   },
   {
-    "name": "WebAction.Request",
+    "name": "TibcoTdv.DataSource",
     "category": "access-datafunctions",
-    "description": "Creates an action that, when executed, will return the results of performing a method request against url using HTTP as a binary value. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\n• Query: Programmatically add query parameters to the URL without having to worry about escaping.\n• ApiKeyName: If the target site has a notion of an API key, this parameter can be used to specify the name (not the value) of the key parameter that must be used in the URL. The actual key value is provided in the credential.\n• Headers: Specifying this value as a record will supply additional headers to an HTTP request.\n• Timeout: Specifying this value as a duration will change the timeout for an HTTP request. (default: 100 seconds).\n• ExcludedFromCacheKey: Specifying this value as a list will exclude these HTTP header keys from being part of the calculation for caching data.\n• IsRetry: Specifying this logical value as true will ignore any existing response in the cache when fetching data.\n• ManualStatusHandling: Specifying this value as a list will prevent any builtin handling for HTTP requests whose response has one of these status codes.\n• RelativePath: Specifying this value as text appends it to the base URL before making the request.\n• Content: Specifying this value will cause its contents to become the body of the HTTP request.",
-    "syntax": "WebAction.Request(method as text, url as text, optional options as nullable record) as action.",
+    "description": "Returns a navigation table for the TIBCO(R) Data Virtualization connector.",
+    "syntax": "TibcoTdv.DataSource(dsn as text, optional advancedOptions as nullable text, optional options as nullable record) as table.",
     "parameters": [
       {
-        "name": "method",
+        "name": "dsn",
         "type": "text",
-        "description": "Parameter of type text"
+        "description": "Required parameter of type text. (Data Source Name (e.g. Power BI TDV)) Sample value: \"Power BI TDV\"."
       },
       {
-        "name": "url",
-        "type": "text",
-        "description": "Parameter of type text"
+        "name": "advancedOptions",
+        "type": "nullable text",
+        "description": "Optional parameter of type nullable text. (Advanced Connection Properties) Sample value: \"PropertyA=Value1;PropertyB=Value2;\"."
       },
       {
         "name": "options",
         "type": "nullable record",
-        "description": "Parameter of type nullable record"
+        "description": "Optional parameter of type nullable record. (Advanced Options)"
       }
     ],
-    "returnType": "action.",
+    "returnType": "table",
     "examples": [],
-    "remarks": "Creates an action that, when executed, will return the results of performing a method request against url using HTTP as a binary value. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\n• Query: Programmatically add query parameters to the URL without having to worry about escaping.\n• ApiKeyName: If the target site has a notion of an API key, this parameter can be used to specify the name (not the value) of the key parameter that must be used in the URL. The actual key value is provided in the credential.\n• Headers: Specifying this value as a record will supply additional headers to an HTTP request.\n• Timeout: Specifying this value as a duration will change the timeout for an HTTP request. (default: 100 seconds).\n• ExcludedFromCacheKey: Specifying this value as a list will exclude these HTTP header keys from being part of the calculation for caching data.\n• IsRetry: Specifying this logical value as true will ignore any existing response in the cache when fetching data.\n• ManualStatusHandling: Specifying this value as a list will prevent any builtin handling for HTTP requests whose response has one of these status codes.\n• RelativePath: Specifying this value as text appends it to the base URL before making the request.\n• Content: Specifying this value will cause its contents to become the body of the HTTP request.",
+    "remarks": null,
     "compatibility": {
       "Power BI": true,
-      "Excel": true,
+      "Excel": false,
       "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Troux.Feed",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Planview Enterprise Architecture data — entry point of the Planview Enterprise Architecture connector.",
+    "syntax": "Troux.Feed(url as text) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Required parameter of type text. (OData Feed URL (e.g. https://www.contoso.com )) Sample value: null."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Usercube.Universes",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Usercube connector.",
+    "syntax": "Usercube.Universes(serverUrl as text) as table.",
+    "parameters": [
+      {
+        "name": "serverUrl",
+        "type": "text",
+        "description": "Usercube server instance URL."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Vena.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Vena connector.",
+    "syntax": "Vena.Contents(source as text, optional modelQuery as nullable text, optional apiVersion as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "source",
+        "type": "text",
+        "description": "To find your region, log into vena.io and view the region listed in the URL. For example, the region in \"https://us2.vena.io\" is us2."
+      },
+      {
+        "name": "modelQuery",
+        "type": "nullable text",
+        "description": "MQL Query For Your Hierarchies/Intersections. Leaving This Field Blank Will Retrieve All Members And Intersections."
+      },
+      {
+        "name": "apiVersion",
+        "type": "nullable text",
+        "description": "The format you want to pull Vena data in. V2 now includes operators."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Vertica.Database",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Vertica database connector.",
+    "syntax": "Vertica.Database(server as text, database as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "server",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"database.vertica.com\"."
+      },
+      {
+        "name": "database",
+        "type": "text",
+        "description": "Required parameter of type text. Sample value: \"verticadb01\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Optional Values) Sample value: \"[ ConnectionTimeout = 0 ]\"."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "VesselInsight.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Vessel Insight connector.",
+    "syntax": "VesselInsight.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "VivaInsights.Data",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Viva Insights connector.",
+    "syntax": "VivaInsights.Data(scopeId as text, optional jobName as nullable text, optional jobId as nullable text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "scopeId",
+        "type": "text",
+        "description": "In the advanced insights app, go to Analysis > Query results, find your query, and select Link to get the partition identifier."
+      },
+      {
+        "name": "jobName",
+        "type": "nullable text",
+        "description": "Input the query name as it is found on the Analysis > Query results page in the advanced insights app."
+      },
+      {
+        "name": "jobId",
+        "type": "nullable text",
+        "description": "In the advanced insights app, go to Analysis > Query results, find your query, and select Link to get the query identifier."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Optional parameter of type nullable record. (Advanced options)"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "VSTS.AnalyticsViews",
+    "category": "access-datafunctions",
+    "description": "Returns table of Analytics views offered by Azure DevOps — entry point of the Azure DevOps (Boards only) connector.",
+    "syntax": "VSTS.AnalyticsViews(url as text, project as text, optional options as nullable record) as table.",
+    "parameters": [
+      {
+        "name": "url",
+        "type": "text",
+        "description": "The organization for \"https://dev.azure.com/fabrikam-fiber-inc\" is \"fabrikam-fiber-inc\"."
+      },
+      {
+        "name": "project",
+        "type": "text",
+        "description": "The project name for \"https://dev.azure.com/fabrikam-fiber-inc/Fabrikam-Fiber\" is \"Fabrikam-Fiber\"."
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "An options record to control the behavior of this function."
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": false
     },
     "deprecated": false,
     "volatile": false
@@ -2406,6 +6558,149 @@
     "volatile": false
   },
   {
+    "name": "WebAction.Request",
+    "category": "access-datafunctions",
+    "description": "Creates an action that, when executed, will return the results of performing a method request against url using HTTP as a binary value. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\n• Query: Programmatically add query parameters to the URL without having to worry about escaping.\n• ApiKeyName: If the target site has a notion of an API key, this parameter can be used to specify the name (not the value) of the key parameter that must be used in the URL. The actual key value is provided in the credential.\n• Headers: Specifying this value as a record will supply additional headers to an HTTP request.\n• Timeout: Specifying this value as a duration will change the timeout for an HTTP request. (default: 100 seconds).\n• ExcludedFromCacheKey: Specifying this value as a list will exclude these HTTP header keys from being part of the calculation for caching data.\n• IsRetry: Specifying this logical value as true will ignore any existing response in the cache when fetching data.\n• ManualStatusHandling: Specifying this value as a list will prevent any builtin handling for HTTP requests whose response has one of these status codes.\n• RelativePath: Specifying this value as text appends it to the base URL before making the request.\n• Content: Specifying this value will cause its contents to become the body of the HTTP request.",
+    "syntax": "WebAction.Request(method as text, url as text, optional options as nullable record) as action.",
+    "parameters": [
+      {
+        "name": "method",
+        "type": "text",
+        "description": "Parameter of type text"
+      },
+      {
+        "name": "url",
+        "type": "text",
+        "description": "Parameter of type text"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Parameter of type nullable record"
+      }
+    ],
+    "returnType": "action.",
+    "examples": [],
+    "remarks": "Creates an action that, when executed, will return the results of performing a method request against url using HTTP as a binary value. An optional record parameter, options, may be provided to specify additional properties. The record can contain the following fields:\n• Query: Programmatically add query parameters to the URL without having to worry about escaping.\n• ApiKeyName: If the target site has a notion of an API key, this parameter can be used to specify the name (not the value) of the key parameter that must be used in the URL. The actual key value is provided in the credential.\n• Headers: Specifying this value as a record will supply additional headers to an HTTP request.\n• Timeout: Specifying this value as a duration will change the timeout for an HTTP request. (default: 100 seconds).\n• ExcludedFromCacheKey: Specifying this value as a list will exclude these HTTP header keys from being part of the calculation for caching data.\n• IsRetry: Specifying this logical value as true will ignore any existing response in the cache when fetching data.\n• ManualStatusHandling: Specifying this value as a list will prevent any builtin handling for HTTP requests whose response has one of these status codes.\n• RelativePath: Specifying this value as text appends it to the base URL before making the request.\n• Content: Specifying this value will cause its contents to become the body of the HTTP request.",
+    "compatibility": {
+      "Power BI": true,
+      "Excel": true,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "WebtrendsAnalytics.Tables",
+    "category": "access-datafunctions",
+    "description": "Returns table with relevant Webtrends data — entry point of the Webtrends Analytics connector.",
+    "syntax": "WebtrendsAnalytics.Tables(ProfileId as text, Period as text, reportType as text, optional startDate as nullable date, optional endDate as nullable date, optional startPeriod as nullable text, optional endPeriod as nullable text) as table.",
+    "parameters": [
+      {
+        "name": "ProfileId",
+        "type": "text",
+        "description": "You can find your Webtrends Profile ID in the URL when you are navigating Webtrends. If the URL looks like https://analytics.webtrends.com/analytics/spaces/116717/profiles/98765#%7B%22Profile.. . then your Profile ID is 98765."
+      },
+      {
+        "name": "Period",
+        "type": "text",
+        "description": "Designating use of a Custom Date range (the Start and End Date) or Standard Report period (Start and End Period). Only the start and end times for the period type selected here will be processed."
+      },
+      {
+        "name": "reportType",
+        "type": "text",
+        "description": "The options are Summary (aggregated for the selected time period), Trend (data trended as if for a graph), and Individual (listing out each day separately). If Trend is selected on a multi-dimensional report, only the first dimension will be returned."
+      },
+      {
+        "name": "startDate",
+        "type": "nullable date",
+        "description": "Earliest date to include in data (default is 30 days ago)"
+      },
+      {
+        "name": "endDate",
+        "type": "nullable date",
+        "description": "Latest date to include in data (default is today)"
+      },
+      {
+        "name": "startPeriod",
+        "type": "nullable text",
+        "description": "Earliest standard report period to include (default is the current_month-1). For allowed values see: https://product.webtrends.com/dxapi/api_description.html"
+      },
+      {
+        "name": "endPeriod",
+        "type": "nullable text",
+        "description": "Latest standard report period to include (default is the current_month). For allowed values see: https://product.webtrends.com/dxapi/api_description.html"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Windsor.Main",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Windsor connector.",
+    "syntax": "Windsor.Main() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Witivio.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Witivio connector.",
+    "syntax": "Witivio.Contents(botId as text) as table.",
+    "parameters": [
+      {
+        "name": "botId",
+        "type": "text",
+        "description": "Enter the chatbot ID"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Wrike.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Wrike connector.",
+    "syntax": "Wrike.Contents() as table.",
+    "parameters": [],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
     "name": "Xml.Document",
     "category": "access-datafunctions",
     "description": "Returns the contents of the XML document as a hierarchical table.",
@@ -2474,23 +6769,94 @@
     "volatile": false
   },
   {
-    "name": "BinaryFormat.7BitEncodedSignedInteger",
+    "name": "ZendeskData.Contents",
     "category": "access-datafunctions",
-    "description": "A binary format that reads a 64-bit signed integer that was encoded using a 7-bit variable-length encoding.",
-    "syntax": "BinaryFormat.7BitEncodedSignedInteger(binary as binary) as any",
+    "description": "Returns table with relevant Zendesk data — entry point of the Zendesk Data connector.",
+    "syntax": "ZendeskData.Contents(url as text, optional options as nullable record) as table.",
     "parameters": [
       {
-        "name": "binary",
-        "type": "binary",
-        "description": "Parameter of type binary"
+        "name": "url",
+        "type": "text",
+        "description": "Full Zendesk url with subdomain, starting with https://"
+      },
+      {
+        "name": "options",
+        "type": "nullable record",
+        "description": "Options such as [TestConnection]"
       }
     ],
-    "returnType": "any",
+    "returnType": "table",
     "examples": [],
-    "remarks": "A binary format that reads a 64-bit signed integer that was encoded using a 7-bit variable-length encoding.",
+    "remarks": null,
     "compatibility": {
       "Power BI": true,
-      "Excel": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "ZohoCreator.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Zoho Creator connector.",
+    "syntax": "ZohoCreator.Contents(creatordomain as text, scopname as text, applinkname as text, reportlinkname as text) as table.",
+    "parameters": [
+      {
+        "name": "creatordomain",
+        "type": "text",
+        "description": "Choose the domain of your Zoho account"
+      },
+      {
+        "name": "scopname",
+        "type": "text",
+        "description": "Enter the Zoho Creator workpace name"
+      },
+      {
+        "name": "applinkname",
+        "type": "text",
+        "description": "Enter the Zoho Creator application link name"
+      },
+      {
+        "name": "reportlinkname",
+        "type": "text",
+        "description": "Enter the Zoho Creator report link name"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
+      "Dataflows": true
+    },
+    "deprecated": false,
+    "volatile": false
+  },
+  {
+    "name": "Zucchetti.Contents",
+    "category": "access-datafunctions",
+    "description": "Returns a navigation table for the Zucchetti HR Infinity connector.",
+    "syntax": "Zucchetti.Contents(Url as text, Environment as text) as table.",
+    "parameters": [
+      {
+        "name": "Url",
+        "type": "text",
+        "description": "URL of Infinity Zucchetti HR Portal"
+      },
+      {
+        "name": "Environment",
+        "type": "text",
+        "description": "Environment code"
+      }
+    ],
+    "returnType": "table",
+    "examples": [],
+    "remarks": null,
+    "compatibility": {
+      "Power BI": true,
+      "Excel": false,
       "Dataflows": true
     },
     "deprecated": false,
