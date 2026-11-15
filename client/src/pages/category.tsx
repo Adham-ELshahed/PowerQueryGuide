@@ -5,7 +5,6 @@ import DocsLayout from "@/components/layout/docs-layout";
 import { ArrowLeft, ArrowUpRight, ChevronRight, Layers, LayoutGrid, List } from "lucide-react";
 import { type Function, type Category } from "@shared/schema";
 import { AutoLink } from "@/lib/auto-link";
-import { formatCategoryLabelWithFunctions } from "@/lib/category-label";
 
 type ViewMode = "list" | "grid";
 
@@ -56,7 +55,7 @@ export default function CategoryPage() {
   );
 
   const categoryDisplayName = categoryData
-    ? formatCategoryLabelWithFunctions(categoryData.name)
+    ? `${categoryData.name} functions`
     : "Category";
 
   const [view, setView] = useState<ViewMode>("list");

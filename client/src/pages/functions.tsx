@@ -5,7 +5,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useEffect, useState } from "react";
 import { type Function } from "@shared/schema";
 import { AutoLink } from "@/lib/auto-link";
-import { formatCategoryLabel } from "@/lib/category-label";
 import { Search, LayoutGrid, List, SearchX, ArrowUpRight } from "lucide-react";
 
 type ViewMode = "list" | "grid";
@@ -86,7 +85,7 @@ export default function Functions() {
                   <SelectItem value="all">All categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
-                      {formatCategoryLabel(category)}
+                      {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' and ')}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -171,7 +170,7 @@ export default function Functions() {
                           </a>
                         </div>
                         <div className="sm:col-span-6">
-                          <p className="line-clamp-3 text-sm leading-relaxed text-ms-gray-secondary">
+                          <p className="text-sm leading-relaxed text-ms-gray-secondary">
                             <AutoLink>{func.description}</AutoLink>
                           </p>
                         </div>
@@ -180,7 +179,7 @@ export default function Functions() {
                             href={`/category/${encodeURIComponent(func.category)}`}
                             className="inline-block whitespace-nowrap rounded-md border border-ms-gray-border bg-white px-2 py-0.5 text-xs font-medium capitalize text-ms-gray-secondary transition-colors hover:border-ms-blue/40 hover:bg-ms-blue-light hover:text-ms-blue"
                           >
-                            {formatCategoryLabel(func.category)}
+                            {func.category.replace('-', ' ')}
                           </a>
                         </div>
                       </div>
@@ -209,7 +208,7 @@ export default function Functions() {
                           href={`/category/${encodeURIComponent(func.category)}`}
                           className="rounded-md border border-ms-gray-border bg-white px-2 py-0.5 text-xs font-medium capitalize text-ms-gray-secondary transition-colors hover:border-ms-blue/40 hover:bg-ms-blue-light hover:text-ms-blue"
                         >
-                          {formatCategoryLabel(func.category)}
+                          {func.category.replace('-', ' ')}
                         </a>
                         <ArrowUpRight className="h-4 w-4 text-ms-gray-border transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ms-blue" />
                       </div>

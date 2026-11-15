@@ -3,18 +3,10 @@ import DocsLayout from "@/components/layout/docs-layout";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Twitter, Linkedin, Github, Calendar, Clock, Tag } from "lucide-react";
-import { Markdown } from "@/lib/markdown";
+import { linkifyHtml } from "@/lib/link-rules";
 import frustratedWorkerImage from "@assets/36e1fd5c-e948-4deb-8a2d-64946bfc1dbd.jfif";
 import metricTrap from "@assets/metric trap.jfif";
 import streetLightEffect from "@assets/streetlight effect.jfif";
-
-/** Illustration tokens recognised inside post content. */
-const blogImages: Record<string, string> = {
-  '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
-  '[metricTrap]': metricTrap,
-  '[streetLightEffect]': streetLightEffect,
-  '[RACI_ETSY_IMAGE]': '/attached_assets/functions/Raci Matrix image.jpeg',
-};
 
 interface BlogPost {
   id: string;
@@ -28,6 +20,28 @@ interface BlogPost {
   content?: string;     // Regular post (Markdown / Text)
   htmlFile?: string;    // Interactive HTML post (iframe)
 }
+
+// Helper to parse inline markdown (Bold, Italic, Code, Links)
+const renderInline = (text: string) => {
+  let html = text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+      // References inside this site stay in the same tab and use the shared
+      // link style (absolute powerquery.guide URLs are made relative).
+      if (url.startsWith('/') || url.includes('powerquery.guide/')) {
+        const href = url.replace(/^https:\/\/powerquery\.guide/, '');
+        return `<a href="${href}" class="auto-link font-medium">${linkText}</a>`;
+      }
+      // Default styling for external links
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-ms-blue hover:underline font-medium">${linkText}</a>`;
+    })
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Escaped backticks for build safety
+    .replace(new RegExp("`(.*?)`", "g"), '<code class="code-inline">$1</code>');
+  // Hyper-link functions / data types / enumeration constants already named
+  // in the copy (content itself is never changed — only wrapped in <a>).
+  return { __html: linkifyHtml(html, { className: 'auto-link' }) };
+};
 
 export default function Blog() {
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
@@ -52,117 +66,6 @@ export default function Blog() {
   }, []);
 
   const blogPosts: BlogPost[] = [
-    {
-      id: "counting-characters-power-query",
-      title: "Counting Characters in Power Query: The \"44\" Trap and How to Solve It",
-      author: "Ahmad Askar",
-      date: "2026-10-28",
-      readTime: "5 min read",
-      category: "Power Query",
-      featured: true,
-      tags: ["Power Query", "M Language", "Text Functions", "Lists"],
-      content: `It usually starts as a simple brain-teaser: How many times does the digit 4 appear when counting from 1 to 100?
-
-If you run the numbers in your head, you'll land on exactly 20. But in my three decades of working in data architecture and ETL engineering, I've found that it's often these simple puzzles that best reveal how we think about data transformations.
-
-When I run Power Query workshops or write documentation for powerquery.guide, I love using exercises like this. Translating this puzzle into M code is a fantastic way to explore list operations, text parsing, and a very common logical trap that catches even seasoned data analysts.
-
-Let's walk through how to solve this from scratch, starting with the most elegant approach, and then exploring a common pitfall.
-
-## Approach 1: The "Flatten and Count" Method
-
-If we step back from thinking about numbers and instead think of the sequence as one giant block of text, we can solve this incredibly efficiently. Instead of evaluating 100 individual items, we generate the list, merge it into a single text string ("1234567891011...100"), and count the target characters.
-
-Here is the M code to achieve this in a Blank Query:
-
-\`\`\`powerquery
-let
-    // 1. Generate the sequence
-    SourceList = {1..100},
-
-    // 2. Convert to text and combine into one continuous string
-    CombinedText = Text.Combine(List.Transform(SourceList, Text.From)),
-
-    // 3. Find the index positions of every "4"
-    FindFours = Text.PositionOf(CombinedText, "4", Occurrence.All),
-
-    // 4. Count the total index positions found
-    Result = List.Count(FindFours)
-in
-    Result
-\`\`\`
-
-By leveraging Text.PositionOf with Occurrence.All, Power Query dynamically returns a list of every starting index where "4" appears. We simply count the size of that list. It's clean, low-code, and highly performant.
-
-## The Alternative Attempt: The "44" Trap
-
-Often, analysts will approach this problem differently, opting to evaluate the list item by item. A very common piece of M code I see looks like this:
-
-\`\`\`powerquery
-List.Count(
-    List.Select(
-        List.Transform( Query1, each Text.From(_) ),
-        each Text.Contains(_, "4")
-    )
-)
-\`\`\`
-
-If you run this, the engine returns 19.
-
-Where did the missing digit go? The culprit is the number 44.
-
-This happens because Text.Contains acts as a boolean filter. It asks a simple True/False question: Does this string contain a 4? When it hits "41", it returns True. When it hits "44", it also returns True. List.Select dutifully keeps the row, and List.Count counts that row exactly once.
-
-By treating the problem as a row-filtering exercise, the logic misses the duplicate occurrence nested inside the string.
-
-## Fixing the Item-by-Item Approach
-
-If you want to maintain the row-by-row transformation step—perhaps because you are building a larger dimensional model and need to retain the granularity—you have to shift from evaluating a condition to aggregating occurrences.
-
-Here are two elegant ways to correct the logic so it correctly returns 20.
-
-### Method A: The Indexing Approach
-
-Instead of filtering, we can transform each number into a count of its own "4"s, and then sum the results.
-
-\`\`\`powerquery
-List.Sum(
-    List.Transform(
-        Query1,
-        each List.Count(Text.PositionOf(Text.From(_), "4", Occurrence.All))
-    )
-)
-\`\`\`
-
-When the engine evaluates "44", Text.PositionOf finds the character at index 0 and index 1. List.Count converts that into the integer 2, which is seamlessly aggregated by List.Sum.
-
-### Method B: The Length Difference Trick
-
-I always enjoy utilizing this method because it's a classic, old-school text parsing technique that I've used across multiple languages over the years, not just in M.
-
-We measure the length of the string, remove the target character, and measure it again. The difference is your count.
-
-\`\`\`powerquery
-List.Sum(
-    List.Transform(
-        Query1,
-        each
-            let
-                CurrentText = Text.From(_)
-            in
-                Text.Length(CurrentText) - Text.Length(Text.Replace(CurrentText, "4", ""))
-    )
-)
-\`\`\`
-
-With this approach, "44" starts with a length of 2. We replace the "4"s with empty strings, dropping the length to 0. The difference is exactly 2.
-
-## The Takeaway
-
-Whether you're migrating legacy core systems or just cleaning up a messy Excel extract, precision is everything in our line of work. This exercise is a great reminder to always be mindful of the difference between counting rows that meet a condition, and counting the data points within the rows themselves.
-
-Keep your transformations deliberate, and happy querying!`
-    },
     {
       id: "records-lists-power-query",
       title: "Records & Lists in Power Query",
@@ -777,11 +680,153 @@ But instead of building everything from scratch…
                               scrolling="no"
                             />
                           ) : (
-                            // Advanced Markdown Parser (shared module)
-                            <Markdown
-                              content={currentPost.content ?? ''}
-                              images={blogImages}
-                            />
+                            // Advanced Markdown Parser
+                            (currentPost.content ?? '').split('\n\n').map((paragraph, pIndex) => {
+                              const trimmedPara = paragraph.trim();
+                              if (!trimmedPara) return null;
+
+                              // 1. IMAGE MAPPING
+                              const imageMap: Record<string, string> = {
+                                '[FRUSTRATED_WORKER_IMAGE]': frustratedWorkerImage,
+                                '[metricTrap]': metricTrap,
+                                '[streetLightEffect]': streetLightEffect,
+                                '[RACI_ETSY_IMAGE]': '/attached_assets/functions/Raci Matrix image.jpeg'
+                              };
+
+                              if (imageMap[trimmedPara]) {
+                                return (
+                                  <div key={pIndex} className="my-8 flex justify-center">
+                                    <img
+                                      src={imageMap[trimmedPara]}
+                                      alt="Blog illustration"
+                                      className="rounded-lg shadow-lg max-w-full h-auto"
+                                      style={{ maxHeight: '400px' }}
+                                    />
+                                  </div>
+                                );
+                              }
+
+                              // 2. HTML TABLES/BLOCKS
+                              if (trimmedPara.startsWith('<')) {
+                                return (
+                                  <div 
+                                    key={pIndex} 
+                                    className="my-6 overflow-x-auto w-full"
+                                    dangerouslySetInnerHTML={{ __html: linkifyHtml(trimmedPara, { className: 'auto-link' }) }} 
+                                  />
+                                );
+                              }
+
+                              // 3. CODE BLOCKS - Using safe string construction to avoid ESBuild Regex Parsing errors
+                              if (trimmedPara.startsWith('```')) {
+                                const match = trimmedPara.match(new RegExp("```(\\w*)\\n([\\s\\S]*?)\\n?```"));
+                                if (match) {
+                                  const language = match[1] || 'code';
+                                  // Match the label <CodeBlock> shows for M snippets
+                                  const languageLabel = language.toLowerCase() === 'powerquery' ? 'Power Query M' : language;
+                                  const code = match[2];
+                                  return (
+                                    <div key={pIndex} className="code-panel my-6">
+                                      <div className="code-bar">
+                                        <span className="code-label">{languageLabel}</span>
+                                        <button
+                                          onClick={() => navigator.clipboard.writeText(code)}
+                                          className="copy-btn"
+                                        >
+                                          Copy
+                                        </button>
+                                      </div>
+                                      <pre>
+                                        <code>{code}</code>
+                                      </pre>
+                                    </div>
+                                  );
+                                }
+                              }
+
+                              // 4. BLOCKQUOTES
+                              if (trimmedPara.startsWith('> ')) {
+                                return (
+                                  <blockquote key={pIndex} className="border-l-4 border-ms-blue bg-canvas-inset pl-5 py-4 pr-4 rounded-r-lg my-6 text-ms-gray-secondary">
+                                    <div dangerouslySetInnerHTML={renderInline(trimmedPara.replace(/^>\s?/gm, ''))} />
+                                  </blockquote>
+                                );
+                              }
+
+                              // 5. HORIZONTAL RULE
+                              if (trimmedPara === '---') {
+                                return <hr key={pIndex} className="my-10 border-t-2 border-ms-gray-border" />;
+                              }
+
+                              // 6. HEADINGS
+                              if (trimmedPara.startsWith('## ')) {
+                                return <h2 key={pIndex} className="text-2xl font-bold text-ms-gray mt-10 mb-5" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(3))} />;
+                              }
+                              if (trimmedPara.startsWith('### ')) {
+                                return <h3 key={pIndex} className="text-xl font-bold text-ms-gray mt-8 mb-4" dangerouslySetInnerHTML={renderInline(trimmedPara.slice(4))} />;
+                              }
+                              // Support for existing **Heading** syntax that is single lined
+                              if (trimmedPara.startsWith('**') && trimmedPara.endsWith('**') && !trimmedPara.includes('\n')) {
+                                return (
+                                  <h3 key={pIndex} className="text-xl font-bold text-ms-gray mt-8 mb-4">
+                                    <span dangerouslySetInnerHTML={renderInline(trimmedPara.slice(2, -2))} />
+                                  </h3>
+                                );
+                              }
+
+                              // 7 & 8. MIXED TEXT AND LISTS (or plain paragraphs)
+                              const lines = trimmedPara.split('\n');
+                              
+                              // Check if there are any list items mixed within this paragraph block
+                              const hasListItems = lines.some(line => {
+                                const tl = line.trim();
+                                return tl.startsWith('- ') || /^\d+[\.-]\s/.test(tl);
+                              });
+
+                              if (hasListItems) {
+                                return (
+                                  <div key={pIndex} className="mb-5 text-ms-gray-secondary leading-relaxed space-y-2">
+                                    {lines.map((line, lIndex) => {
+                                      const tl = line.trim();
+                                      if (!tl) return null;
+
+                                      if (tl.startsWith('- ')) {
+                                        return (
+                                          <div key={lIndex} className="flex items-start ml-4">
+                                            <span className="text-ms-blue mr-3 mt-1 font-bold text-sm">•</span>
+                                            <div className="flex-1" dangerouslySetInnerHTML={renderInline(tl.slice(2))} />
+                                          </div>
+                                        );
+                                      } else if (/^\d+[\.-]\s/.test(tl)) {
+                                        const match = tl.match(/^(\d+)[\.-]\s(.*)/);
+                                        const num = match ? match[1] : '1';
+                                        const content = match ? match[2] : tl;
+                                        return (
+                                          <div key={lIndex} className="flex items-start ml-4">
+                                            <span className="text-ms-blue mr-2 min-w-[20px] font-semibold">{num}.</span>
+                                            <div className="flex-1" dangerouslySetInnerHTML={renderInline(content)} />
+                                          </div>
+                                        );
+                                      } else {
+                                        // Regular text line inside a mixed block (e.g., heading or opening sentence before a list)
+                                        return (
+                                          <div key={lIndex} dangerouslySetInnerHTML={renderInline(tl)} />
+                                        );
+                                      }
+                                    })}
+                                  </div>
+                                );
+                              }
+
+                              // 8. REGULAR PARAGRAPHS (No lists detected)
+                              return (
+                                <p
+                                  key={pIndex}
+                                  className="mb-5 text-ms-gray-secondary leading-relaxed"
+                                  dangerouslySetInnerHTML={renderInline(trimmedPara)}
+                                />
+                              );
+                            })
                           )}
                         </div>
 
