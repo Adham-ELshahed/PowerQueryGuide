@@ -1,4 +1,5 @@
 import DocsLayout from "@/components/layout/docs-layout";
+import { CommunityChannels } from "@/components/community-links";
 
 export default function Services() {
   return (
@@ -196,6 +197,15 @@ export default function Services() {
               >
                 Contact Us
               </a>
+
+              <div className="mx-auto mt-7 max-w-xl border-t border-ms-blue/25 pt-6">
+                <p className="mb-4 text-sm leading-relaxed text-ms-gray-secondary">
+                  Not ready for a consultation? Jump into the community
+                  instead — ask Power Query questions, troubleshoot formulas,
+                  and get fast help from fellow analysts and engineers.
+                </p>
+                <CommunityChannels className="justify-center" />
+              </div>
 
             </section>
 

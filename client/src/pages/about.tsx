@@ -1,4 +1,5 @@
 import DocsLayout from "@/components/layout/docs-layout";
+import { CommunityChannels } from "@/components/community-links";
 import aboutPageImage from "@assets/AboutPagePic_1757154397694.jpg";
 
 export default function About() {
@@ -64,6 +65,19 @@ export default function About() {
               <p className="mt-5 max-w-3xl text-[17px] leading-8 text-ms-gray-secondary">
                 PowerQuery.guide is an independent resource built by the community, for the community. While we are inspired by the official <strong>Microsoft Power Query documentation</strong>, all examples and insights here are curated to provide additional clarity. We encourage you to share these resources; please provide a link back to <strong>PowerQuery.guide</strong> when citing our technical content in your blog posts or reports.
               </p>
+
+              {/* Community channels — learn together */}
+              <div className="mt-5 rounded-xl border border-ms-gray-border bg-card p-5 shadow-xs">
+                <h3 className="text-lg font-semibold text-ms-gray">Learn together</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ms-gray-secondary">
+                  Guides take you far, but the tricky cases go faster with
+                  company. Connect with fellow data analysts and engineers,
+                  discuss tricky ETL scenarios, and get peer support on the
+                  channels below — learning together is what this library was
+                  built for.
+                </p>
+                <CommunityChannels className="mt-4" />
+              </div>
             </section>
 
             <div className="grid gap-6 md:grid-cols-2">
@@ -90,6 +104,16 @@ export default function About() {
                   </svg>
                   sales@powerquery.guide
                 </a>
+
+                <p className="mb-3 mt-5 text-sm font-semibold text-ms-gray">
+                  Or jump into a channel anytime
+                </p>
+                <p className="mb-3 text-sm leading-relaxed text-ms-gray-secondary">
+                  Ask Power Query questions, troubleshoot formulas, or request
+                  new function guides — WhatsApp and Telegram are the fastest
+                  way to reach us.
+                </p>
+                <CommunityChannels />
               </div>
             </div>
 

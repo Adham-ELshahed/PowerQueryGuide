@@ -20,6 +20,7 @@ export default function Header({ isMobileMenuOpen, onMobileMenuToggle, onSearch 
     { href: "/blog", label: "Blog" },
     { href: "/datatypes", label: "Data Types" },
     { href: "/enumerations", label: "Enumerations" },
+    { href: "/connectors", label: "Connectors" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
   ];

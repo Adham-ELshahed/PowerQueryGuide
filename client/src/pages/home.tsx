@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import DocsLayout from "@/components/layout/docs-layout";
 import { Card } from "@/components/ui/card";
+import { CommunityChannels } from "@/components/community-links";
 import { Link } from "wouter";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { type Category } from "@shared/schema";
@@ -163,6 +164,27 @@ export default function Home() {
                   ))}
                 </div>
               )}
+            </section>
+
+            {/* Community Callout */}
+            <section className="doc-section mb-14">
+              <div className="rounded-xl border border-ms-blue bg-ms-blue-light p-6 sm:p-8">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="max-w-2xl">
+                    <h2 className="text-xl font-bold text-ms-gray sm:text-2xl">
+                      Join the Power Query community
+                    </h2>
+                    <p className="mt-2 text-[15px] leading-7 text-ms-gray-secondary">
+                      Got a transformation that won't behave? Join the
+                      community to ask M language questions, share
+                      transformation tips, and follow new guide updates —
+                      with other analysts and engineers who use Power Query
+                      every day.
+                    </p>
+                  </div>
+                  <CommunityChannels className="sm:shrink-0" />
+                </div>
+              </div>
             </section>
 
             {/* Additional M Language Features */}
